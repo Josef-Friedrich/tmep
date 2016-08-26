@@ -1,12 +1,12 @@
-import functemplate
-import functions
+import tmpl
+import func
 
-class Template(functemplate.Template):
+class Template(tmpl.Template):
 
     def __init__(self, template):
         super(Template, self).__init__(template)
 
-class Functions(functions.Functions):
+class Functions(func.Functions):
 
     def __init__(self, values):
         super(Functions, self).__init__(values)

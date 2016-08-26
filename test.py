@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 import unittest
-import path_macrotemplate as pmt
+import tmep
 
 template = '${lastname}; ${prename}'
 
@@ -10,8 +10,8 @@ values = {
     'lastname': 'Mozart'
 }
 
-t = pmt.Template(template)
-f = pmt.Functions(values)
+t = tmep.Template(template)
+f = tmep.Functions(values)
 out = t.substitute(values, f.functions)
 
 class TestStringMethods(unittest.TestCase):
