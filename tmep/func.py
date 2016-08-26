@@ -13,7 +13,9 @@
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
 
-"""The core data store and collection logic for beets.
+"""This file originates from the file `beets/library.py
+<https://github.com/beetbox/beets/blob/58afaf07a52df2b53bb2f8990cd06005cd063d9e/beets/library.py#L1341>_`
+of the `beets project<http://beets.io>_`.
 """
 from __future__ import division, absolute_import, print_function
 
