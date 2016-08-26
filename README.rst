@@ -1,6 +1,6 @@
-==================
-path-macrotemplate
-==================
+====================================================
+tmep - Template and Macros Expansion for Path names.
+====================================================
 
 This module implements a string formatter based on the standard PEP
 292 string.Template class extended with function calls. Variables, as

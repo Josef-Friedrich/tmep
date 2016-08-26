@@ -1,14 +1,14 @@
 from setuptools import setup
 
 setup(
-    name = 'path-macrotemplate',
+    name = 'tmep',
     version = '0.0.1',
     author = 'Josef Friedrich',
     author_email = 'josef@friedrich.rocks',
-    description = ('Template and macros expansion for path names.'),
+    description = ('Template and Macros Expansion for Path names.'),
     license = 'MIT',
-    packages = ['path-macrotemplate'],
-    url = 'https://github.com/Josef-Friedrich/path-macrotemplate',
+    packages = ['tmep'],
+    url = 'https://github.com/Josef-Friedrich/tmep',
     install_requires = [
         'unidecode', 'six',
     ],
