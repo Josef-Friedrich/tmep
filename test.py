@@ -23,18 +23,31 @@ class TestClasses(unittest.TestCase):
 class TestParseDef(unittest.TestCase):
 
 	def setUp(self):
-		template = '${lastname}; ${prename}'
+		self.template = '${lastname}; ${prename}'
 
-		values = {
+		self.values = {
 			'prename': 'Wolfgang Amadeus',
 			'lastname': 'Mozart'
 		}
-
-		self.out = tmep.parse(template, values)
+		self.parse = tmep.parse
+		self.out = tmep.parse(self.template, self.values)
 
 	def test_values(self):
 		self.assertEqual(self.out, 'Mozart; Wolfgang Amadeus')
 
+	def test_additional_functions(self):
+		def lol(value):
+			return 'lol' + value + 'lol'
+
+		def troll(value):
+			return 'troll' + value + 'troll'
+
+		add_functs = {'lol': lol, 'troll': troll}
+		template = '%lol{$prename}%troll{$lastname}'
+		out = self.parse(template, self.values, additional_functions=add_functs)
+		self.assertEqual(out, 'lolWolfgang AmadeusloltrollMozarttroll')
+		out = self.parse(template, self.values)
+		self.assertEqual(out, template)
 
 if __name__ == '__main__':
 	unittest.main()
