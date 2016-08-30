@@ -3,21 +3,38 @@
 import unittest
 import tmep
 
-template = '${lastname}; ${prename}'
+class TestClasses(unittest.TestCase):
 
-values = {
-    'prename': 'Wolfgang Amadeus',
-    'lastname': 'Mozart'
-}
+    def setUp(self):
+        template = '${lastname}; ${prename}'
 
-t = tmep.Template(template)
-f = tmep.Functions(values)
-out = t.substitute(values, f.functions)
+        values = {
+            'prename': 'Wolfgang Amadeus',
+            'lastname': 'Mozart'
+        }
 
-class TestStringMethods(unittest.TestCase):
+        t = tmep.Template(template)
+        f = tmep.Functions(values)
+        self.out = t.substitute(values, f.functions)
 
     def test_values(self):
-        self.assertEqual(out, 'Mozart; Wolfgang Amadeus')
+        self.assertEqual(self.out, 'Mozart; Wolfgang Amadeus')
+
+class TestParseDef(unittest.TestCase):
+
+    def setUp(self):
+        template = '${lastname}; ${prename}'
+
+        values = {
+            'prename': 'Wolfgang Amadeus',
+            'lastname': 'Mozart'
+        }
+
+        self.out = tmep.parse(template, values)
+
+    def test_values(self):
+        self.assertEqual(self.out, 'Mozart; Wolfgang Amadeus')
+
 
 if __name__ == '__main__':
     unittest.main()
