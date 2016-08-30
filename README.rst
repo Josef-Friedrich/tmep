@@ -1,3 +1,9 @@
+.. image:: http://img.shields.io/pypi/v/tmep.svg
+    :target: https://pypi.python.org/pypi/tmep
+
+.. image:: https://travis-ci.org/Josef-Friedrich/tmep.svg?branch=master
+    :target: https://travis-ci.org/Josef-Friedrich/tmep
+
 ====================================================
 tmep - Template and Macros Expansion for Path names.
 ====================================================
