@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name = 'tmep',
-    version = '0.0.1',
+    version = '0.0.2',
     author = 'Josef Friedrich',
     author_email = 'josef@friedrich.rocks',
     description = ('Template and Macros Expansion for Path names.'),
