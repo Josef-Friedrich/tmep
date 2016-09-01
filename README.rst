@@ -8,6 +8,18 @@
 tmep - Template and Macros Expansion for Path names.
 ====================================================
 
+Usage
+-----
+
+.. code::Python
+
+  >>> import tmep
+  >>> template = '$prename $lastname'
+  >>> values = {'prename': 'Franz', 'lastname': 'Schubert'}
+  >>> out = tmep.parse(template, values)
+  >>> print(out)
+  Franz Schubert
+
 This module implements a string formatter based on the standard PEP
 292 string.Template class extended with function calls. Variables, as
 with string.Template, are indicated with $ and functions are delimited
