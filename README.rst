@@ -8,8 +8,31 @@
 tmep - Template and Macros Expansion for Path names.
 ====================================================
 
+Installation
+============
+
+From Github
+------------
+
+.. code::Shell
+
+  git clone git@github.com:Josef-Friedrich/tmep.git
+  cd tmep
+  python setup.py install
+
+From PyPI
+----------
+
+.. code::Shell
+
+  pip install tmep
+  easy_install tmep
+
 Usage
------
+=====
+
+Basic usage
+-----------
 
 .. code::Python
 
