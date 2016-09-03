@@ -1,4 +1,8 @@
+import os
 from setuptools import setup
+
+def read(fname):
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
     name = 'tmep',
@@ -12,6 +16,7 @@ setup(
     install_requires = [
         'unidecode', 'six',
     ],
+    long_description=read('README.rst'),
     classifiers = [
         'Development Status :: 3 - Alpha',
         'Topic :: Utilities',
