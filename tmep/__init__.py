@@ -1,5 +1,5 @@
-import tmpl
-import func
+from tmep import tmpl
+from tmep import func
 
 class Template(tmpl.Template):
 
@@ -18,7 +18,7 @@ def parse(template, values=None, additional_functions=None, functions=None):
 		functions = f.functions()
 
 	if additional_functions:
-		for k, v in additional_functions.iteritems():
+		for k, v in additional_functions.items():
 			functions[k] =  v
 
 	return t.substitute(values, functions)
