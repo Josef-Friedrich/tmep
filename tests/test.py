@@ -49,5 +49,10 @@ class TestDefinitionParse(unittest.TestCase):
         self.assertEqual(out, template)
 
 
+class TestDoc(unittest.TestCase):
+
+    def test_doc(self):
+        tmep.get_doc()
+
 if __name__ == '__main__':
     unittest.main()

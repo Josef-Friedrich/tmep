@@ -12,6 +12,14 @@ class Functions(func.Functions):
         super(Functions, self).__init__(values)
 
 
+def get_doc():
+    f = func.Functions()
+    functions = f.functions()
+    for name, function in functions.items():
+        print(name)
+        print(function.__doc__)
+
+
 def parse(template, values=None, additional_functions=None, functions=None):
     t = tmpl.Template(template)
     if not functions:
