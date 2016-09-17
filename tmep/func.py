@@ -12,24 +12,23 @@
 #
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-
 """This file originates from the file `beets/library.py
 <https://github.com/beetbox/beets/blob/58afaf07a52df2b53bb2f8990cd06005cd063d9e/beets/library.py#L1341>_`
 of the `beets project<http://beets.io>_`.
 """
 from __future__ import division, absolute_import, print_function
 
-import os
-import sys
 import time
 import textwrap
 from unidecode import unidecode
+
 
 def _int_arg(s):
     """Convert a string argument to an integer for use in a template
     function.  May raise a ValueError.
     """
     return int(s.strip())
+
 
 class Functions(object):
     """A container class for the default functions provided to path
@@ -114,7 +113,7 @@ class Functions(object):
         return s
 
     @staticmethod
-    def tmpl_deldupchars(s, chars = r'-_\.'):
+    def tmpl_deldupchars(s, chars=r'-_\.'):
         import re
         return re.sub(r'([' + chars + r'])\1*', r'\1', s)
 
@@ -134,7 +133,12 @@ class Functions(object):
     def tmpl_asciify(s):
         """Translate non-ASCII characters to their ASCII equivalents.
         """
-        ger_umlaute = {'ae': u'ä', 'oe': u'ö', 'ue': u'ü', 'Ae': u'Ä', 'Oe': u'Ö', 'Ue': u'Ü'}
+        ger_umlaute = {'ae': u'ä',
+                       'oe': u'ö',
+                       'ue': u'ü',
+                       'Ae': u'Ä',
+                       'Oe': u'Ö',
+                       'Ue': u'Ü'}
         for replace, search in ger_umlaute.iteritems():
             s = s.replace(search, replace)
         return unidecode(s)
@@ -173,7 +177,6 @@ class Functions(object):
             return trueval
         else:
             return falseval
-
 
 # Get the name of tmpl_* functions in the above class.
 Functions._func_names = \
