@@ -20,3 +20,34 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+
+tmep package
+============
+
+Submodules
+----------
+
+tmep.func module
+----------------
+
+.. automodule:: tmep.func
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+tmep.tmpl module
+----------------
+
+.. automodule:: tmep.tmpl
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: tmep
+    :members:
+    :undoc-members:
+    :show-inheritance:
