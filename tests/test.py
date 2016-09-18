@@ -51,8 +51,36 @@ class TestDefinitionParse(unittest.TestCase):
 
 class TestDoc(unittest.TestCase):
 
-    def test_doc(self):
-        tmep.get_doc()
+    def setUp(self):
+        from tmep import doc
+        self.doc = doc.Doc()
+
+    def test_attributes(self):
+        self.assertTrue(self.doc.doc_strings)
+        self.assertTrue(self.doc.synopsises)
+        self.assertTrue(self.doc.examples)
+        self.assertTrue(self.doc.descriptions)
+
+    def test_extract_value(self):
+        value = self.doc.extract_value(
+            '        * synopsis: ``%shorten(text, max_size)``',
+            'synopsis'
+        )
+        self.assertEqual(value, '%shorten(text, max_size)')
+
+        value = self.doc.extract_value(
+            '        * example: ``%shorten($title, 2)``',
+            'example',
+            True
+        )
+        self.assertEqual(value, '%shorten($title, 2)')
+
+        value = self.doc.extract_value(
+            '        * description: Some description',
+            'description',
+            False
+        )
+        self.assertEqual(value, 'Some description')
 
 if __name__ == '__main__':
     unittest.main()

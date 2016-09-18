@@ -85,7 +85,6 @@ class Functions(object):
         * example: ``%shorten($title, 2)``
         * description: Shorten the given text to ``max_size``
 
-
         """
         max_size = int(max_size)
         if len(text) <= max_size:
