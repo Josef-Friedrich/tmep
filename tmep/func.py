@@ -79,6 +79,14 @@ class Functions(object):
 
     @staticmethod
     def tmpl_shorten(text, max_size):
+        """Shorten the given text to ``max_size``
+
+        * synopsis: ``%shorten(text, max_size)``
+        * example: ``%shorten($title, 2)``
+        * description: Shorten the given text to ``max_size``
+
+
+        """
         max_size = int(max_size)
         if len(text) <= max_size:
             return text
