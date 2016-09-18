@@ -53,72 +53,21 @@ class Functions(object):
         return out
 
     @staticmethod
-    def tmpl_lower(s):
+    def tmpl_asciify(s):
         """
-        * description: Convert a string to lower case.
+        * synopsis:
+        * example:
+        * description: Translate non-ASCII characters to their ASCII equivalents.
         """
-        return s.lower()
-
-    @staticmethod
-    def tmpl_upper(s):
-        """
-        * description: Covert a string to upper case.
-        """
-        return s.upper()
-
-    @staticmethod
-    def tmpl_title(s):
-        """
-        * description: Convert a string to title case.
-        """
-        return s.title()
-
-    @staticmethod
-    def tmpl_left(s, chars):
-        """
-        * description: Get the leftmost characters of a string.
-        """
-        return s[0:_int_arg(chars)]
-
-    @staticmethod
-    def tmpl_right(s, chars):
-        """
-        * description: Get the rightmost characters of a string.
-        """
-        return s[-_int_arg(chars):]
-
-    @staticmethod
-    def tmpl_shorten(text, max_size):
-        """
-        * synopsis: ``%shorten(text, max_size)``
-        * example: ``%shorten($title, 2)``
-        * description: Shorten the given text to ``max_size``
-        """
-        max_size = int(max_size)
-        if len(text) <= max_size:
-            return text
-        text = textwrap.wrap(text, max_size)[0]
-        import re
-        text = re.sub(r'\W+$', '', text)
-        return text.strip()
-
-    @staticmethod
-    def tmpl_if(condition, trueval, falseval=u''):    
-        """
-        * description: If ``condition`` is nonempty and nonzero, emit ``trueval``; otherwise, emit ``falseval`` (if provided).
-        """
-        try:
-            int_condition = _int_arg(condition)
-        except ValueError:
-            if condition.lower() == "false":
-                return falseval
-        else:
-            condition = int_condition
-
-        if condition:
-            return trueval
-        else:
-            return falseval
+        ger_umlaute = {'ae': u'ä',
+                       'oe': u'ö',
+                       'ue': u'ü',
+                       'Ae': u'Ä',
+                       'Oe': u'Ö',
+                       'Ue': u'Ü'}
+        for replace, search in ger_umlaute.iteritems():
+            s = s.replace(search, replace)
+        return unidecode(s)
 
     @staticmethod
     def tmpl_delchars(s, chars):
@@ -142,52 +91,6 @@ class Functions(object):
         return re.sub(r'([' + chars + r'])\1*', r'\1', s)
 
     @staticmethod
-    def tmpl_replchars(s, replace, chars):
-        """
-        * synopsis:
-        * example:
-        * description:
-        """
-        for char in chars:
-            s = s.replace(char, replace)
-        return s
-
-    @staticmethod
-    def tmpl_sanitize(s):
-        """
-        * synopsis:
-        * example:
-        * description:
-        """
-        for char in ':*?"<>|\/~&{}':
-            s = s.replace(char, '')
-        return s
-
-    @staticmethod
-    def tmpl_asciify(s):
-        """
-        * synopsis:
-        * example:
-        * description: Translate non-ASCII characters to their ASCII equivalents.
-        """
-        ger_umlaute = {'ae': u'ä',
-                       'oe': u'ö',
-                       'ue': u'ü',
-                       'Ae': u'Ä',
-                       'Oe': u'Ö',
-                       'Ue': u'Ü'}
-        for replace, search in ger_umlaute.iteritems():
-            s = s.replace(search, replace)
-        return unidecode(s)
-
-    @staticmethod
-    def tmpl_time(s, fmt, cur_fmt):
-        """
-        * description: Format a time value using `strftime`.
-        """
-        return time.strftime(fmt, time.strptime(s, cur_fmt))
-
-    @staticmethod
     def tmpl_first(s, count=1, skip=0, sep=u'; ', join_str=u'; '):
         """
         * description: Gets the item(s) from x to y in a string separated by something and join then with something
@@ -202,6 +105,24 @@ class Functions(object):
         count = skip + int(count)
         return join_str.join(s.split(sep)[skip:count])
 
+    @staticmethod
+    def tmpl_if(condition, trueval, falseval=u''):
+        """
+        * description: If ``condition`` is nonempty and nonzero, emit ``trueval``; otherwise, emit ``falseval`` (if provided).
+        """
+        try:
+            int_condition = _int_arg(condition)
+        except ValueError:
+            if condition.lower() == "false":
+                return falseval
+        else:
+            condition = int_condition
+
+        if condition:
+            return trueval
+        else:
+            return falseval
+
     def tmpl_ifdef(self, field, trueval=u'', falseval=u''):
         """
         * description: If field exists return trueval or the field (default) otherwise, emit return falseval (if provided).
@@ -215,6 +136,86 @@ class Functions(object):
             return trueval
         else:
             return falseval
+
+    @staticmethod
+    def tmpl_left(s, chars):
+        """
+        * description: Get the leftmost characters of a string.
+        """
+        return s[0:_int_arg(chars)]
+
+    @staticmethod
+    def tmpl_lower(s):
+        """
+        * description: Convert a string to lower case.
+        """
+        return s.lower()
+
+    @staticmethod
+    def tmpl_replchars(s, replace, chars):
+        """
+        * synopsis:
+        * example:
+        * description:
+        """
+        for char in chars:
+            s = s.replace(char, replace)
+        return s
+
+    @staticmethod
+    def tmpl_right(s, chars):
+        """
+        * description: Get the rightmost characters of a string.
+        """
+        return s[-_int_arg(chars):]
+
+    @staticmethod
+    def tmpl_sanitize(s):
+        """
+        * synopsis:
+        * example:
+        * description:
+        """
+        for char in ':*?"<>|\/~&{}':
+            s = s.replace(char, '')
+        return s
+
+    @staticmethod
+    def tmpl_shorten(text, max_size):
+        """
+        * synopsis: ``%shorten(text, max_size)``
+        * example: ``%shorten($title, 2)``
+        * description: Shorten the given text to ``max_size``
+        """
+        max_size = int(max_size)
+        if len(text) <= max_size:
+            return text
+        text = textwrap.wrap(text, max_size)[0]
+        import re
+        text = re.sub(r'\W+$', '', text)
+        return text.strip()
+
+    @staticmethod
+    def tmpl_time(s, fmt, cur_fmt):
+        """
+        * description: Format a time value using `strftime`.
+        """
+        return time.strftime(fmt, time.strptime(s, cur_fmt))
+
+    @staticmethod
+    def tmpl_title(s):
+        """
+        * description: Convert a string to title case.
+        """
+        return s.title()
+
+    @staticmethod
+    def tmpl_upper(s):
+        """
+        * description: Covert a string to upper case.
+        """
+        return s.upper()
+
 
 # Get the name of tmpl_* functions in the above class.
 Functions._func_names = \
