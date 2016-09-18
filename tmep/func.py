@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# This file is part of beets.
 # Copyright 2016, Adrian Sampson.
 #
 # Permission is hereby granted, free of charge, to any person obtaining
@@ -13,8 +12,8 @@
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
 """This file originates from the file `beets/library.py
-<https://github.com/beetbox/beets/blob/58afaf07a52df2b53bb2f8990cd06005cd063d9e/beets/library.py#L1341>_`
-of the `beets project<http://beets.io>_`.
+<https://github.com/beetbox/beets/blob/58afaf07a52df2b53bb2f8990cd06005cd063d9e/beets/library.py#L1341>`_
+of the `beets project <http://beets.io>`_.
 """
 from __future__ import division, absolute_import, print_function
 
