@@ -54,37 +54,45 @@ class Functions(object):
 
     @staticmethod
     def tmpl_lower(s):
-        """Convert a string to lower case."""
+        """
+        * description: Convert a string to lower case.
+        """
         return s.lower()
 
     @staticmethod
     def tmpl_upper(s):
-        """Covert a string to upper case."""
+        """
+        * description: Covert a string to upper case.
+        """
         return s.upper()
 
     @staticmethod
     def tmpl_title(s):
-        """Convert a string to title case."""
+        """
+        * description: Convert a string to title case.
+        """
         return s.title()
 
     @staticmethod
     def tmpl_left(s, chars):
-        """Get the leftmost characters of a string."""
+        """
+        * description: Get the leftmost characters of a string.
+        """
         return s[0:_int_arg(chars)]
 
     @staticmethod
     def tmpl_right(s, chars):
-        """Get the rightmost characters of a string."""
+        """
+        * description: Get the rightmost characters of a string.
+        """
         return s[-_int_arg(chars):]
 
     @staticmethod
     def tmpl_shorten(text, max_size):
-        """Shorten the given text to ``max_size``
-
+        """
         * synopsis: ``%shorten(text, max_size)``
         * example: ``%shorten($title, 2)``
         * description: Shorten the given text to ``max_size``
-
         """
         max_size = int(max_size)
         if len(text) <= max_size:
@@ -95,9 +103,9 @@ class Functions(object):
         return text.strip()
 
     @staticmethod
-    def tmpl_if(condition, trueval, falseval=u''):
-        """If ``condition`` is nonempty and nonzero, emit ``trueval``;
-        otherwise, emit ``falseval`` (if provided).
+    def tmpl_if(condition, trueval, falseval=u''):    
+        """
+        * description: If ``condition`` is nonempty and nonzero, emit ``trueval``; otherwise, emit ``falseval`` (if provided).
         """
         try:
             int_condition = _int_arg(condition)
@@ -114,30 +122,53 @@ class Functions(object):
 
     @staticmethod
     def tmpl_delchars(s, chars):
+        """
+        * synopsis:
+        * example:
+        * description:
+        """
         for char in chars:
             s = s.replace(char, '')
         return s
 
     @staticmethod
     def tmpl_deldupchars(s, chars=r'-_\.'):
+        """
+        * synopsis:
+        * example:
+        * description:
+        """
         import re
         return re.sub(r'([' + chars + r'])\1*', r'\1', s)
 
     @staticmethod
     def tmpl_replchars(s, replace, chars):
+        """
+        * synopsis:
+        * example:
+        * description:
+        """
         for char in chars:
             s = s.replace(char, replace)
         return s
 
     @staticmethod
     def tmpl_sanitize(s):
+        """
+        * synopsis:
+        * example:
+        * description:
+        """
         for char in ':*?"<>|\/~&{}':
             s = s.replace(char, '')
         return s
 
     @staticmethod
     def tmpl_asciify(s):
-        """Translate non-ASCII characters to their ASCII equivalents.
+        """
+        * synopsis:
+        * example:
+        * description: Translate non-ASCII characters to their ASCII equivalents.
         """
         ger_umlaute = {'ae': u'ä',
                        'oe': u'ö',
@@ -151,14 +182,15 @@ class Functions(object):
 
     @staticmethod
     def tmpl_time(s, fmt, cur_fmt):
-        """Format a time value using `strftime`.
+        """
+        * description: Format a time value using `strftime`.
         """
         return time.strftime(fmt, time.strptime(s, cur_fmt))
 
     @staticmethod
     def tmpl_first(s, count=1, skip=0, sep=u'; ', join_str=u'; '):
-        """ Gets the item(s) from x to y in a string separated by something
-        and join then with something
+        """
+        * description: Gets the item(s) from x to y in a string separated by something and join then with something
 
         :param s: the string
         :param count: The number of items included
@@ -171,8 +203,8 @@ class Functions(object):
         return join_str.join(s.split(sep)[skip:count])
 
     def tmpl_ifdef(self, field, trueval=u'', falseval=u''):
-        """ If field exists return trueval or the field (default)
-        otherwise, emit return falseval (if provided).
+        """
+        * description: If field exists return trueval or the field (default) otherwise, emit return falseval (if provided).
 
         :param field: The name of the field
         :param trueval: The string if the condition is true

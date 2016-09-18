@@ -57,9 +57,18 @@ class TestDoc(unittest.TestCase):
 
     def test_attributes(self):
         self.assertTrue(self.doc.doc_strings)
+        self.assertTrue(isinstance(self.doc.doc_strings, dict))
+        self.assertTrue(self.doc.functions)
+        self.assertTrue(isinstance(self.doc.functions, list))
         self.assertTrue(self.doc.synopsises)
+        self.assertTrue(isinstance(self.doc.synopsises, dict))
         self.assertTrue(self.doc.examples)
+        self.assertTrue(isinstance(self.doc.examples, dict))
         self.assertTrue(self.doc.descriptions)
+        self.assertTrue(isinstance(self.doc.descriptions, dict))
+
+    def test_functions_sort(self):
+        self.assertEqual(self.doc.functions, sorted(self.doc.functions))
 
     def test_extract_value(self):
         value = self.doc.extract_value(
@@ -81,6 +90,9 @@ class TestDoc(unittest.TestCase):
             False
         )
         self.assertEqual(value, 'Some description')
+
+    def test_get(self):
+        print(self.doc.get())
 
 if __name__ == '__main__':
     unittest.main()
