@@ -19,7 +19,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 pygments_style = 'sphinx'
 todo_include_todos = False
 html_theme = 'alabaster'
-html_static_path = ['_static']
+html_static_path = []
 htmlhelp_basename = 'tmepdoc'
 
 latex_elements = {
@@ -39,7 +39,6 @@ man_pages = [
 
 texinfo_documents = [
     (master_doc, 'tmep', u'tmep Documentation',
-     author, 'tmep', 'One line description of project.',
+     author, 'tmep', 'Template and Macros Expansion for Path names.',
      'Miscellaneous'),
 ]
-

@@ -55,9 +55,9 @@ class Functions(object):
     @staticmethod
     def tmpl_asciify(s):
         """
-        * synopsis:
+        * synopsis: ``%asciify{text}``
         * example:
-        * description: Translate non-ASCII characters to their ASCII equivalents.
+        * description: Translate non-ASCII characters to their ASCII equivalents. For example, “café” becomes “cafe”. Uses the mapping provided by the unidecode module.
         """
         ger_umlaute = {'ae': u'ä',
                        'oe': u'ö',
@@ -72,9 +72,9 @@ class Functions(object):
     @staticmethod
     def tmpl_delchars(s, chars):
         """
-        * synopsis:
+        * synopsis: ``%delchars{text,chars}``
         * example:
-        * description:
+        * description: Delete every single character of “chars“ in “text”.
         """
         for char in chars:
             s = s.replace(char, '')
@@ -83,9 +83,9 @@ class Functions(object):
     @staticmethod
     def tmpl_deldupchars(s, chars=r'-_\.'):
         """
-        * synopsis:
+        * synopsis: ``%deldupchars{text,chars}``
         * example:
-        * description:
+        * description: Search for duplicate characters and replace with only one occurrance of this characters.
         """
         import re
         return re.sub(r'([' + chars + r'])\1*', r'\1', s)
@@ -93,7 +93,8 @@ class Functions(object):
     @staticmethod
     def tmpl_first(s, count=1, skip=0, sep=u'; ', join_str=u'; '):
         """
-        * description: Gets the item(s) from x to y in a string separated by something and join then with something
+        * synopsis: ``%first{text}``
+        * description: Returns the first item, separated by ; . You can use %first{text,count,skip}, where count is the number of items (default 1) and skip is number to skip (default 0). You can also use %first{text,count,skip,sep,join} where sep is the separator, like ; or / and join is the text to concatenate the items.
 
         :param s: the string
         :param count: The number of items included
@@ -107,8 +108,11 @@ class Functions(object):
 
     @staticmethod
     def tmpl_if(condition, trueval, falseval=u''):
-        """
-        * description: If ``condition`` is nonempty and nonzero, emit ``trueval``; otherwise, emit ``falseval`` (if provided).
+        """If ``condition`` is nonempty and nonzero, emit ``trueval``; otherwise, emit ``falseval`` (if provided).
+
+        * synopsis: ``%if{condition,text} or %if{condition,truetext,falsetext}``
+        * description: If condition is nonempty (or nonzero, if it’s a number), then returns the second argument. Otherwise, returns the third argument if specified (or nothing if falsetext is left off).
+
         """
         try:
             int_condition = _int_arg(condition)
@@ -124,8 +128,10 @@ class Functions(object):
             return falseval
 
     def tmpl_ifdef(self, field, trueval=u'', falseval=u''):
-        """
-        * description: If field exists return trueval or the field (default) otherwise, emit return falseval (if provided).
+        """If field exists return trueval or the field (default) otherwise, emit return falseval (if provided).
+
+        * synopsis: ``%ifdef{field}, %ifdef{field,truetext} or %ifdef{field,truetext,falsetext}``
+        * description: If field exists, then return truetext or field (default). Otherwise, returns falsetext. The field should be entered without $.
 
         :param field: The name of the field
         :param trueval: The string if the condition is true
@@ -139,22 +145,26 @@ class Functions(object):
 
     @staticmethod
     def tmpl_left(s, chars):
-        """
-        * description: Get the leftmost characters of a string.
+        """Get the leftmost characters of a string.
+
+        * synopsis: ``%left{text,n}``
+        * description: Return the first “n” characters of “text”.
         """
         return s[0:_int_arg(chars)]
 
     @staticmethod
     def tmpl_lower(s):
-        """
-        * description: Convert a string to lower case.
+        """Convert a string to lower case
+
+        * synopsis: ``%lower{text}``
+        * description: Convert “text” to lowercase.
         """
         return s.lower()
 
     @staticmethod
     def tmpl_replchars(s, replace, chars):
         """
-        * synopsis:
+        * synopsis: ``%replchars{text,chars,replace}``
         * example:
         * description:
         """
@@ -164,17 +174,19 @@ class Functions(object):
 
     @staticmethod
     def tmpl_right(s, chars):
-        """
-        * description: Get the rightmost characters of a string.
+        """Get the rightmost characters of a string.
+
+        * synopsis: ``%right{text,n}``
+        * description: Return the last “n” characters of “text”.
         """
         return s[-_int_arg(chars):]
 
     @staticmethod
     def tmpl_sanitize(s):
         """
-        * synopsis:
+        * synopsis: ``%sanitize{text}``
         * example:
-        * description:
+        * description:  Delete in most file systems not allowed characters.
         """
         for char in ':*?"<>|\/~&{}':
             s = s.replace(char, '')
@@ -182,10 +194,11 @@ class Functions(object):
 
     @staticmethod
     def tmpl_shorten(text, max_size):
-        """
-        * synopsis: ``%shorten(text, max_size)``
-        * example: ``%shorten($title, 2)``
-        * description: Shorten the given text to ``max_size``
+        """Shorten the given text to ``max_size``
+
+        * synopsis: ``%shorten{text, max_size}``
+        * example: ``%shorten{$title, 32}``
+        * description: Shorten “text” on word boundarys.
         """
         max_size = int(max_size)
         if len(text) <= max_size:
@@ -197,22 +210,28 @@ class Functions(object):
 
     @staticmethod
     def tmpl_time(s, fmt, cur_fmt):
-        """
-        * description: Format a time value using `strftime`.
+        """Format a time value using `strftime`.
+
+        * synopsis: ``%time{date_time,format,curformat}``
+        * description: Return the date and time in any format accepted by strftime. For example, to get the year some music was added to your library, use %time{$added,%Y}.
         """
         return time.strftime(fmt, time.strptime(s, cur_fmt))
 
     @staticmethod
     def tmpl_title(s):
-        """
-        * description: Convert a string to title case.
+        """Convert a string to title case
+
+        * synopsis: ``%title{text}``
+        * description: Convert “text” to Title Case.
         """
         return s.title()
 
     @staticmethod
     def tmpl_upper(s):
-        """
-        * description: Covert a string to upper case.
+        """Covert a string to upper case
+
+        * synopsis: %upper{text}
+        * description: Convert “text” to UPPERCASE.
         """
         return s.upper()
 

@@ -16,17 +16,17 @@ From Github
 
 .. code::Shell
 
-  git clone git@github.com:Josef-Friedrich/tmep.git
-  cd tmep
-  python setup.py install
+    git clone git@github.com:Josef-Friedrich/tmep.git
+    cd tmep
+    python setup.py install
 
 From PyPI
 ----------
 
 .. code::Shell
 
-  pip install tmep
-  easy_install tmep
+    pip install tmep
+    easy_install tmep
 
 Usage
 =====
@@ -36,12 +36,12 @@ Basic usage
 
 .. code::Python
 
-  >>> import tmep
-  >>> template = '$prename $lastname'
-  >>> values = {'prename': 'Franz', 'lastname': 'Schubert'}
-  >>> out = tmep.parse(template, values)
-  >>> print(out)
-  Franz Schubert
+    >>> import tmep
+    >>> template = '$prename $lastname'
+    >>> values = {'prename': 'Franz', 'lastname': 'Schubert'}
+    >>> out = tmep.parse(template, values)
+    >>> print(out)
+    Franz Schubert
 
 This module implements a string formatter based on the standard PEP
 292 string.Template class extended with function calls. Variables, as
