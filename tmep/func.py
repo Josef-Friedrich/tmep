@@ -53,7 +53,7 @@ class Functions(object):
         return out
 
     @staticmethod
-    def tmpl_asciify(s):
+    def tmpl_asciify(text):
         """
         * synopsis: ``%asciify{text}``
         * example:
@@ -66,37 +66,37 @@ class Functions(object):
                        'Oe': u'Ö',
                        'Ue': u'Ü'}
         for replace, search in ger_umlaute.iteritems():
-            s = s.replace(search, replace)
-        return unidecode(s)
+            text = text.replace(search, replace)
+        return unidecode(text)
 
     @staticmethod
-    def tmpl_delchars(s, chars):
+    def tmpl_delchars(text, chars):
         """
         * synopsis: ``%delchars{text,chars}``
         * example:
         * description: Delete every single character of “chars“ in “text”.
         """
         for char in chars:
-            s = s.replace(char, '')
-        return s
+            text = text.replace(char, '')
+        return text
 
     @staticmethod
-    def tmpl_deldupchars(s, chars=r'-_\.'):
+    def tmpl_deldupchars(text, chars=r'-_\.'):
         """
         * synopsis: ``%deldupchars{text,chars}``
         * example:
         * description: Search for duplicate characters and replace with only one occurrance of this characters.
         """
         import re
-        return re.sub(r'([' + chars + r'])\1*', r'\1', s)
+        return re.sub(r'([' + chars + r'])\1*', r'\1', text)
 
     @staticmethod
-    def tmpl_first(s, count=1, skip=0, sep=u'; ', join_str=u'; '):
+    def tmpl_first(text, count=1, skip=0, sep=u'; ', join_str=u'; '):
         """
         * synopsis: ``%first{text}``
         * description: Returns the first item, separated by ; . You can use %first{text,count,skip}, where count is the number of items (default 1) and skip is number to skip (default 0). You can also use %first{text,count,skip,sep,join} where sep is the separator, like ; or / and join is the text to concatenate the items.
 
-        :param s: the string
+        :param text: the string
         :param count: The number of items included
         :param skip: The number of items skipped
         :param sep: the separator. Usually is '; ' (default) or '/ '
@@ -104,7 +104,7 @@ class Functions(object):
         """
         skip = int(skip)
         count = skip + int(count)
-        return join_str.join(s.split(sep)[skip:count])
+        return join_str.join(text.split(sep)[skip:count])
 
     @staticmethod
     def tmpl_if(condition, trueval, falseval=u''):
@@ -153,44 +153,44 @@ class Functions(object):
         return s[0:_int_arg(chars)]
 
     @staticmethod
-    def tmpl_lower(s):
+    def tmpl_lower(text):
         """Convert a string to lower case
 
         * synopsis: ``%lower{text}``
         * description: Convert “text” to lowercase.
         """
-        return s.lower()
+        return text.lower()
 
     @staticmethod
-    def tmpl_replchars(s, replace, chars):
+    def tmpl_replchars(text, replace, chars):
         """
         * synopsis: ``%replchars{text,chars,replace}``
         * example:
         * description:
         """
         for char in chars:
-            s = s.replace(char, replace)
-        return s
+            text = text.replace(char, replace)
+        return text
 
     @staticmethod
-    def tmpl_right(s, chars):
+    def tmpl_right(text, chars):
         """Get the rightmost characters of a string.
 
         * synopsis: ``%right{text,n}``
         * description: Return the last “n” characters of “text”.
         """
-        return s[-_int_arg(chars):]
+        return text[-_int_arg(chars):]
 
     @staticmethod
-    def tmpl_sanitize(s):
+    def tmpl_sanitize(text):
         """
         * synopsis: ``%sanitize{text}``
         * example:
         * description:  Delete in most file systems not allowed characters.
         """
         for char in ':*?"<>|\/~&{}':
-            s = s.replace(char, '')
-        return s
+            text = text.replace(char, '')
+        return text
 
     @staticmethod
     def tmpl_shorten(text, max_size):
@@ -209,31 +209,31 @@ class Functions(object):
         return text.strip()
 
     @staticmethod
-    def tmpl_time(s, fmt, cur_fmt):
+    def tmpl_time(text, fmt, cur_fmt):
         """Format a time value using `strftime`.
 
         * synopsis: ``%time{date_time,format,curformat}``
         * description: Return the date and time in any format accepted by strftime. For example, to get the year some music was added to your library, use %time{$added,%Y}.
         """
-        return time.strftime(fmt, time.strptime(s, cur_fmt))
+        return time.strftime(fmt, time.strptime(text, cur_fmt))
 
     @staticmethod
-    def tmpl_title(s):
+    def tmpl_title(text):
         """Convert a string to title case
 
         * synopsis: ``%title{text}``
         * description: Convert “text” to Title Case.
         """
-        return s.title()
+        return text.title()
 
     @staticmethod
-    def tmpl_upper(s):
+    def tmpl_upper(text):
         """Covert a string to upper case
 
         * synopsis: %upper{text}
         * description: Convert “text” to UPPERCASE.
         """
-        return s.upper()
+        return text.upper()
 
 
 # Get the name of tmpl_* functions in the above class.
