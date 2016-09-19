@@ -1,3 +1,9 @@
+import sphinx_rtd_theme
+
+html_theme = "sphinx_rtd_theme"
+# html_theme = 'alabaster'
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',
@@ -18,7 +24,6 @@ language = None
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 pygments_style = 'sphinx'
 todo_include_todos = False
-html_theme = 'alabaster'
 html_static_path = []
 htmlhelp_basename = 'tmepdoc'
 
