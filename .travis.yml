@@ -3,6 +3,7 @@ python:
   - "2.7"
   - "3.5"
 install:
+  - travis_retry pip install tox
   - pip install .
 script: tox
 #script: python -m unittest discover tests
