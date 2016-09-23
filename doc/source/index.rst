@@ -11,6 +11,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   modules
+
 
 
 Indices and tables
@@ -21,33 +23,4 @@ Indices and tables
 * :ref:`search`
 
 
-tmep package
-============
-
-Submodules
-----------
-
-tmep.func module
-----------------
-
-.. automodule:: tmep.func
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-tmep.tmpl module
-----------------
-
-.. automodule:: tmep.tmpl
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: tmep
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. include:: ../../README.rst
