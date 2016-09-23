@@ -4,4 +4,5 @@ python:
   - "3.5"
 install:
   - pip install .
-script: python -m unittest discover tests
+script: tox
+#script: python -m unittest discover tests
