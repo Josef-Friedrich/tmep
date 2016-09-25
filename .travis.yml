@@ -1,9 +1,7 @@
 language: python
-python:
-  - "2.7"
-  - "3.5"
 install:
-  - travis_retry pip install tox
-  - pip install .
+  - pip install tox
 script: tox
-#script: python -m unittest discover tests
+env:
+  - TOXENV=py27
+  - TOXENV=py35
