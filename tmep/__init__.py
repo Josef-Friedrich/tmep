@@ -1,6 +1,9 @@
 
 from tmep import tmpl
 from tmep import func
+from ._version import get_versions
+__version__ = get_versions()['version']
+del get_versions
 
 
 class Template(tmpl.Template):

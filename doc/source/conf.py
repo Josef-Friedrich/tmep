@@ -1,4 +1,5 @@
 import sphinx_rtd_theme
+import tmep
 html_theme = 'sphinx_rtd_theme'
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
@@ -14,8 +15,8 @@ master_doc = 'index'
 project = u'tmep'
 copyright = u'2016, Josef Friedrich'
 author = u'Josef Friedrich'
-version = u'0.0.3'
-release = u'0.0.3'
+version = tmep.__version__
+release = tmep.__version__
 language = None
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 pygments_style = 'sphinx'
