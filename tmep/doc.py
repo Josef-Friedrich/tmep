@@ -1,5 +1,9 @@
+# -*- coding: utf-8 -*-
+"""Extract docstrings from func.py to document the template functions."""
+
 import re
 from tmep import func
+import textwrap
 
 
 class Doc(object):
@@ -25,6 +29,15 @@ class Doc(object):
         self.functions.sort()
 
     def extract_value(self, string, key, inline_code=True):
+        """Extract strings from the docstrings
+
+        .. code-block:: text
+
+            * synopsis: ``%shorten{text, max_size}``
+            * example: ``%shorten{$title, 32}``
+            * description: Shorten “text” on word boundarys.
+
+        """
         regex = r'\* ' + key + ': '
         if inline_code:
             regex = regex + '``(.*)``'
@@ -36,17 +49,34 @@ class Doc(object):
         else:
             return False
 
+    def underline(self, text, indent=4):
+        """Underline a given text"""
+        length = len(text)
+        indentation = (' ' * indent)
+        return indentation + text + '\n' + indentation + ('-' * length)
+
+    def format(self, text, width=80, indent=4):
+        """Apply textwrap to a given text string"""
+        width = width - indent
+        return textwrap.fill(
+            text,
+            width=width,
+            initial_indent=' ' * indent,
+            subsequent_indent=' ' * indent,
+        )
+
     def get(self):
+        """Retrieve a formated text string"""
         output = ''
         for f in self.functions:
-            output += f + '\n'
+            output += self.underline(f) + '\n\n'
             if f in self.synopsises and isinstance(self.synopsises[f], str):
-                output += self.synopsises[f] + '\n'
+                output += self.format(self.synopsises[f]) + '\n'
             if f in self.descriptions and isinstance(
                 self.descriptions[f], str
             ):
-                output += self.descriptions[f] + '\n'
+                output += self.format(self.descriptions[f], indent=8) + '\n'
             if f in self.examples and isinstance(self.examples[f], str):
-                output += self.examples[f] + '\n'
+                output += self.format(self.examples[f], indent=8) + '\n'
             output += '\n'
         return output

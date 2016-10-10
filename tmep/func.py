@@ -56,7 +56,6 @@ class Functions(object):
     def tmpl_asciify(text):
         """
         * synopsis: ``%asciify{text}``
-        * example:
         * description: Translate non-ASCII characters to their ASCII equivalents. For example, “café” becomes “cafe”. Uses the mapping provided by the unidecode module.
         """
         ger_umlaute = {'ae': u'ä',
@@ -73,7 +72,6 @@ class Functions(object):
     def tmpl_delchars(text, chars):
         """
         * synopsis: ``%delchars{text,chars}``
-        * example:
         * description: Delete every single character of “chars“ in “text”.
         """
         for char in chars:
@@ -84,7 +82,6 @@ class Functions(object):
     def tmpl_deldupchars(text, chars=r'-_\.'):
         """
         * synopsis: ``%deldupchars{text,chars}``
-        * example:
         * description: Search for duplicate characters and replace with only one occurrance of this characters.
         """
         import re
@@ -165,8 +162,6 @@ class Functions(object):
     def tmpl_replchars(text, replace, chars):
         """
         * synopsis: ``%replchars{text,chars,replace}``
-        * example:
-        * description:
         """
         for char in chars:
             text = text.replace(char, replace)
@@ -185,7 +180,6 @@ class Functions(object):
     def tmpl_sanitize(text):
         """
         * synopsis: ``%sanitize{text}``
-        * example:
         * description:  Delete in most file systems not allowed characters.
         """
         for char in ':*?"<>|\/~&{}':

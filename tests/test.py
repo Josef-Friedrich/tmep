@@ -92,7 +92,7 @@ class TestDoc(unittest.TestCase):
         self.assertEqual(value, 'Some description')
 
     def test_get(self):
-        print(self.doc.get())
+        self.assertTrue(self.doc.get())
 
 if __name__ == '__main__':
     unittest.main()
