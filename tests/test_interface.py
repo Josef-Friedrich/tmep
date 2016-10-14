@@ -1,10 +1,11 @@
-#! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import unittest
 import tmep
 
 
 class TestClasses(unittest.TestCase):
+    
     def setUp(self):
         self.template = '${lastname}; ${prename}'
         self.values = {'prename': 'Franz', 'lastname': 'Schubert'}
@@ -18,6 +19,7 @@ class TestClasses(unittest.TestCase):
 
 
 class TestDefinitionParse(unittest.TestCase):
+
     def setUp(self):
         self.parse = tmep.parse
         self.template = '${lastname}; ${prename}'

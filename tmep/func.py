@@ -159,6 +159,16 @@ class Functions(object):
         return text.lower()
 
     @staticmethod
+    def tmpl_num(number, count=2):
+        """Pad decimal number with leading zeros
+
+        * synopsis: ``%num{number, count}``
+        * description: Pad decimal number with leading zeros.
+        * example: ``%num{$track, 3}``
+        """
+        return str(number).zfill(int(count))
+
+    @staticmethod
     def tmpl_replchars(text, replace, chars):
         """
         * synopsis: ``%replchars{text,chars,replace}``

@@ -265,8 +265,5 @@ class EvalTest(unittest.TestCase):
         self.assertEqual(self._eval(u"%len{}"), u"0")
 
 
-def suite():
-    return unittest.TestLoader().loadTestsFromName(__name__)
-
 if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+    unittest.main()
