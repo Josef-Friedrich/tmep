@@ -19,20 +19,34 @@ import tmep
 
 class TestFunctions(unittest.TestCase):
 
+    def setUp(self):
+        self.values = {
+            'prename': 'Franz',
+            'lastname': 'Schubert',
+            'track': 7,
+        }
+
+    def parseEqual(self, a, b):
+        self.assertEqual(tmep.parse(a, self.values), b)
+
     def test_num(self):
-        self.assertEqual(tmep.parse(u'%num{7,3}'), u'007')
+        self.parseEqual(u'%num{7,3}', u'007')
+
+    def test_num_variable(self):
+        self.parseEqual(u'%num{$track,3}', u'007')
 
     def test_num_default_count(self):
-        self.assertEqual(tmep.parse(u'%num{7}'), u'07')
+        self.parseEqual(u'%num{7}', u'07')
 
+    def test_num_default_variable(self):
+        self.parseEqual(u'%num{$track}', u'07')
 
-    # def test_upper_case_literal(self):
-    #     self._setf(u'%upper{foo}')
-    #     self._assert_dest(b'/base/FOO')
-    #
-    # def test_upper_case_variable(self):
-    #     self._setf(u'%upper{$title}')
-    #     self._assert_dest(b'/base/THE TITLE')
+    def test_upper_case_literal(self):
+        self.parseEqual(u'%upper{foo}', u'FOO')
+
+    def test_upper_case_variable(self):
+        self.parseEqual(u'%upper{$prename}', u'FRANZ')
+
     #
     # def test_title_case_variable(self):
     #     self._setf(u'%title{$title}')
