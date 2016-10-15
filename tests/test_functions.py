@@ -47,6 +47,25 @@ class TestFunctions(unittest.TestCase):
     def test_asciify_german_umlaute(self):
         self.parseEqual(u'%asciify{äÄöÖüÜ}', u'aeAeoeOeueUe')
 
+    # delchars
+    def test_delchars_single(self):
+        self.parseEqual(u'%delchars{x-x,-}', u'xx')
+
+    def test_delchars_multiple(self):
+        self.parseEqual(u'%delchars{x---x,-}', u'xx')
+
+    def test_delchars_no_match(self):
+        self.parseEqual(u'%delchars{x-x,_}', u'x-x')
+
+    def test_delchars_multiple_chars(self):
+        self.parseEqual(u'%delchars{x_-.x,_-.}', u'xx')
+
+    def test_delchars_unicode(self):
+        self.parseEqual(u'%delchars{öd,ö}', u'd')
+
+    def test_delchars_variable(self):
+        self.parseEqual(u'%delchars{$lastname,ue}', u'Schbrt')
+
     # first
     def test_first(self):
         self.parseEqual(u'%first{$genres}', u'Pop')
