@@ -64,7 +64,7 @@ class Functions(object):
                        'Ae': u'Ä',
                        'Oe': u'Ö',
                        'Ue': u'Ü'}
-        for replace, search in ger_umlaute.iteritems():
+        for replace, search in ger_umlaute.items():
             text = text.replace(search, replace)
         return unidecode(text)
 

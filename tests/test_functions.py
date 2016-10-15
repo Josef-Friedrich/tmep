@@ -21,16 +21,31 @@ class TestFunctions(unittest.TestCase):
 
     def setUp(self):
         self.values = {
-            'prename': 'Franz',
-            'lastname': 'Schubert',
-            'lol': 'lol',
-            'troll': 'troll',
-            'genres': 'Pop; Rock; Classical Crossover',
+            'prename': u'Franz',
+            'lastname': u'Schubert',
+            'lol': u'lol',
+            'troll': u'troll',
+            'genres': u'Pop; Rock; Classical Crossover',
+            'asciify': u'gennemgår',
             'track': 7,
         }
 
     def parseEqual(self, a, b):
         self.assertEqual(tmep.parse(a, self.values), b)
+
+
+    # asciify
+    def test_asciify_literal(self):
+        self.parseEqual(u'%asciify{après évêque}', u'apres eveque')
+
+    def test_asciify_variable(self):
+        self.parseEqual(u'%asciify{$asciify}', u'gennemgar')
+
+    def test_asciify_foreign(self):
+        self.parseEqual(u'%asciify{Новыя старонкі}', u'Novyia staronki')
+
+    def test_asciify_german_umlaute(self):
+        self.parseEqual(u'%asciify{äÄöÖüÜ}', u'aeAeoeOeueUe')
 
     # first
     def test_first(self):
@@ -136,7 +151,7 @@ class TestFunctions(unittest.TestCase):
     def test_upper_variable(self):
         self.parseEqual(u'%upper{$prename}', u'FRANZ')
 
-    # 
+    #
     def test_nonexistent_function(self):
         self.parseEqual(u'%foo{bar}', u'%foo{bar}')
 
