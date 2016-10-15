@@ -106,38 +106,20 @@ class TestFunctions(unittest.TestCase):
         self.parseEqual(u'%if{0,foo,baz}', u'baz')
 
     # ifdef
+    def test_if_def_field_return_self(self):
+        self.parseEqual(u'%ifdef{lastname}', u'')
 
-    # def test_if_def_field_return_self(self):
-    #     self.parseEqual(, )
-    #     self.i.bar = 3
-    #     self._setf(u'%ifdef{bar}')
-    #     self._assert_dest(b'/base/3')
-    #
-    # def test_if_def_field_not_defined(self):
-    #     self.parseEqual(, )
-    #     self._setf(u' %ifdef{bar}/$artist')
-    #     self._assert_dest(b'/base/the artist')
-    #
-    # def test_if_def_field_not_defined_2(self):
-    #     self.parseEqual(, )
-    #     self._setf(u'$artist/%ifdef{bar}')
-    #     self._assert_dest(b'/base/the artist')
-    #
-    # def test_if_def_true(self):
-    #     self.parseEqual(, )
-    #     self._setf(u'%ifdef{artist,cool}')
-    #     self._assert_dest(b'/base/cool')
-    #
-    # def test_if_def_true_complete(self):
-    #     self.parseEqual(, )
-    #     self.i.series = "Now"
-    #     self._setf(u'%ifdef{series,$series Series,Albums}/$album')
-    #     self._assert_dest(b'/base/Now Series/the album')
-    #
-    # def test_if_def_false_complete(self):
-    #     self.parseEqual(, )
-    #     self._setf(u'%ifdef{plays,$plays,not_played}')
-    #     self._assert_dest(b'/base/not_played')
+    def test_if_def_field_not_defined(self):
+        self.parseEqual(u'%ifdef{bar}', u'')
+
+    def test_if_def_true(self):
+        self.parseEqual(u'%ifdef{lastname,Its true}', u'Its true')
+
+    def test_if_def_true_complete(self):
+        self.parseEqual(u'%ifdef{lastname,lol,troll}', u'lol')
+
+    def test_if_def_false_complete(self):
+        self.parseEqual(u'%ifdef{trill,lol,troll}', u'troll')
 
     # left
     def test_left_literal(self):
@@ -166,12 +148,27 @@ class TestFunctions(unittest.TestCase):
     def test_num_default_variable(self):
         self.parseEqual(u'%num{$track}', u'07')
 
+    # replchars
+    def test_replchars_literal(self):
+        self.parseEqual(u'%replchars{Schubert,-,ue}', u'Sch-b-rt')
+
+    def test_replchars_variable(self):
+        self.parseEqual(u'%replchars{$lastname,-,ue}', u'Sch-b-rt')
+
     # right
     def test_right_literal(self):
         self.parseEqual(u'%right{Schubert,3}', u'ert')
 
     def test_right_variable(self):
         self.parseEqual(u'%right{$lastname,3}', u'ert')
+
+    # sanitize
+    def test_sanitize_literal(self):
+        self.parseEqual(u'%sanitize{x:*?<>|\/~&x}', u'xx')
+
+    # shorten
+    def test_shorten_literal(self):
+        self.parseEqual(u'%shorten{Lorem ipsum dolor sit,10}', u'Lorem')
 
     # title
     def test_title_literal(self):
