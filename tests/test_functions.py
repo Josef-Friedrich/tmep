@@ -25,11 +25,22 @@ class TestFunctions(unittest.TestCase):
             'lastname': 'Schubert',
             'lol': 'lol',
             'troll': 'troll',
+            'genres': 'Pop; Rock; Classical Crossover',
             'track': 7,
         }
 
     def parseEqual(self, a, b):
         self.assertEqual(tmep.parse(a, self.values), b)
+
+    # first
+    def test_first(self):
+        self.parseEqual(u'%first{$genres}', u'Pop')
+
+    def test_first_skip(self):
+        self.parseEqual(u'%first{$genres,1,2}', u'Classical Crossover')
+
+    def test_first_different_sep(self):
+        self.parseEqual(u'%first{Alice / Bob / Eve,2,0, / , & }', u'Alice & Bob')
 
     # if
     def test_if_false(self):
@@ -49,6 +60,40 @@ class TestFunctions(unittest.TestCase):
 
     def test_if_int_value(self):
         self.parseEqual(u'%if{0,foo,baz}', u'baz')
+
+    # ifdef
+
+    # def test_if_def_field_return_self(self):
+    #     self.parseEqual(, )
+    #     self.i.bar = 3
+    #     self._setf(u'%ifdef{bar}')
+    #     self._assert_dest(b'/base/3')
+    #
+    # def test_if_def_field_not_defined(self):
+    #     self.parseEqual(, )
+    #     self._setf(u' %ifdef{bar}/$artist')
+    #     self._assert_dest(b'/base/the artist')
+    #
+    # def test_if_def_field_not_defined_2(self):
+    #     self.parseEqual(, )
+    #     self._setf(u'$artist/%ifdef{bar}')
+    #     self._assert_dest(b'/base/the artist')
+    #
+    # def test_if_def_true(self):
+    #     self.parseEqual(, )
+    #     self._setf(u'%ifdef{artist,cool}')
+    #     self._assert_dest(b'/base/cool')
+    #
+    # def test_if_def_true_complete(self):
+    #     self.parseEqual(, )
+    #     self.i.series = "Now"
+    #     self._setf(u'%ifdef{series,$series Series,Albums}/$album')
+    #     self._assert_dest(b'/base/Now Series/the album')
+    #
+    # def test_if_def_false_complete(self):
+    #     self.parseEqual(, )
+    #     self._setf(u'%ifdef{plays,$plays,not_played}')
+    #     self._assert_dest(b'/base/not_played')
 
     # left
     def test_left_literal(self):
@@ -91,60 +136,9 @@ class TestFunctions(unittest.TestCase):
     def test_upper_variable(self):
         self.parseEqual(u'%upper{$prename}', u'FRANZ')
 
-    #
-    # def test_nonexistent_function(self):
-    #     self.parseEqual(, )
-    #     self._setf(u'%foo{bar}')
-    #     self._assert_dest(b'/base/%foo{bar}')
-    #
-    # def test_if_def_field_return_self(self):
-    #     self.parseEqual(, )
-    #     self.i.bar = 3
-    #     self._setf(u'%ifdef{bar}')
-    #     self._assert_dest(b'/base/3')
-    #
-    # def test_if_def_field_not_defined(self):
-    #     self.parseEqual(, )
-    #     self._setf(u' %ifdef{bar}/$artist')
-    #     self._assert_dest(b'/base/the artist')
-    #
-    # def test_if_def_field_not_defined_2(self):
-    #     self.parseEqual(, )
-    #     self._setf(u'$artist/%ifdef{bar}')
-    #     self._assert_dest(b'/base/the artist')
-    #
-    # def test_if_def_true(self):
-    #     self.parseEqual(, )
-    #     self._setf(u'%ifdef{artist,cool}')
-    #     self._assert_dest(b'/base/cool')
-    #
-    # def test_if_def_true_complete(self):
-    #     self.parseEqual(, )
-    #     self.i.series = "Now"
-    #     self._setf(u'%ifdef{series,$series Series,Albums}/$album')
-    #     self._assert_dest(b'/base/Now Series/the album')
-    #
-    # def test_if_def_false_complete(self):
-    #     self.parseEqual(, )
-    #     self._setf(u'%ifdef{plays,$plays,not_played}')
-    #     self._assert_dest(b'/base/not_played')
-    #
-    # def test_first(self):
-    #     self.parseEqual(, )
-    #     self.i.genres = "Pop; Rock; Classical Crossover"
-    #     self._setf(u'%first{$genres}')
-    #     self._assert_dest(b'/base/Pop')
-    #
-    # def test_first_skip(self):
-    #     self.parseEqual(, )
-    #     self.i.genres = "Pop; Rock; Classical Crossover"
-    #     self._setf(u'%first{$genres,1,2}')
-    #     self._assert_dest(b'/base/Classical Crossover')
-    #
-    # def test_first_different_sep(self):
-    #     self.parseEqual(, )
-    #     self._setf(u'%first{Alice / Bob / Eve,2,0, / , & }')
-    #     self._assert_dest(b'/base/Alice & Bob')
+    # 
+    def test_nonexistent_function(self):
+        self.parseEqual(u'%foo{bar}', u'%foo{bar}')
 
 
 if __name__ == '__main__':
