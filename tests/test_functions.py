@@ -31,47 +31,6 @@ class TestFunctions(unittest.TestCase):
     def parseEqual(self, a, b):
         self.assertEqual(tmep.parse(a, self.values), b)
 
-    # num
-    def test_num_literal(self):
-        self.parseEqual(u'%num{7,3}', u'007')
-
-    def test_num_variable(self):
-        self.parseEqual(u'%num{$track,3}', u'007')
-
-    def test_num_default_count(self):
-        self.parseEqual(u'%num{7}', u'07')
-
-    def test_num_default_variable(self):
-        self.parseEqual(u'%num{$track}', u'07')
-
-    # upper
-    def test_upper_literal(self):
-        self.parseEqual(u'%upper{foo}', u'FOO')
-
-    def test_upper_variable(self):
-        self.parseEqual(u'%upper{$prename}', u'FRANZ')
-
-    # title
-    def test_title_literal(self):
-        self.parseEqual(u'%title{franz schubert}', u'Franz Schubert')
-
-    def test_title_variable(self):
-        self.parseEqual(u'%title{$lol $troll}', u'Lol Troll')
-
-    # left
-    def test_left_literal(self):
-        self.parseEqual(u'%left{Schubert, 3}', u'Sch')
-
-    def test_left_variable(self):
-        self.parseEqual(u'%left{$lastname, 3}', u'Sch')
-
-    # right
-    def test_right_literal(self):
-        self.parseEqual(u'%right{Schubert,3}', u'ert')
-
-    def test_right_variable(self):
-        self.parseEqual(u'%right{$lastname,3}', u'ert')
-
     # if
     def test_if_false(self):
         self.parseEqual(u'x%if{,foo}', u'x')
@@ -90,6 +49,47 @@ class TestFunctions(unittest.TestCase):
 
     def test_if_int_value(self):
         self.parseEqual(u'%if{0,foo,baz}', u'baz')
+
+    # left
+    def test_left_literal(self):
+        self.parseEqual(u'%left{Schubert, 3}', u'Sch')
+
+    def test_left_variable(self):
+        self.parseEqual(u'%left{$lastname, 3}', u'Sch')
+
+    # num
+    def test_num_literal(self):
+        self.parseEqual(u'%num{7,3}', u'007')
+
+    def test_num_variable(self):
+        self.parseEqual(u'%num{$track,3}', u'007')
+
+    def test_num_default_count(self):
+        self.parseEqual(u'%num{7}', u'07')
+
+    def test_num_default_variable(self):
+        self.parseEqual(u'%num{$track}', u'07')
+
+    # right
+    def test_right_literal(self):
+        self.parseEqual(u'%right{Schubert,3}', u'ert')
+
+    def test_right_variable(self):
+        self.parseEqual(u'%right{$lastname,3}', u'ert')
+
+    # title
+    def test_title_literal(self):
+        self.parseEqual(u'%title{franz schubert}', u'Franz Schubert')
+
+    def test_title_variable(self):
+        self.parseEqual(u'%title{$lol $troll}', u'Lol Troll')
+
+    # upper
+    def test_upper_literal(self):
+        self.parseEqual(u'%upper{foo}', u'FOO')
+
+    def test_upper_variable(self):
+        self.parseEqual(u'%upper{$prename}', u'FRANZ')
 
     #
     # def test_nonexistent_function(self):
