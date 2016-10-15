@@ -23,13 +23,16 @@ class TestFunctions(unittest.TestCase):
         self.values = {
             'prename': 'Franz',
             'lastname': 'Schubert',
+            'lol': 'lol',
+            'troll': 'troll',
             'track': 7,
         }
 
     def parseEqual(self, a, b):
         self.assertEqual(tmep.parse(a, self.values), b)
 
-    def test_num(self):
+    # num
+    def test_num_literal(self):
         self.parseEqual(u'%num{7,3}', u'007')
 
     def test_num_variable(self):
@@ -41,24 +44,34 @@ class TestFunctions(unittest.TestCase):
     def test_num_default_variable(self):
         self.parseEqual(u'%num{$track}', u'07')
 
-    def test_upper_case_literal(self):
+    # upper
+    def test_upper_literal(self):
         self.parseEqual(u'%upper{foo}', u'FOO')
 
-    def test_upper_case_variable(self):
+    def test_upper_variable(self):
         self.parseEqual(u'%upper{$prename}', u'FRANZ')
 
-    #
-    # def test_title_case_variable(self):
-    #     self._setf(u'%title{$title}')
-    #     self._assert_dest(b'/base/The Title')
-    #
-    # def test_left_variable(self):
-    #     self._setf(u'%left{$title, 3}')
-    #     self._assert_dest(b'/base/the')
-    #
-    # def test_right_variable(self):
-    #     self._setf(u'%right{$title,3}')
-    #     self._assert_dest(b'/base/tle')
+    # title
+    def test_title_literal(self):
+        self.parseEqual(u'%title{franz schubert}', u'Franz Schubert')
+
+    def test_title_variable(self):
+        self.parseEqual(u'%title{$lol $troll}', u'Lol Troll')
+
+    # left
+    def test_left_literal(self):
+        self.parseEqual(u'%left{Schubert, 3}', u'Sch')
+
+    def test_left_variable(self):
+        self.parseEqual(u'%left{$lastname, 3}', u'Sch')
+
+    # right
+    def test_right_literal(self):
+        self.parseEqual(u'%right{Schubert,3}', u'ert')
+
+    def test_right_variable(self):
+        self.parseEqual(u'%right{$lastname,3}', u'ert')
+
     #
     # def test_if_false(self):
     #     self._setf(u'x%if{,foo}')
