@@ -146,6 +146,13 @@ class TestFunctions(unittest.TestCase):
     def test_left_variable(self):
         self.parseEqual(u'%left{$lastname, 3}', u'Sch')
 
+    # lower
+    def test_lower_literal(self):
+        self.parseEqual(u'%lower{SCHUBERT}', u'schubert')
+
+    def test_lower_variable(self):
+        self.parseEqual(u'%lower{$lastname}', u'schubert')
+
     # num
     def test_num_literal(self):
         self.parseEqual(u'%num{7,3}', u'007')
