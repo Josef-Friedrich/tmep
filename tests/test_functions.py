@@ -72,72 +72,77 @@ class TestFunctions(unittest.TestCase):
     def test_right_variable(self):
         self.parseEqual(u'%right{$lastname,3}', u'ert')
 
-    #
-    # def test_if_false(self):
-    #     self._setf(u'x%if{,foo}')
-    #     self._assert_dest(b'/base/x')
-    #
-    # def test_if_false_value(self):
-    #     self._setf(u'x%if{false,foo}')
-    #     self._assert_dest(b'/base/x')
-    #
-    # def test_if_true(self):
-    #     self._setf(u'%if{bar,foo}')
-    #     self._assert_dest(b'/base/foo')
-    #
-    # def test_if_else_false(self):
-    #     self._setf(u'%if{,foo,baz}')
-    #     self._assert_dest(b'/base/baz')
-    #
-    # def test_if_else_false_value(self):
-    #     self._setf(u'%if{false,foo,baz}')
-    #     self._assert_dest(b'/base/baz')
-    #
-    # def test_if_int_value(self):
-    #     self._setf(u'%if{0,foo,baz}')
-    #     self._assert_dest(b'/base/baz')
+    # if
+    def test_if_false(self):
+        self.parseEqual(u'x%if{,foo}', u'x')
+
+    def test_if_false_value(self):
+        self.parseEqual(u'x%if{false,foo}', u'x')
+
+    def test_if_true(self):
+        self.parseEqual(u'%if{bar,foo}', u'foo')
+
+    def test_if_else_false(self):
+        self.parseEqual(u'%if{,foo,baz}', u'baz')
+
+    def test_if_else_false_value(self):
+        self.parseEqual(u'%if{false,foo,baz}', u'baz')
+
+    def test_if_int_value(self):
+        self.parseEqual(u'%if{0,foo,baz}', u'baz')
+
     #
     # def test_nonexistent_function(self):
+    #     self.parseEqual(, )
     #     self._setf(u'%foo{bar}')
     #     self._assert_dest(b'/base/%foo{bar}')
     #
     # def test_if_def_field_return_self(self):
+    #     self.parseEqual(, )
     #     self.i.bar = 3
     #     self._setf(u'%ifdef{bar}')
     #     self._assert_dest(b'/base/3')
     #
     # def test_if_def_field_not_defined(self):
+    #     self.parseEqual(, )
     #     self._setf(u' %ifdef{bar}/$artist')
     #     self._assert_dest(b'/base/the artist')
     #
     # def test_if_def_field_not_defined_2(self):
+    #     self.parseEqual(, )
     #     self._setf(u'$artist/%ifdef{bar}')
     #     self._assert_dest(b'/base/the artist')
     #
     # def test_if_def_true(self):
+    #     self.parseEqual(, )
     #     self._setf(u'%ifdef{artist,cool}')
     #     self._assert_dest(b'/base/cool')
     #
     # def test_if_def_true_complete(self):
+    #     self.parseEqual(, )
     #     self.i.series = "Now"
     #     self._setf(u'%ifdef{series,$series Series,Albums}/$album')
     #     self._assert_dest(b'/base/Now Series/the album')
     #
     # def test_if_def_false_complete(self):
+    #     self.parseEqual(, )
     #     self._setf(u'%ifdef{plays,$plays,not_played}')
     #     self._assert_dest(b'/base/not_played')
     #
     # def test_first(self):
+    #     self.parseEqual(, )
     #     self.i.genres = "Pop; Rock; Classical Crossover"
     #     self._setf(u'%first{$genres}')
     #     self._assert_dest(b'/base/Pop')
     #
     # def test_first_skip(self):
+    #     self.parseEqual(, )
     #     self.i.genres = "Pop; Rock; Classical Crossover"
     #     self._setf(u'%first{$genres,1,2}')
     #     self._assert_dest(b'/base/Classical Crossover')
     #
     # def test_first_different_sep(self):
+    #     self.parseEqual(, )
     #     self._setf(u'%first{Alice / Bob / Eve,2,0, / , & }')
     #     self._assert_dest(b'/base/Alice & Bob')
 
