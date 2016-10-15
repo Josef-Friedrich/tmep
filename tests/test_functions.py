@@ -66,6 +66,16 @@ class TestFunctions(unittest.TestCase):
     def test_delchars_variable(self):
         self.parseEqual(u'%delchars{$lastname,ue}', u'Schbrt')
 
+    # deldupchars
+    def test_deldupchars_default(self):
+        self.parseEqual(u'%deldupchars{a---b___c...d}', u'a-b_c.d')
+
+    def test_deldupchars_custom(self):
+        self.parseEqual(u'%deldupchars{a---b___c,-}', u'a-b___c')
+
+    def test_deldupchars_whitespace(self):
+        self.parseEqual(u'%deldupchars{a   a, }', u'a a')
+
     # first
     def test_first(self):
         self.parseEqual(u'%first{$genres}', u'Pop')
