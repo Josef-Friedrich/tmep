@@ -18,9 +18,9 @@ class Doc(object):
         self.functions = []
         for name, function in functions.items():
             self.functions.append(name)
-            doc = function.__doc__
+            doc = self.prepare_docstrings(function.__doc__)
             if doc:
-                self.doc_strings[name] = self.prepare_docstrings(doc)
+                self.doc_strings[name] = doc
                 self.synopsises[name] = self.extract_value(doc, 'synopsis')
                 self.examples[name] = self.extract_value(doc, 'example')
                 self.descriptions[name] = self.extract_value(

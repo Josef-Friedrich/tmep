@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+import re
 import tmep
 
 
@@ -65,20 +66,14 @@ class TestDoc(unittest.TestCase):
         self.assertTrue(self.doc.functions)
         self.assertTrue(isinstance(self.doc.functions, list))
 
+    # synopsises
     def test_attribute_synopsises(self):
         self.assertTrue(self.doc.synopsises)
         self.assertTrue(isinstance(self.doc.synopsises, dict))
 
-    def test_attribute_examples(self):
-        self.assertTrue(self.doc.examples)
-        self.assertTrue(isinstance(self.doc.examples, dict))
-
-    def test_attribute_descriptions(self):
-        self.assertTrue(self.doc.descriptions)
-        self.assertTrue(isinstance(self.doc.descriptions, dict))
-
-    def test_functions_sort(self):
-        self.assertEqual(self.doc.functions, sorted(self.doc.functions))
+    def test_attribute_synopsises_whitespaces(self):
+        for string in self.doc.synopsises:
+            self.assertFalse(re.findall(r'\s{2,}', string))
 
     def test_extract_synopsis(self):
         value = self.doc.extract_value(
@@ -94,6 +89,15 @@ class TestDoc(unittest.TestCase):
         )
         self.assertEqual(value, '%shorten(text) or %shorten(text, max_size)')
 
+    # examples
+    def test_attribute_examples(self):
+        self.assertTrue(self.doc.examples)
+        self.assertTrue(isinstance(self.doc.examples, dict))
+
+    def test_attribute_examples_whitespaces(self):
+        for string in self.doc.examples:
+            self.assertFalse(re.findall(r'\s{2,}', string))
+
     def test_extract_example(self):
         value = self.doc.extract_value(
             '        * example: ``%shorten($title, 2)``',
@@ -102,6 +106,15 @@ class TestDoc(unittest.TestCase):
         )
         self.assertEqual(value, '%shorten($title, 2)')
 
+    # descriptions
+    def test_attribute_descriptions(self):
+        self.assertTrue(self.doc.descriptions)
+        self.assertTrue(isinstance(self.doc.descriptions, dict))
+
+    def test_attribute_descriptions_whitespaces(self):
+        for string in self.doc.descriptions:
+            self.assertFalse(re.findall(r'\s{2,}', string))
+
     def test_extract_description(self):
         value = self.doc.extract_value(
             '        * description: Some description',
@@ -109,6 +122,9 @@ class TestDoc(unittest.TestCase):
             False
         )
         self.assertEqual(value, 'Some description')
+
+    def test_functions_sort(self):
+        self.assertEqual(self.doc.functions, sorted(self.doc.functions))
 
     def test_get(self):
         self.assertTrue(self.doc.get())
