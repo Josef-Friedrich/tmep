@@ -68,7 +68,6 @@ class Functions(object):
                        'Ue': u'Ü'}
         for replace, search in ger_umlaute.items():
             text = text.replace(search, replace)
-        #return unidecode(text)
         return str(unidecode(text).replace('[?]', ''))
 
     @staticmethod
@@ -213,10 +212,10 @@ class Functions(object):
         return text
 
     @staticmethod
-    def tmpl_shorten(text, max_size):
+    def tmpl_shorten(text, max_size=32):
         """Shorten the given text to ``max_size``
 
-        * synopsis: ``%shorten{text, max_size}``
+        * synopsis: ``%shorten{text}`` or ``%shorten{text, max_size}``
         * example: ``%shorten{$title, 32}``
         * description: Shorten “text” on word boundarys.
         """

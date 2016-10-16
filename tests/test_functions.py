@@ -181,6 +181,11 @@ class TestFunctions(unittest.TestCase):
     def test_shorten_literal(self):
         self.parseEqual(u'%shorten{Lorem ipsum dolor sit,10}', u'Lorem')
 
+    def test_shorten_default(self):
+        self.parseEqual(
+            u'%shorten{Lorem ipsum dolor sit amet consectetur adipisicing}',
+            u'Lorem ipsum dolor sit amet')
+
     # title
     def test_title_literal(self):
         self.parseEqual(u'%title{franz schubert}', u'Franz Schubert')
