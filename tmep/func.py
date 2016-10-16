@@ -56,8 +56,8 @@ class Functions(object):
     def tmpl_asciify(text):
         """
         * synopsis: ``%asciify{text}``
-        * description: Translate non-ASCII characters to their ASCII
-            equivalents. For example, “café” becomes “cafe”. Uses the mapping
+        * description: Translate non-ASCII characters to their ASCII \
+            equivalents. For example, “café” becomes “cafe”. Uses the mapping \
             provided by the unidecode module.
         """
         ger_umlaute = {'ae': u'ä',
@@ -84,7 +84,7 @@ class Functions(object):
     def tmpl_deldupchars(text, chars=r'-_\.'):
         """
         * synopsis: ``%deldupchars{text,chars}``
-        * description: Search for duplicate characters and replace with only
+        * description: Search for duplicate characters and replace with only \
             one occurrance of this characters.
         """
         import re
@@ -94,10 +94,10 @@ class Functions(object):
     def tmpl_first(text, count=1, skip=0, sep=u'; ', join_str=u'; '):
         """
         * synopsis: ``%first{text}``
-        * description: Returns the first item, separated by ; . You can use
-            %first{text,count,skip}, where count is the number of items
-            (default 1) and skip is number to skip (default 0). You can also
-            use %first{text,count,skip,sep,join} where sep is the separator,
+        * description: Returns the first item, separated by ; . You can use \
+            %first{text,count,skip}, where count is the number of items \
+            (default 1) and skip is number to skip (default 0). You can also \
+            use %first{text,count,skip,sep,join} where sep is the separator, \
             like ; or / and join is the text to concatenate the items.
 
         :param text: the string
@@ -115,10 +115,11 @@ class Functions(object):
         """If ``condition`` is nonempty and nonzero, emit ``trueval``;
         otherwise, emit ``falseval`` (if provided).
 
-        * synopsis: ``%if{condition,text} or %if{condition,text,falsetext}``
-        * description: If condition is nonempty (or nonzero, if it’s a number),
-            then returns the second argument. Otherwise, returns the third
-            argument if specified (or nothing if falsetext is left off).
+        * synopsis: ``%if{condition,truetext}`` or \
+            ``%if{condition,truetext,falsetext}``
+        * description: If condition is nonempty (or nonzero, if it’s a \
+            number), then returns the second argument. Otherwise, returns the \
+            third argument if specified (or nothing if falsetext is left off).
 
         """
         try:
@@ -138,9 +139,10 @@ class Functions(object):
         """If field exists return trueval or the field (default) otherwise,
         emit return falseval (if provided).
 
-        * synopsis: ``%ifdef{field}, %ifdef{field,text} or %ifdef{field,text,falsetext}``
-        * description: If field exists, then return truetext or field
-            (default). Otherwise, returns falsetext. The field should be
+        * synopsis: ``%ifdef{field}``, ``%ifdef{field,text}`` or \
+            ``%ifdef{field,text,falsetext}``
+        * description: If field exists, then return truetext or field \
+            (default). Otherwise, returns falsetext. The field should be \
             entered without $.
 
         :param field: The name of the field
@@ -230,9 +232,9 @@ class Functions(object):
         """Format a time value using `strftime`.
 
         * synopsis: ``%time{date_time,format,curformat}``
-        * description: Return the date and time in any format accepted by
-            strftime. For example, to get the year some music was added to your
-            library, use %time{$added,%Y}.
+        * description: Return the date and time in any format accepted by \
+            strftime. For example, to get the year some music was added to \
+            your library, use %time{$added,%Y}.
         """
         return time.strftime(fmt, time.strptime(text, cur_fmt))
 

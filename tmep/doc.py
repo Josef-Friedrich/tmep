@@ -20,13 +20,16 @@ class Doc(object):
             self.functions.append(name)
             doc = function.__doc__
             if doc:
-                self.doc_strings[name] = doc
+                self.doc_strings[name] = self.prepare_docstrings(doc)
                 self.synopsises[name] = self.extract_value(doc, 'synopsis')
                 self.examples[name] = self.extract_value(doc, 'example')
                 self.descriptions[name] = self.extract_value(
                     doc, 'description', False
                 )
         self.functions.sort()
+
+    def prepare_docstrings(self, string):
+        return re.sub(r' {2,}', ' ', string)
 
     def extract_value(self, string, key, inline_code=True):
         """Extract strings from the docstrings
@@ -45,7 +48,7 @@ class Doc(object):
             regex = regex + '(.*)'
         value = re.findall(regex, string)
         if value:
-            return value[0]
+            return value[0].replace('``', '')
         else:
             return False
 
