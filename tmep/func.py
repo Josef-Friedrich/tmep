@@ -68,7 +68,8 @@ class Functions(object):
                        'Ue': u'Ü'}
         for replace, search in ger_umlaute.items():
             text = text.replace(search, replace)
-        return unidecode(text)
+        #return unidecode(text)
+        return str(unidecode(text).replace('[?]', ''))
 
     @staticmethod
     def tmpl_delchars(text, chars):

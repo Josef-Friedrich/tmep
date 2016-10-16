@@ -46,6 +46,15 @@ class TestFunctions(unittest.TestCase):
     def test_asciify_german_umlaute(self):
         self.parseEqual(u'%asciify{äÄöÖüÜ}', u'aeAeoeOeueUe')
 
+    def test_asciify_symbols_single(self):
+        self.parseEqual(u'%asciify{⚓}', u'')
+
+    def test_asciify_symbols_multiple(self):
+        self.parseEqual(u'%asciify{⚢⚣⚤⚥⚦⚧⚨⚩}', u'')
+
+    def test_asciify_symbols_mixed(self):
+        self.parseEqual(u'%asciify{a⚢b⚣⚤c}', u'abc')
+
     # delchars
     def test_delchars_single(self):
         self.parseEqual(u'%delchars{x-x,-}', u'xx')
