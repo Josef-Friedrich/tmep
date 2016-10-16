@@ -13,9 +13,9 @@
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
 
-
 import unittest
 import tmep
+
 
 class TestFunctions(unittest.TestCase):
 
@@ -32,7 +32,6 @@ class TestFunctions(unittest.TestCase):
 
     def parseEqual(self, a, b):
         self.assertEqual(tmep.parse(a, self.values), b)
-
 
     # asciify
     def test_asciify_literal(self):
@@ -84,7 +83,10 @@ class TestFunctions(unittest.TestCase):
         self.parseEqual(u'%first{$genres,1,2}', u'Classical Crossover')
 
     def test_first_different_sep(self):
-        self.parseEqual(u'%first{Alice / Bob / Eve,2,0, / , & }', u'Alice & Bob')
+        self.parseEqual(
+            u'%first{Alice / Bob / Eve,2,0, / , & }',
+            u'Alice & Bob'
+        )
 
     # if
     def test_if_false(self):

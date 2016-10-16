@@ -56,7 +56,9 @@ class Functions(object):
     def tmpl_asciify(text):
         """
         * synopsis: ``%asciify{text}``
-        * description: Translate non-ASCII characters to their ASCII equivalents. For example, “café” becomes “cafe”. Uses the mapping provided by the unidecode module.
+        * description: Translate non-ASCII characters to their ASCII
+            equivalents. For example, “café” becomes “cafe”. Uses the mapping
+            provided by the unidecode module.
         """
         ger_umlaute = {'ae': u'ä',
                        'oe': u'ö',
@@ -82,7 +84,8 @@ class Functions(object):
     def tmpl_deldupchars(text, chars=r'-_\.'):
         """
         * synopsis: ``%deldupchars{text,chars}``
-        * description: Search for duplicate characters and replace with only one occurrance of this characters.
+        * description: Search for duplicate characters and replace with only
+            one occurrance of this characters.
         """
         import re
         return re.sub(r'([' + chars + r'])\1*', r'\1', text)
@@ -91,7 +94,11 @@ class Functions(object):
     def tmpl_first(text, count=1, skip=0, sep=u'; ', join_str=u'; '):
         """
         * synopsis: ``%first{text}``
-        * description: Returns the first item, separated by ; . You can use %first{text,count,skip}, where count is the number of items (default 1) and skip is number to skip (default 0). You can also use %first{text,count,skip,sep,join} where sep is the separator, like ; or / and join is the text to concatenate the items.
+        * description: Returns the first item, separated by ; . You can use
+            %first{text,count,skip}, where count is the number of items
+            (default 1) and skip is number to skip (default 0). You can also
+            use %first{text,count,skip,sep,join} where sep is the separator,
+            like ; or / and join is the text to concatenate the items.
 
         :param text: the string
         :param count: The number of items included
@@ -105,10 +112,13 @@ class Functions(object):
 
     @staticmethod
     def tmpl_if(condition, trueval, falseval=u''):
-        """If ``condition`` is nonempty and nonzero, emit ``trueval``; otherwise, emit ``falseval`` (if provided).
+        """If ``condition`` is nonempty and nonzero, emit ``trueval``;
+        otherwise, emit ``falseval`` (if provided).
 
-        * synopsis: ``%if{condition,text} or %if{condition,truetext,falsetext}``
-        * description: If condition is nonempty (or nonzero, if it’s a number), then returns the second argument. Otherwise, returns the third argument if specified (or nothing if falsetext is left off).
+        * synopsis: ``%if{condition,text} or %if{condition,text,falsetext}``
+        * description: If condition is nonempty (or nonzero, if it’s a number),
+            then returns the second argument. Otherwise, returns the third
+            argument if specified (or nothing if falsetext is left off).
 
         """
         try:
@@ -125,10 +135,13 @@ class Functions(object):
             return falseval
 
     def tmpl_ifdef(self, field, trueval=u'', falseval=u''):
-        """If field exists return trueval or the field (default) otherwise, emit return falseval (if provided).
+        """If field exists return trueval or the field (default) otherwise,
+        emit return falseval (if provided).
 
-        * synopsis: ``%ifdef{field}, %ifdef{field,truetext} or %ifdef{field,truetext,falsetext}``
-        * description: If field exists, then return truetext or field (default). Otherwise, returns falsetext. The field should be entered without $.
+        * synopsis: ``%ifdef{field}, %ifdef{field,text} or %ifdef{field,text,falsetext}``
+        * description: If field exists, then return truetext or field
+            (default). Otherwise, returns falsetext. The field should be
+            entered without $.
 
         :param field: The name of the field
         :param trueval: The string if the condition is true
@@ -217,7 +230,9 @@ class Functions(object):
         """Format a time value using `strftime`.
 
         * synopsis: ``%time{date_time,format,curformat}``
-        * description: Return the date and time in any format accepted by strftime. For example, to get the year some music was added to your library, use %time{$added,%Y}.
+        * description: Return the date and time in any format accepted by
+            strftime. For example, to get the year some music was added to your
+            library, use %time{$added,%Y}.
         """
         return time.strftime(fmt, time.strptime(text, cur_fmt))
 

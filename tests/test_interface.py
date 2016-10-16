@@ -5,7 +5,7 @@ import tmep
 
 
 class TestClasses(unittest.TestCase):
-    
+
     def setUp(self):
         self.template = '${lastname}; ${prename}'
         self.values = {'prename': 'Franz', 'lastname': 'Schubert'}
