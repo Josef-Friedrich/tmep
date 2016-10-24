@@ -53,12 +53,16 @@ class Environment(object):
     """Contains the values and functions to be substituted into a
     template.
     """
-
     def __init__(self, values, functions):
         self.values = values
         self.functions = functions
 
+
 # Code generation helpers.
+
+def ex_lvalue(name):
+    """A variable load expression."""
+    return ast.Name(name, ast.Store())
 
 
 def ex_rvalue(name):
@@ -79,6 +83,15 @@ def ex_literal(val):
     elif isinstance(val, six.string_types):
         return ast.Str(val)
     raise TypeError(u'no literal for {0}'.format(type(val)))
+
+
+def ex_varassign(name, expr):
+    """Assign an expression into a single variable. The expression may
+    either be an `ast.expr` object or a value to be used as a literal.
+    """
+    if not isinstance(expr, ast.expr):
+        expr = ex_literal(expr)
+    return ast.Assign([ex_lvalue(name)], expr)
 
 
 def ex_call(func, args):
@@ -112,9 +125,11 @@ def compile_func(arg_names, statements, name='_the_func', debug=False):
                 args=[ast.Name(n, ast.Param()) for n in arg_names],
                 vararg=None,
                 kwarg=None,
-                defaults=[ex_literal(None) for _ in arg_names], ),
+                defaults=[ex_literal(None) for _ in arg_names],
+            ),
             body=statements,
-            decorator_list=[], )
+            decorator_list=[],
+        )
     else:
         func_def = ast.FunctionDef(
             name=name,
@@ -122,9 +137,11 @@ def compile_func(arg_names, statements, name='_the_func', debug=False):
                 args=[ast.arg(arg=n, annotation=None) for n in arg_names],
                 kwonlyargs=[],
                 kw_defaults=[],
-                defaults=[ex_literal(None) for _ in arg_names], ),
+                defaults=[ex_literal(None) for _ in arg_names],
+            ),
             body=statements,
-            decorator_list=[], )
+            decorator_list=[],
+        )
 
     mod = ast.Module([func_def])
     ast.fix_missing_locations(mod)
@@ -139,15 +156,14 @@ def compile_func(arg_names, statements, name='_the_func', debug=False):
                 dis.dis(const)
 
     the_locals = {}
-    exec (prog, {}, the_locals)
+    exec(prog, {}, the_locals)
     return the_locals[name]
+
 
 # AST nodes for the template language.
 
-
 class Symbol(object):
     """A variable-substitution symbol in a template."""
-
     def __init__(self, ident, original):
         self.ident = ident
         self.original = original
@@ -178,7 +194,6 @@ class Symbol(object):
 
 class Call(object):
     """A function call in a template."""
-
     def __init__(self, ident, args, original):
         self.ident = ident
         self.args = args
@@ -221,15 +236,21 @@ class Call(object):
 
             # Create a subexpression that joins the result components of
             # the arguments.
-            arg_exprs.append(
-                ex_call(
-                    ast.Attribute(ex_literal(u''), 'join', ast.Load()),
-                    [ex_call('map', [
+            arg_exprs.append(ex_call(
+                ast.Attribute(ex_literal(u''), 'join', ast.Load()),
+                [ex_call(
+                    'map',
+                    [
                         ex_rvalue(six.text_type.__name__),
                         ast.List(subexprs, ast.Load()),
-                    ])], ))
+                    ]
+                )],
+            ))
 
-        subexpr_call = ex_call(FUNCTION_PREFIX + ident, arg_exprs)
+        subexpr_call = ex_call(
+            FUNCTION_PREFIX + ident,
+            arg_exprs
+        )
         return [subexpr_call], varnames, funcnames
 
 
@@ -237,7 +258,6 @@ class Expression(object):
     """Top-level template construct: contains a list of text blobs,
     Symbols, and Calls.
     """
-
     def __init__(self, parts):
         self.parts = parts
 
@@ -273,8 +293,8 @@ class Expression(object):
                 funcnames.update(f)
         return expressions, varnames, funcnames
 
-# Parser.
 
+# Parser.
 
 class ParseError(Exception):
     pass
@@ -293,17 +313,24 @@ class Parser(object):
     replaced with a real, accepted parsing technique (PEG, parser
     generator, etc.).
     """
-
-    def __init__(self, string):
+    def __init__(self, string, in_argument=False):
+        """ Create a new parser.
+        :param in_arguments: boolean that indicates the parser is to be
+        used for parsing function arguments, ie. considering commas
+        (`ARG_SEP`) a special character
+        """
         self.string = string
+        self.in_argument = in_argument
         self.pos = 0
         self.parts = []
 
     # Common parsing resources.
     special_chars = (SYMBOL_DELIM, FUNC_DELIM, GROUP_OPEN, GROUP_CLOSE,
-                     ARG_SEP, ESCAPE_CHAR)
+                     ESCAPE_CHAR)
     special_char_re = re.compile(r'[%s]|$' %
                                  u''.join(re.escape(c) for c in special_chars))
+    escapable_chars = (SYMBOL_DELIM, FUNC_DELIM, GROUP_CLOSE, ARG_SEP)
+    terminator_chars = (GROUP_CLOSE,)
 
     def parse_expression(self):
         """Parse a template expression starting at ``pos``. Resulting
@@ -311,17 +338,28 @@ class Parser(object):
         the ``parts`` field, a list.  The ``pos`` field is updated to be
         the next character after the expression.
         """
+        # Append comma (ARG_SEP) to the list of special characters only when
+        # parsing function arguments.
+        extra_special_chars = ()
+        special_char_re = self.special_char_re
+        if self.in_argument:
+            extra_special_chars = (ARG_SEP,)
+            special_char_re = re.compile(
+                r'[%s]|$' % u''.join(re.escape(c) for c in
+                                     self.special_chars + extra_special_chars))
+
         text_parts = []
 
         while self.pos < len(self.string):
             char = self.string[self.pos]
 
-            if char not in self.special_chars:
+            if char not in self.special_chars + extra_special_chars:
                 # A non-special character. Skip to the next special
                 # character, treating the interstice as literal text.
                 next_pos = (
-                    self.special_char_re.search(
-                        self.string[self.pos:]).start() + self.pos)
+                    special_char_re.search(
+                        self.string[self.pos:]).start() + self.pos
+                )
                 text_parts.append(self.string[self.pos:next_pos])
                 self.pos = next_pos
                 continue
@@ -330,14 +368,14 @@ class Parser(object):
                 # The last character can never begin a structure, so we
                 # just interpret it as a literal character (unless it
                 # terminates the expression, as with , and }).
-                if char not in (GROUP_CLOSE, ARG_SEP):
+                if char not in self.terminator_chars + extra_special_chars:
                     text_parts.append(char)
                     self.pos += 1
                 break
 
             next_char = self.string[self.pos + 1]
-            if char == ESCAPE_CHAR and next_char in \
-                    (SYMBOL_DELIM, FUNC_DELIM, GROUP_CLOSE, ARG_SEP):
+            if char == ESCAPE_CHAR and next_char in (self.escapable_chars +
+                                                     extra_special_chars):
                 # An escaped special character ($$, $}, etc.). Note that
                 # ${ is not an escape sequence: this is ambiguous with
                 # the start of a symbol and it's not necessary (just
@@ -357,7 +395,7 @@ class Parser(object):
             elif char == FUNC_DELIM:
                 # Parse a function call.
                 self.parse_call()
-            elif char in (GROUP_CLOSE, ARG_SEP):
+            elif char in self.terminator_chars + extra_special_chars:
                 # Template terminated.
                 break
             elif char == GROUP_OPEN:
@@ -402,16 +440,16 @@ class Parser(object):
                 # Closer found.
                 ident = self.string[self.pos:closer]
                 self.pos = closer + 1
-                self.parts.append(
-                    Symbol(ident, self.string[start_pos:self.pos]))
+                self.parts.append(Symbol(ident,
+                                         self.string[start_pos:self.pos]))
 
         else:
             # A bare-word symbol.
             ident = self._parse_ident()
             if ident:
                 # Found a real symbol.
-                self.parts.append(
-                    Symbol(ident, self.string[start_pos:self.pos]))
+                self.parts.append(Symbol(ident,
+                                         self.string[start_pos:self.pos]))
             else:
                 # A standalone $.
                 self.parts.append(SYMBOL_DELIM)
@@ -465,7 +503,7 @@ class Parser(object):
         expressions = []
 
         while self.pos < len(self.string):
-            subparser = Parser(self.string[self.pos:])
+            subparser = Parser(self.string[self.pos:], in_argument=True)
             subparser.parse_expression()
 
             # Extract and advance past the parsed expression.
@@ -507,13 +545,12 @@ def _parse(template):
         parts.append(remainder)
     return Expression(parts)
 
-# External interface.
 
+# External interface.
 
 class Template(object):
     """A string template, including text, Symbols, and Calls.
     """
-
     def __init__(self, template):
         self.expr = _parse(template)
         self.original = template
@@ -550,8 +587,10 @@ class Template(object):
         for funcname in funcnames:
             argnames.append(FUNCTION_PREFIX + funcname)
 
-        func = compile_func(argnames,
-                            [ast.Return(ast.List(expressions, ast.Load()))], )
+        func = compile_func(
+            argnames,
+            [ast.Return(ast.List(expressions, ast.Load()))],
+        )
 
         def wrapper_func(values={}, functions={}):
             args = {}
@@ -564,6 +603,7 @@ class Template(object):
 
         return wrapper_func
 
+
 # Performance tests.
 
 if __name__ == '__main__':
@@ -571,14 +611,12 @@ if __name__ == '__main__':
     _tmpl = Template(u'foo $bar %baz{foozle $bar barzle} $bar')
     _vars = {'bar': 'qux'}
     _funcs = {'baz': six.text_type.upper}
-    interp_time = timeit.timeit(
-        '_tmpl.interpret(_vars, _funcs)',
-        'from __main__ import _tmpl, _vars, _funcs',
-        number=10000)
+    interp_time = timeit.timeit('_tmpl.interpret(_vars, _funcs)',
+                                'from __main__ import _tmpl, _vars, _funcs',
+                                number=10000)
     print(interp_time)
-    comp_time = timeit.timeit(
-        '_tmpl.substitute(_vars, _funcs)',
-        'from __main__ import _tmpl, _vars, _funcs',
-        number=10000)
+    comp_time = timeit.timeit('_tmpl.substitute(_vars, _funcs)',
+                              'from __main__ import _tmpl, _vars, _funcs',
+                              number=10000)
     print(comp_time)
     print(u'Speedup:', interp_time / comp_time)
