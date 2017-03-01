@@ -113,5 +113,6 @@ class TestDoc(unittest.TestCase):
     def test_get(self):
         self.assertTrue(self.doc.get())
 
+
 if __name__ == '__main__':
     unittest.main()
