@@ -4,9 +4,11 @@
 .. image:: https://travis-ci.org/Josef-Friedrich/tmep.svg?branch=master
     :target: https://travis-ci.org/Josef-Friedrich/tmep
 
-====================================================
-tmep - Template and Macros Expansion for Path names.
-====================================================
+====
+tmep
+====
+
+Template and Macros Expansion for Path names.
 
 Installation
 ============
@@ -31,9 +33,6 @@ From PyPI
 Usage
 =====
 
-Basic usage
------------
-
 .. code:: Python
 
     >>> import tmep
@@ -55,3 +54,36 @@ library: unknown symbols are left intact.
 
 This is sort of like a tiny, horrible degeneration of a real templating
 engine like Jinja2 or Mustache.
+
+Development
+===========
+
+Test
+----
+
+::
+
+    tox
+
+
+Publish a new version
+---------------------
+
+::
+
+    git tag 1.1.1
+    git push --tags
+    python setup.py sdist upload
+
+
+Package documentation
+---------------------
+
+The package documentation is hosted on
+`readthedocs <http://tmep.readthedocs.io>`_.
+
+Generate the package documentation:
+
+::
+
+    python setup.py build_sphinx
