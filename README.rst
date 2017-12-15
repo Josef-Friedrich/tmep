@@ -14,7 +14,7 @@ Installation
 From Github
 ------------
 
-.. code::Shell
+.. code:: Shell
 
     git clone git@github.com:Josef-Friedrich/tmep.git
     cd tmep
@@ -23,7 +23,7 @@ From Github
 From PyPI
 ----------
 
-.. code::Shell
+.. code:: Shell
 
     pip install tmep
     easy_install tmep
@@ -34,7 +34,7 @@ Usage
 Basic usage
 -----------
 
-.. code::Python
+.. code:: Python
 
     >>> import tmep
     >>> template = '$prename $lastname'
