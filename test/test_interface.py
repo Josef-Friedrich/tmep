@@ -10,9 +10,9 @@ class TestClasses(unittest.TestCase):
         self.template = '${lastname}; ${prename}'
         self.values = {'prename': 'Franz', 'lastname': 'Schubert'}
 
-        t = tmep.Template(self.template)
-        f = tmep.Functions(self.values)
-        self.out = t.substitute(self.values, f.functions)
+        template = tmep.Template(self.template)
+        functions = tmep.Functions(self.values)
+        self.out = template.substitute(self.values, functions.functions)
 
     def test_values(self):
         self.assertEqual(self.out, 'Schubert; Franz')
