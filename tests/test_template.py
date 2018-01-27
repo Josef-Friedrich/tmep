@@ -18,8 +18,8 @@
 from __future__ import division, absolute_import, print_function
 
 import unittest
-import tmep
 import six
+from tmep import tmpl as functemplate
 
 
 def _normexpr(expr):
@@ -46,7 +46,7 @@ def _normexpr(expr):
 
 def _normparse(text):
     """Parse a template and then normalize the resulting Expression."""
-    return _normexpr(tmep.tmpl._parse(text))
+    return _normexpr(functemplate._parse(text))
 
 
 class ParseTest(unittest.TestCase):
@@ -56,7 +56,7 @@ class ParseTest(unittest.TestCase):
     def _assert_symbol(self, obj, ident):
         """Assert that an object is a Symbol with the given identifier.
         """
-        self.assertTrue(isinstance(obj, tmep.tmpl.Symbol),
+        self.assertTrue(isinstance(obj, functemplate.Symbol),
                         u"not a Symbol: %s" % repr(obj))
         self.assertEqual(obj.ident, ident,
                          u"wrong identifier: %s vs. %s" %
@@ -66,7 +66,7 @@ class ParseTest(unittest.TestCase):
         """Assert that an object is a Call with the given identifier and
         argument count.
         """
-        self.assertTrue(isinstance(obj, tmep.tmpl.Call),
+        self.assertTrue(isinstance(obj, functemplate.Call),
                         u"not a Call: %s" % repr(obj))
         self.assertEqual(obj.ident, ident,
                          u"wrong identifier: %s vs. %s" %
@@ -227,6 +227,11 @@ class ParseTest(unittest.TestCase):
         self.assertEqual(parts[2], u',')
         self._assert_symbol(parts[3], u"bar")
 
+    def test_newline_at_end(self):
+        parts = list(_normparse(u'foo\n'))
+        self.assertEqual(len(parts), 1)
+        self.assertEqual(parts[0], u'foo\n')
+
 
 class EvalTest(unittest.TestCase):
     def _eval(self, template):
@@ -238,7 +243,7 @@ class EvalTest(unittest.TestCase):
             u'lower': six.text_type.lower,
             u'len': len,
         }
-        return tmep.tmpl.Template(template).substitute(values, functions)
+        return functemplate.Template(template).substitute(values, functions)
 
     def test_plain_text(self):
         self.assertEqual(self._eval(u"foo"), u"foo")
@@ -281,5 +286,8 @@ class EvalTest(unittest.TestCase):
         self.assertEqual(self._eval(u"%len{}"), u"0")
 
 
+def suite():
+    return unittest.TestLoader().loadTestsFromName(__name__)
+
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(defaultTest='suite')
