@@ -155,6 +155,26 @@ class Functions(object):
         else:
             return falseval
 
+    def tmpl_ifdefempty(self, field, trueval=u'', falseval=u''):
+        """If field exists and is emtpy return trueval or the field (default)
+        otherwise, emit return falseval (if provided).
+
+        * synopsis: ``%ifdefempty{field,text}`` or \
+            ``%ifdefempty{field,text,falsetext}``
+        * description: If field exists and is empty, then return truetext. \
+            Otherwise, returns falsetext. The field should be \
+            entered without $.
+
+        :param field: The name of the field
+        :param trueval: The string if the condition is true
+        :param falseval: The string if the condition is false
+        :return: The string, based on condition
+        """
+        if field in self.values and not self.values[field]:
+            return trueval
+        else:
+            return falseval
+
     @staticmethod
     def tmpl_left(s, chars):
         """Get the leftmost characters of a string.

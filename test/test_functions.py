@@ -205,5 +205,41 @@ class TestFunctions(unittest.TestCase):
         self.parseEqual(u'%foo{bar}', u'%foo{bar}')
 
 
+class TestFunctionIfDefEmpty(unittest.TestCase):
+
+    def setUp(self):
+        self.values = {
+            'empty_string': u'',
+            'false': False,
+            'non_empty_string': u'test',
+            'none': None,
+        }
+
+    def parseEqual(self, a, b):
+        self.assertEqual(tmep.parse(a, self.values), b)
+
+    # empty_string
+    def test_empty_string(self):
+        self.parseEqual(u'%ifdefempty{empty_string,trueval}', u'trueval')
+
+    # false
+    def test_false(self):
+        self.parseEqual(u'%ifdefempty{false,trueval}', u'trueval')
+
+    # non_empty_string
+    def test_non_empty_string(self):
+        self.parseEqual(u'%ifdefempty{non_empty_string,trueval,falseval}',
+                        u'falseval')
+
+    # none
+    def test_none(self):
+        self.parseEqual(u'%ifdefempty{none,trueval}', u'trueval')
+
+    # nonexistent
+    def test_nonexistent(self):
+        self.parseEqual(u'%ifdefempty{nonexistent,trueval,falseval}',
+                        u'falseval')
+
+
 if __name__ == '__main__':
     unittest.main()
