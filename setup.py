@@ -26,4 +26,5 @@ setup(
         'Development Status :: 5 - Production/Stable',
         'Topic :: Utilities',
     ],
+    scripts=['bin/tmep-doc'],
     zip_safe=False, )
