@@ -18,6 +18,7 @@ of the `beets project <http://beets.io>`_.
 from __future__ import division, absolute_import, print_function
 
 import time
+import re
 import textwrap
 from unidecode import unidecode
 
@@ -170,7 +171,9 @@ class Functions(object):
         :param falseval: The string if the condition is false
         :return: The string, based on condition
         """
-        if field in self.values and not self.values[field]:
+        if not field in self.values or \
+           (field in self.values and not self.values[field]) or \
+           re.search(r'^\s*$', self.values[field]):
             return trueval
         else:
             return falseval

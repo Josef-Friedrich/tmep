@@ -213,6 +213,7 @@ class TestFunctionIfDefEmpty(unittest.TestCase):
             'false': False,
             'non_empty_string': u'test',
             'none': None,
+            'only_whitespaces': u' \t\n',
         }
 
     def parseEqual(self, a, b):
@@ -231,14 +232,19 @@ class TestFunctionIfDefEmpty(unittest.TestCase):
         self.parseEqual(u'%ifdefempty{non_empty_string,trueval,falseval}',
                         u'falseval')
 
+    # nonexistent
+    def test_nonexistent(self):
+        self.parseEqual(u'%ifdefempty{nonexistent,trueval,falseval}',
+                        u'trueval')
+
     # none
     def test_none(self):
         self.parseEqual(u'%ifdefempty{none,trueval}', u'trueval')
 
     # nonexistent
-    def test_nonexistent(self):
-        self.parseEqual(u'%ifdefempty{nonexistent,trueval,falseval}',
-                        u'falseval')
+    def test_only_whitespaces(self):
+        self.parseEqual(u'%ifdefempty{only_whitespaces,trueval,falseval}',
+                        u'trueval')
 
 
 if __name__ == '__main__':
