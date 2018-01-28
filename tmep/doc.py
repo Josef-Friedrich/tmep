@@ -11,7 +11,6 @@ class Doc(object):
     def __init__(self):
         f = func.Functions()
         functions = f.functions()
-        self.doc_strings = {}
         self.synopsises = {}
         self.examples = {}
         self.descriptions = {}
@@ -20,7 +19,7 @@ class Doc(object):
             self.functions.append(name)
             doc = function.__doc__
             if doc:
-                self.doc_strings[name] = self.prepare_docstrings(doc)
+                doc = self.prepare_docstrings(doc)
                 self.synopsises[name] = self.extract_value(doc, 'synopsis')
                 self.examples[name] = self.extract_value(doc, 'example')
                 self.descriptions[name] = self.extract_value(

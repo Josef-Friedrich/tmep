@@ -271,7 +271,7 @@ class Functions(object):
     def tmpl_upper(text):
         """Covert a string to upper case
 
-        * synopsis: %upper{text}
+        * synopsis: ``%upper{text}``
         * description: Convert “text” to UPPERCASE.
         """
         return text.upper()

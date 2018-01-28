@@ -57,10 +57,6 @@ class TestDoc(unittest.TestCase):
         from tmep import doc
         self.doc = doc.Doc()
 
-    def test_attribute_doc_strings(self):
-        self.assertTrue(self.doc.doc_strings)
-        self.assertTrue(isinstance(self.doc.doc_strings, dict))
-
     def test_attribute_functions(self):
         self.assertTrue(self.doc.functions)
         self.assertTrue(isinstance(self.doc.functions, list))
