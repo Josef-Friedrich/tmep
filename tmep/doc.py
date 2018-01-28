@@ -57,9 +57,8 @@ class Doc(object):
         indentation = (' ' * indent)
         return indentation + text + '\n' + indentation + ('-' * length)
 
-    def format(self, text, width=80, indent=4):
+    def format(self, text, width=78, indent=4):
         """Apply textwrap to a given text string"""
-        width = width - indent
         return textwrap.fill(
             text,
             width=width,
