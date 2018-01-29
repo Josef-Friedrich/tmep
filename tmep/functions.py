@@ -94,7 +94,8 @@ class Functions(object):
     @staticmethod
     def tmpl_first(text, count=1, skip=0, sep=u'; ', join_str=u'; '):
         """
-        * synopsis: ``%first{text}``
+        * synopsis: ``%first{text}`` or ``%first{text,count,skip}`` or \
+            ``%first{text,count,skip,sep,join}``
         * description: Returns the first item, separated by ; . You can use \
             %first{text,count,skip}, where count is the number of items \
             (default 1) and skip is number to skip (default 0). You can also \
@@ -232,6 +233,9 @@ class Functions(object):
     def tmpl_replchars(text, replace, chars):
         """
         * synopsis: ``%replchars{text,chars,replace}``
+        * description: Replace the characters “chars” in “text” with \
+            “replace”.
+        * example: ``%replchars{text,ex,-}`` > ``t--t``
         """
         for char in chars:
             text = text.replace(char, replace)
