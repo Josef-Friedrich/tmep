@@ -20,18 +20,18 @@ tmep.doc module
     :undoc-members:
     :show-inheritance:
 
-tmep.func module
-^^^^^^^^^^^^^^^^
+tmep.functions module
+^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: tmep.func
+.. automodule:: tmep.functions
     :members:
     :undoc-members:
     :show-inheritance:
 
-tmep.tmpl module
-^^^^^^^^^^^^^^^^
+tmep.template module
+^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: tmep.tmpl
+.. automodule:: tmep.template
     :members:
     :undoc-members:
     :show-inheritance:

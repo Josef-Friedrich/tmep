@@ -2,15 +2,15 @@
 """Extract docstrings from func.py to document the template functions."""
 
 import re
-from tmep import func
+from tmep import Functions
 import textwrap
 
 
 class Doc(object):
 
     def __init__(self):
-        f = func.Functions()
-        functions = f.functions()
+        functions_ = Functions()
+        functions = functions_.functions()
         self.synopsises = {}
         self.examples = {}
         self.descriptions = {}

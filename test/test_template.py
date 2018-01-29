@@ -19,7 +19,7 @@ from __future__ import division, absolute_import, print_function
 
 import unittest
 import six
-from tmep import tmpl as functemplate
+from tmep import template as functemplate
 
 
 def _normexpr(expr):

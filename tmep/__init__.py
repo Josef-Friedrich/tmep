@@ -1,29 +1,29 @@
 
-from tmep import tmpl
-from tmep import func
+from tmep import template
+from tmep import functions
 from ._version import get_versions
 __version__ = get_versions()['version']
 del get_versions
 
 
-class Template(tmpl.Template):
+class Template(template.Template):
     def __init__(self, template):
         super(Template, self).__init__(template)
 
 
-class Functions(func.Functions):
-    def __init__(self, values):
+class Functions(functions.Functions):
+    def __init__(self, values=None):
         super(Functions, self).__init__(values)
 
 
 def parse(template, values=None, additional_functions=None, functions=None):
-    t = tmpl.Template(template)
+    template_ = Template(template)
     if not functions:
-        f = func.Functions(values)
-        functions = f.functions()
+        functions_ = Functions(values)
+        functions = functions_.functions()
 
     if additional_functions:
         for k, v in additional_functions.items():
             functions[k] = v
 
-    return t.substitute(values, functions)
+    return template_.substitute(values, functions)
