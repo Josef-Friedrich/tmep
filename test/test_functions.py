@@ -247,5 +247,49 @@ class TestFunctionIfDefEmpty(unittest.TestCase):
                         u'trueval')
 
 
+class TestFunctionIfDefNotEmpty(unittest.TestCase):
+
+    def setUp(self):
+        self.values = {
+            'empty_string': u'',
+            'false': False,
+            'non_empty_string': u'test',
+            'none': None,
+            'only_whitespaces': u' \t\n',
+        }
+
+    def parseEqual(self, a, b):
+        self.assertEqual(tmep.parse(a, self.values), b)
+
+    # empty_string
+    def test_empty_string(self):
+        self.parseEqual(u'%ifdefnotempty{empty_string,trueval,falseval}',
+                        u'falseval')
+
+    # false
+    def test_false(self):
+        self.parseEqual(u'%ifdefnotempty{false,trueval,falseval}',
+                        u'falseval')
+
+    # non_empty_string
+    def test_non_empty_string(self):
+        self.parseEqual(u'%ifdefnotempty{non_empty_string,trueval,falseval}',
+                        u'trueval')
+
+    # nonexistent
+    def test_nonexistent(self):
+        self.parseEqual(u'%ifdefnotempty{nonexistent,trueval,falseval}',
+                        u'falseval')
+
+    # none
+    def test_none(self):
+        self.parseEqual(u'%ifdefnotempty{none,trueval,falseval}', u'falseval')
+
+    # nonexistent
+    def test_only_whitespaces(self):
+        self.parseEqual(u'%ifdefnotempty{only_whitespaces,trueval,falseval}',
+                        u'falseval')
+
+
 if __name__ == '__main__':
     unittest.main()

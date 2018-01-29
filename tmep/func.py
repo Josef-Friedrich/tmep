@@ -157,7 +157,7 @@ class Functions(object):
             return falseval
 
     def tmpl_ifdefempty(self, field, trueval=u'', falseval=u''):
-        """If field exists and is emtpy return trueval or the field (default)
+        """If field exists and is emtpy return trueval
         otherwise, emit return falseval (if provided).
 
         * synopsis: ``%ifdefempty{field,text}`` or \
@@ -177,6 +177,28 @@ class Functions(object):
             return trueval
         else:
             return falseval
+
+    def tmpl_ifdefnotempty(self, field, trueval=u'', falseval=u''):
+        """If field is not emtpy return trueval or the field (default)
+        otherwise, emit return falseval (if provided).
+
+        * synopsis: ``%ifdefnotempty{field,text}`` or \
+            ``%ifdefnotempty{field,text,falsetext}``
+        * description: If field is not empty, then return truetext. \
+            Otherwise, returns falsetext. The field should be \
+            entered without $.
+
+        :param field: The name of the field
+        :param trueval: The string if the condition is true
+        :param falseval: The string if the condition is false
+        :return: The string, based on condition
+        """
+        if not field in self.values or \
+           (field in self.values and not self.values[field]) or \
+           re.search(r'^\s*$', self.values[field]):
+            return falseval
+        else:
+            return trueval
 
     @staticmethod
     def tmpl_left(s, chars):
