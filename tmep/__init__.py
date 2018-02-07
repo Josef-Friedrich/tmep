@@ -1,7 +1,9 @@
 
-from tmep import template
+from tmep import doc
 from tmep import functions
-from ._version import get_versions
+from tmep import template
+from tmep._version import get_versions
+
 __version__ = get_versions()['version']
 del get_versions
 

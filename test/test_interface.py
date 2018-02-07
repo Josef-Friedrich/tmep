@@ -110,5 +110,12 @@ class TestDoc(unittest.TestCase):
         self.assertTrue(self.doc.get())
 
 
+class TestDocInterface(unittest.TestCase):
+
+    def test_import(self):
+        import tmep
+        self.assertTrue(tmep.doc.Doc)
+
+
 if __name__ == '__main__':
     unittest.main()
