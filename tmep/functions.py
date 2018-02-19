@@ -223,9 +223,9 @@ class Functions(object):
     def tmpl_num(number, count=2):
         """Pad decimal number with leading zeros
 
-        * synopsis: ``%num{number, count}``
+        * synopsis: ``%num{number,count}``
         * description: Pad decimal number with leading zeros.
-        * example: ``%num{$track, 3}``
+        * example: ``%num{$track,3}``
         """
         return str(number).zfill(int(count))
 
@@ -264,8 +264,8 @@ class Functions(object):
     def tmpl_shorten(text, max_size=32):
         """Shorten the given text to ``max_size``
 
-        * synopsis: ``%shorten{text}`` or ``%shorten{text, max_size}``
-        * example: ``%shorten{$title, 32}``
+        * synopsis: ``%shorten{text}`` or ``%shorten{text,max_size}``
+        * example: ``%shorten{$title,32}``
         * description: Shorten “text” on word boundarys.
         """
         max_size = int(max_size)
