@@ -202,6 +202,34 @@ class Functions(object):
             return trueval
 
     @staticmethod
+    def tmpl_initial(text):
+        """
+
+        * synopsis: ``%initial{text}``
+        * description: Get the first character of a text in lowercase. The \
+            text is converted to ASCII. All non word characters are erased.
+            Only letters and numbers are preserved. If the first character is
+            a number, then the result is '0'.
+
+        :param string text: Input text to build initial from.
+        :return: A single character
+        """
+        text = unidecode(text)
+        text = re.sub(r'[^a-zA-Z0-9]+', '', text)
+        text = text[0:1]
+        text = text.lower()
+        if not text:
+            return '_'
+
+        try:
+            int(text)
+            text = '0'
+        except:
+            pass
+
+        return text
+
+    @staticmethod
     def tmpl_left(s, chars):
         """Get the leftmost characters of a string.
 

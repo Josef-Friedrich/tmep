@@ -132,6 +132,25 @@ class TestFunctions(unittest.TestCase):
     def test_if_def_false_complete(self):
         self.parseEqual(u'%ifdef{trill,lol,troll}', u'troll')
 
+    # initial
+    def test_initial_use_first_character(self):
+        self.parseEqual(u'%initial{abc}', u'a')
+
+    def test_initial_german_umlaut(self):
+        self.parseEqual(u'%initial{ä}', u'a')
+
+    def test_initial_special_characters(self):
+        self.parseEqual(u'%initial{-a-}', u'a')
+
+    def test_initial_nothing(self):
+        self.parseEqual(u'%initial{}', u'_')
+
+    def test_initial_number(self):
+        self.parseEqual(u'%initial{3}', u'0')
+
+    def test_initial_lower(self):
+        self.parseEqual(u'%initial{A}', u'a')
+
     # left
     def test_left_literal(self):
         self.parseEqual(u'%left{Schubert, 3}', u'Sch')
