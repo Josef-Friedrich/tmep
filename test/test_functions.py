@@ -33,6 +33,16 @@ class TestFunctions(unittest.TestCase):
     def parseEqual(self, a, b):
         self.assertEqual(tmep.parse(a, self.values), b)
 
+    # alphanum
+    def test_alphanum_accent(self):
+        self.parseEqual(u'%alphanum{après-évêque}', u'apres eveque')
+
+    def test_alphanum_genres(self):
+        self.parseEqual(u'%alphanum{$genres}', u'Pop Rock Classical Crossover')
+
+    def test_alphanum_many(self):
+        self.parseEqual(u'%alphanum{a"&(&b}', u'a b')
+
     # asciify
     def test_asciify_literal(self):
         self.parseEqual(u'%asciify{après évêque}', u'apres eveque')

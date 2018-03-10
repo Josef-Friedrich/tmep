@@ -21,6 +21,12 @@ import time
 import re
 import textwrap
 from unidecode import unidecode
+import six
+
+if six.PY2:
+    import sys
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
 
 
 def _int_arg(s):
@@ -52,6 +58,17 @@ class Functions(object):
         for key in self._func_names:
             out[key[len(self._prefix):]] = getattr(self, key)
         return out
+
+    def tmpl_alphanum(self, text):
+        """
+        * synopsis: ``%alphanum{text}``
+        * description: This function first ASCIIfies the given text, then all \
+            non alpanumeric characters are replaced with whitespaces.
+        """
+        text = self.tmpl_asciify(text)
+        text = re.sub(r'[^a-zA-Z0-9]+', ' ', text)
+        text = re.sub(r'\s+', ' ', text)
+        return text
 
     @staticmethod
     def tmpl_asciify(text):
