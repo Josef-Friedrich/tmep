@@ -59,6 +59,16 @@ class Functions(object):
             out[key[len(self._prefix):]] = getattr(self, key)
         return out
 
+    def tmpl_alpha(self, text):
+        """
+        * synopsis: ``%alpha{text}``
+        * description: This function first ASCIIfies the given text, then all \
+            non alphabet characters are replaced with whitespaces.
+        """
+        text = self.tmpl_asciify(text)
+        text = re.sub(r'[^a-zA-Z]+', ' ', text)
+        return re.sub(r'\s+', ' ', text)
+
     def tmpl_alphanum(self, text):
         """
         * synopsis: ``%alphanum{text}``
@@ -67,8 +77,7 @@ class Functions(object):
         """
         text = self.tmpl_asciify(text)
         text = re.sub(r'[^a-zA-Z0-9]+', ' ', text)
-        text = re.sub(r'\s+', ' ', text)
-        return text
+        return re.sub(r'\s+', ' ', text)
 
     @staticmethod
     def tmpl_asciify(text):

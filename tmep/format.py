@@ -7,7 +7,7 @@ from tmep.functions import Functions
 
 f = Functions()
 
-# if = f.tmpl_if
+alpha = f.tmpl_alphanum
 alphanum = f.tmpl_alphanum
 asciify = f.tmpl_asciify
 delchars = f.tmpl_delchars

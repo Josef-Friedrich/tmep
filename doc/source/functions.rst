@@ -3,6 +3,13 @@ Functions
 
 .. code-block:: text
 
+    alpha
+    -----
+
+    %alpha{text}
+        This function first ASCIIfies the given text, then all non alphabet
+        characters are replaced with whitespaces.
+
     alphanum
     --------
 
