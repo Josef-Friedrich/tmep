@@ -16,6 +16,7 @@ first = f.tmpl_first
 initial = f.tmpl_initial
 left = f.tmpl_left
 lower = f.tmpl_lower
+nowhitespace = f.tmpl_nowhitespace
 num = f.tmpl_num
 replchars = f.tmpl_replchars
 right = f.tmpl_right

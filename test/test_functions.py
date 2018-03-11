@@ -182,6 +182,26 @@ class TestFunctions(unittest.TestCase):
     def test_lower_variable(self):
         self.parseEqual(u'%lower{$lastname}', u'schubert')
 
+    # nowhitespace
+    def test_nowhitespace(self):
+        self.parseEqual(u'%nowhitespace{$genres}',
+                        u'Pop;-Rock;-Classical-Crossover')
+
+    def test_nowhitespace_inline(self):
+        self.parseEqual(u'%nowhitespace{a b}', 'a-b')
+
+    def test_nowhitespace_multiple(self):
+        self.parseEqual(u'%nowhitespace{a   b}', 'a-b')
+
+    def test_nowhitespace_newline_tab(self):
+        self.parseEqual(u'%nowhitespace{a\n\tb}', 'a-b')
+
+    def test_nowhitespace_replace_character(self):
+        self.parseEqual(u'%nowhitespace{a b,_}', 'a_b')
+
+    def test_nowhitespace_delete(self):
+        self.parseEqual(u'%nowhitespace{a b,}', 'ab')
+
     # num
     def test_num_literal(self):
         self.parseEqual(u'%num{7,3}', u'007')

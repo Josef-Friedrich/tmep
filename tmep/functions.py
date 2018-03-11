@@ -274,6 +274,16 @@ class Functions(object):
         return text.lower()
 
     @staticmethod
+    def tmpl_nowhitespace(text, replace='-'):
+        """
+        * synopsis: ``%nowhitespace{text,replace}``
+        * description: Replace all whitespace characters with ``replace``. \
+            By default: a dash (-)
+        * example: ``%nowhitespace{$track,_}``
+        """
+        return re.sub('\s+', replace, text)
+
+    @staticmethod
     def tmpl_num(number, count=2):
         """Pad decimal number with leading zeros
 

@@ -10,6 +10,7 @@ from tmep.format import \
     initial, \
     left, \
     lower, \
+    nowhitespace, \
     num, \
     replchars, \
     right, \
@@ -54,6 +55,9 @@ class TestFormatFunctions(unittest.TestCase):
 
     def test_num(self):
         self.assertTrue(callable(num))
+
+    def test_nowhitespace(self):
+        self.assertTrue(callable(nowhitespace))
 
     def test_replchars(self):
         self.assertTrue(callable(replchars))
