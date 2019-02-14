@@ -3,8 +3,8 @@
 
 import re
 from tmep import functions
-Functions = functions.Functions
 import textwrap
+Functions = functions.Functions
 
 
 class Doc(object):

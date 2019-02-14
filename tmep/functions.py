@@ -25,7 +25,7 @@ import six
 
 if six.PY2:
     import sys
-    reload(sys)
+    reload(sys)  # noqa: F821
     sys.setdefaultencoding('utf-8')
 
 
@@ -198,7 +198,7 @@ class Functions(object):
         :param falseval: The string if the condition is false
         :return: The string, based on condition
         """
-        if not field in self.values or \
+        if field not in self.values or \
            (field in self.values and not self.values[field]) or \
            re.search(r'^\s*$', self.values[field]):
             return trueval
@@ -220,7 +220,7 @@ class Functions(object):
         :param falseval: The string if the condition is false
         :return: The string, based on condition
         """
-        if not field in self.values or \
+        if field not in self.values or \
            (field in self.values and not self.values[field]) or \
            re.search(r'^\s*$', self.values[field]):
             return falseval
@@ -250,7 +250,7 @@ class Functions(object):
         try:
             int(text)
             text = '0'
-        except:
+        except Exception:
             pass
 
         return text
@@ -281,7 +281,7 @@ class Functions(object):
             By default: a dash (-)
         * example: ``%nowhitespace{$track,_}``
         """
-        return re.sub('\s+', replace, text)
+        return re.sub(r'\s+', replace, text)
 
     @staticmethod
     def tmpl_num(number, count=2):
@@ -320,7 +320,7 @@ class Functions(object):
         * synopsis: ``%sanitize{text}``
         * description:  Delete in most file systems not allowed characters.
         """
-        for char in ':*?"<>|\/~&{}':
+        for char in ':*?"<>|\/~&{}':  # noqa: W605
             text = text.replace(char, '')
         return text
 

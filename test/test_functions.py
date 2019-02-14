@@ -231,7 +231,7 @@ class TestFunctions(unittest.TestCase):
 
     # sanitize
     def test_sanitize_literal(self):
-        self.parseEqual(u'%sanitize{x:*?<>|\/~&x}', u'xx')
+        self.parseEqual(u'%sanitize{x:*?<>|\/~&x}', u'xx')  # noqa: W605
 
     # shorten
     def test_shorten_literal(self):
