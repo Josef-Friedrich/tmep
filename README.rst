@@ -18,7 +18,7 @@ From Github
 
 .. code:: Shell
 
-    git clone git@github.com:Josef-Friedrich/tmep.git
+    git clone https://github.com/Josef-Friedrich/tmep.git
     cd tmep
     python setup.py install
 
