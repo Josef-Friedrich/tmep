@@ -1,8 +1,14 @@
 .. image:: http://img.shields.io/pypi/v/tmep.svg
     :target: https://pypi.python.org/pypi/tmep
+    :alt: This package on the Python Package Index
 
 .. image:: https://travis-ci.org/Josef-Friedrich/tmep.svg?branch=master
     :target: https://travis-ci.org/Josef-Friedrich/tmep
+    :alt: Continuous integration
+
+.. image:: https://readthedocs.org/projects/tmep/badge/?version=latest
+    :target: https://tmep.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
 
 ====
 tmep
