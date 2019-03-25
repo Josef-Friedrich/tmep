@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # This file is part of beets.
 # Copyright 2016, Adrian Sampson.
 #
@@ -15,10 +14,8 @@
 
 """Tests for template engine.
 """
-from __future__ import division, absolute_import, print_function
 
 import unittest
-import six
 from tmep import template as functemplate
 
 
@@ -29,7 +26,7 @@ def _normexpr(expr):
     """
     textbuf = []
     for part in expr.parts:
-        if isinstance(part, six.string_types):
+        if isinstance(part, str):
             textbuf.append(part)
         else:
             if textbuf:
@@ -240,7 +237,7 @@ class EvalTest(unittest.TestCase):
             u'baz': u'BaR',
         }
         functions = {
-            u'lower': six.text_type.lower,
+            u'lower': str.lower,
             u'len': len,
         }
         return functemplate.Template(template).substitute(values, functions)
@@ -271,7 +268,7 @@ class EvalTest(unittest.TestCase):
 
     def test_function_call_exception(self):
         res = self._eval(u"%lower{a,b,c,d,e}")
-        self.assertTrue(isinstance(res, six.string_types))
+        self.assertTrue(isinstance(res, str))
 
     def test_function_returning_integer(self):
         self.assertEqual(self._eval(u"%len{foo}"), u"3")

@@ -1,17 +1,26 @@
 language: python
+python: 3.6
 
-matrix:
-    include:
-        - python: 2.7
-          env: TOXENV=py27
-        - python: 3.6
-          env: TOXENV=py36
-        - python: 3.6
-          env: TOXENV=docs
-        - python: 3.6
-          env: TOXENV=flake8
+env:
+- TOXENV=py36
+- TOXENV=docs
+- TOXENV=flake8
 
 install:
-    - pip install tox
+- pip install tox
 
 script: tox
+
+jobs:
+  include:
+  - stage: deploy
+    script: echo "Deploying on PyPi ..."
+    env:
+    install:
+    deploy:
+      provider: pypi
+      user: JosefFriedrich
+      password:
+        secure: "wkVJ+BzjsLeVgWMwvLj9MSuFRvhhLo/trwZ4VwqIoNAfwSEmAsekIbNoBRh13L6abUtqA4mCdgHPvEmJCw3xtvABew55z1iXI+vc304wFLwTDy0+/UzPRfCE+BUR9c0YdtJm8jEVRG9Sph6E70pIcZB/7Uxc4Yq9O2ahqORs9Uvtk/LEaiH/O5vTFdPA5XQ8OJaXw0Di9WGNaZUKGf6UIidM0tikXfjAeFAVcCKTAV334HJS2DoTX6NslDNZ4MhlfARqu7+yO0b56Tg0tRKKeKVepqF1WJ1x+Vf+z4TIsJszQiV99oYG9m4BHkZhfzX0D7t0M++nKULGjpHNrex4RNA4GD5E3PY+q9jQ3A/ovjyMCVZXaYFPnH+Heke3SD/lxBpF59vO8sqnQO5KOs39x+ETsb313RdIe0R2UBCjuCTGV7gQrqfPf+iF5H6A8vyZl/wzia5XLu6ah5qf2bbQcRsBAXQb+qR02UWwSSHB85qxkeyK0xzNfItxyyfe8khv/DuyPL3/PbuLrYjTuPav/h3wRth1Jtidt/kJ9CW/KI0EG7A2x07BSSuk6tRdDxVqbYh2RK90yXJjBDuGS3Kjad2hmrwRc8Jc1rb+pQyRu8+LOMzMNi9ONhiRBKuCe+vwjBUZ585MY8ZarHQzL0INZGre/WZBgC0xse6reIIujvU="
+      on:
+        tags: true

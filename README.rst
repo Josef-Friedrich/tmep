@@ -119,8 +119,8 @@ Functions
 
     %asciify{text}
         Translate non-ASCII characters to their ASCII equivalents. For
-        example, “café” becomes “cafe”. Uses the mapping provided by
-        the unidecode module.
+        example, “café” becomes “cafe”. Uses the mapping provided by the
+        unidecode module.
 
     delchars
     --------
@@ -150,8 +150,8 @@ Functions
     --
 
     %if{condition,truetext} or %if{condition,truetext,falsetext}
-        If condition is nonempty (or nonzero, if it’s a number), then
-        returns the second argument. Otherwise, returns the third argument if
+        If condition is nonempty (or nonzero, if it’s a number), then returns
+        the second argument. Otherwise, returns the third argument if
         specified (or nothing if falsetext is left off).
 
     ifdef

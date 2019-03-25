@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """A collection of string format functions derived form the class “Functions()”
 """
 

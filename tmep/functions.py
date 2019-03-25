@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2016, Adrian Sampson.
 #
 # Permission is hereby granted, free of charge, to any person obtaining
@@ -21,12 +20,6 @@ import time
 import re
 import textwrap
 from unidecode import unidecode
-import six
-
-if six.PY2:
-    import sys
-    reload(sys)  # noqa: F821
-    sys.setdefaultencoding('utf-8')
 
 
 def _int_arg(s):

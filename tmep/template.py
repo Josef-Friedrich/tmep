@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright 2016, Adrian Sampson.
 #
 # Permission is hereby granted, free of charge, to any person obtaining
@@ -29,14 +28,11 @@ This is sort of like a tiny, horrible degeneration of a real templating
 engine like Jinja2 or Mustache.
 """
 
-from __future__ import division, absolute_import, print_function
-
 import re
 import ast
 import dis
 import types
 import sys
-import six
 
 SYMBOL_DELIM = u'$'
 FUNC_DELIM = u'%'
@@ -76,11 +72,11 @@ def ex_literal(val):
     """
     if val is None:
         return ast.Name('None', ast.Load())
-    elif isinstance(val, six.integer_types):
+    elif isinstance(val, int):
         return ast.Num(val)
     elif isinstance(val, bool):
         return ast.Name(bytes(val), ast.Load())
-    elif isinstance(val, six.string_types):
+    elif isinstance(val, str):
         return ast.Str(val)
     raise TypeError(u'no literal for {0}'.format(type(val)))
 
@@ -99,7 +95,7 @@ def ex_call(func, args):
     function may be an expression or the name of a function. Each
     argument may be an expression or a value to be used as a literal.
     """
-    if isinstance(func, six.string_types):
+    if isinstance(func, str):
         func = ex_rvalue(func)
 
     args = list(args)
@@ -118,30 +114,17 @@ def compile_func(arg_names, statements, name='_the_func', debug=False):
     the resulting Python function. If `debug`, then print out the
     bytecode of the compiled function.
     """
-    if six.PY2:
-        func_def = ast.FunctionDef(
-            name=name.encode('utf-8'),
-            args=ast.arguments(
-                args=[ast.Name(n, ast.Param()) for n in arg_names],
-                vararg=None,
-                kwarg=None,
-                defaults=[ex_literal(None) for _ in arg_names],
-            ),
-            body=statements,
-            decorator_list=[],
-        )
-    else:
-        func_def = ast.FunctionDef(
-            name=name,
-            args=ast.arguments(
-                args=[ast.arg(arg=n, annotation=None) for n in arg_names],
-                kwonlyargs=[],
-                kw_defaults=[],
-                defaults=[ex_literal(None) for _ in arg_names],
-            ),
-            body=statements,
-            decorator_list=[],
-        )
+    func_def = ast.FunctionDef(
+        name=name,
+        args=ast.arguments(
+            args=[ast.arg(arg=n, annotation=None) for n in arg_names],
+            kwonlyargs=[],
+            kw_defaults=[],
+            defaults=[ex_literal(None) for _ in arg_names],
+        ),
+        body=statements,
+        decorator_list=[],
+    )
 
     mod = ast.Module([func_def])
     ast.fix_missing_locations(mod)
@@ -184,10 +167,7 @@ class Symbol(object):
 
     def translate(self):
         """Compile the variable lookup."""
-        if six.PY2:
-            ident = self.ident.encode('utf-8')
-        else:
-            ident = self.ident
+        ident = self.ident
         expr = ex_rvalue(VARIABLE_PREFIX + ident)
         return [expr], set([ident]), set()
 
@@ -214,18 +194,15 @@ class Call(object):
             except Exception as exc:
                 # Function raised exception! Maybe inlining the name of
                 # the exception will help debug.
-                return u'<%s>' % six.text_type(exc)
-            return six.text_type(out)
+                return u'<%s>' % str(exc)
+            return str(out)
         else:
             return self.original
 
     def translate(self):
         """Compile the function call."""
         varnames = set()
-        if six.PY2:
-            ident = self.ident.encode('utf-8')
-        else:
-            ident = self.ident
+        ident = self.ident
         funcnames = set([ident])
 
         arg_exprs = []
@@ -241,7 +218,7 @@ class Call(object):
                 [ex_call(
                     'map',
                     [
-                        ex_rvalue(six.text_type.__name__),
+                        ex_rvalue(str.__name__),
                         ast.List(subexprs, ast.Load()),
                     ]
                 )],
@@ -270,11 +247,11 @@ class Expression(object):
         """
         out = []
         for part in self.parts:
-            if isinstance(part, six.string_types):
+            if isinstance(part, str):
                 out.append(part)
             else:
                 out.append(part.evaluate(env))
-        return u''.join(map(six.text_type, out))
+        return u''.join(map(str, out))
 
     def translate(self):
         """Compile the expression to a list of Python AST expressions, a
@@ -284,7 +261,7 @@ class Expression(object):
         varnames = set()
         funcnames = set()
         for part in self.parts:
-            if isinstance(part, six.string_types):
+            if isinstance(part, str):
                 expressions.append(ex_literal(part))
             else:
                 e, v, f = part.translate()
@@ -613,7 +590,7 @@ if __name__ == '__main__':
     import timeit
     _tmpl = Template(u'foo $bar %baz{foozle $bar barzle} $bar')
     _vars = {'bar': 'qux'}
-    _funcs = {'baz': six.text_type.upper}
+    _funcs = {'baz': str.upper}
     interp_time = timeit.timeit('_tmpl.interpret(_vars, _funcs)',
                                 'from __main__ import _tmpl, _vars, _funcs',
                                 number=10000)

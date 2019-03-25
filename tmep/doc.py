@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Extract docstrings from func.py to document the template functions."""
 
 import re
