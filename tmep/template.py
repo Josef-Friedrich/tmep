@@ -11,7 +11,7 @@
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
 """This file originates from the file `beets/util/functemplate.py
-<https://github.com/beetbox/beets/blob/44ca6938ffd450847810f5c426e9afdbab1fc424/beets/util/functemplate.py>`_
+<https://raw.githubusercontent.com/beetbox/beets/master/beets/util/functemplate.py>`_
 of the `beets project <http://beets.io>`_.
 
 This module implements a string formatter based on the standard PEP
@@ -28,13 +28,15 @@ This is sort of like a tiny, horrible degeneration of a real templating
 engine like Jinja2 or Mustache.
 """
 
+from __future__ import division, absolute_import, print_function
+
 import re
 import ast
 import dis
 import types
 import sys
+import six
 import functools
-
 
 SYMBOL_DELIM = u'$'
 FUNC_DELIM = u'%'
@@ -72,15 +74,26 @@ def ex_literal(val):
     """An int, float, long, bool, string, or None literal with the given
     value.
     """
-    if val is None:
-        return ast.Name('None', ast.Load())
-    elif isinstance(val, int):
-        return ast.Num(val)
-    elif isinstance(val, bool):
-        return ast.Name(bytes(val), ast.Load())
-    elif isinstance(val, str):
-        return ast.Str(val)
-    raise TypeError(u'no literal for {0}'.format(type(val)))
+    if sys.version_info[:2] < (3, 4):
+        if val is None:
+            return ast.Name('None', ast.Load())
+        elif isinstance(val, six.integer_types):
+            return ast.Num(val)
+        elif isinstance(val, bool):
+            return ast.Name(bytes(val), ast.Load())
+        elif isinstance(val, six.string_types):
+            return ast.Str(val)
+        raise TypeError(u'no literal for {0}'.format(type(val)))
+    elif sys.version_info[:2] < (3, 6):
+        if val in [None, True, False]:
+            return ast.NameConstant(val)
+        elif isinstance(val, six.integer_types):
+            return ast.Num(val)
+        elif isinstance(val, six.string_types):
+            return ast.Str(val)
+        raise TypeError(u'no literal for {0}'.format(type(val)))
+    else:
+        return ast.Constant(val)
 
 
 def ex_varassign(name, expr):
@@ -97,7 +110,7 @@ def ex_call(func, args):
     function may be an expression or the name of a function. Each
     argument may be an expression or a value to be used as a literal.
     """
-    if isinstance(func, str):
+    if isinstance(func, six.string_types):
         func = ex_rvalue(func)
 
     args = list(args)
@@ -116,15 +129,24 @@ def compile_func(arg_names, statements, name='_the_func', debug=False):
     the resulting Python function. If `debug`, then print out the
     bytecode of the compiled function.
     """
-    args_fields = {
-        'args': [ast.arg(arg=n, annotation=None) for n in arg_names],
-        'kwonlyargs': [],
-        'kw_defaults': [],
-        'defaults': [ex_literal(None) for _ in arg_names],
-    }
-    if 'posonlyargs' in ast.arguments._fields:  # Added in Python 3.8.
-        args_fields['posonlyargs'] = []
-    args = ast.arguments(**args_fields)
+    if six.PY2:
+        name = name.encode('utf-8')
+        args = ast.arguments(
+            args=[ast.Name(n, ast.Param()) for n in arg_names],
+            vararg=None,
+            kwarg=None,
+            defaults=[ex_literal(None) for _ in arg_names],
+        )
+    else:
+        args_fields = {
+            'args': [ast.arg(arg=n, annotation=None) for n in arg_names],
+            'kwonlyargs': [],
+            'kw_defaults': [],
+            'defaults': [ex_literal(None) for _ in arg_names],
+        }
+        if 'posonlyargs' in ast.arguments._fields:  # Added in Python 3.8.
+            args_fields['posonlyargs'] = []
+        args = ast.arguments(**args_fields)
 
     func_def = ast.FunctionDef(
         name=name,
@@ -180,7 +202,10 @@ class Symbol(object):
 
     def translate(self):
         """Compile the variable lookup."""
-        ident = self.ident
+        if six.PY2:
+            ident = self.ident.encode('utf-8')
+        else:
+            ident = self.ident
         expr = ex_rvalue(VARIABLE_PREFIX + ident)
         return [expr], set([ident]), set()
 
@@ -207,15 +232,18 @@ class Call(object):
             except Exception as exc:
                 # Function raised exception! Maybe inlining the name of
                 # the exception will help debug.
-                return u'<%s>' % str(exc)
-            return str(out)
+                return u'<%s>' % six.text_type(exc)
+            return six.text_type(out)
         else:
             return self.original
 
     def translate(self):
         """Compile the function call."""
         varnames = set()
-        ident = self.ident
+        if six.PY2:
+            ident = self.ident.encode('utf-8')
+        else:
+            ident = self.ident
         funcnames = set([ident])
 
         arg_exprs = []
@@ -231,7 +259,7 @@ class Call(object):
                 [ex_call(
                     'map',
                     [
-                        ex_rvalue(str.__name__),
+                        ex_rvalue(six.text_type.__name__),
                         ast.List(subexprs, ast.Load()),
                     ]
                 )],
@@ -260,11 +288,11 @@ class Expression(object):
         """
         out = []
         for part in self.parts:
-            if isinstance(part, str):
+            if isinstance(part, six.string_types):
                 out.append(part)
             else:
                 out.append(part.evaluate(env))
-        return u''.join(map(str, out))
+        return u''.join(map(six.text_type, out))
 
     def translate(self):
         """Compile the expression to a list of Python AST expressions, a
@@ -274,7 +302,7 @@ class Expression(object):
         varnames = set()
         funcnames = set()
         for part in self.parts:
-            if isinstance(part, str):
+            if isinstance(part, six.string_types):
                 expressions.append(ex_literal(part))
             else:
                 e, v, f = part.translate()
@@ -618,7 +646,7 @@ if __name__ == '__main__':
     import timeit
     _tmpl = Template(u'foo $bar %baz{foozle $bar barzle} $bar')
     _vars = {'bar': 'qux'}
-    _funcs = {'baz': str.upper}
+    _funcs = {'baz': six.text_type.upper}
     interp_time = timeit.timeit('_tmpl.interpret(_vars, _funcs)',
                                 'from __main__ import _tmpl, _vars, _funcs',
                                 number=10000)

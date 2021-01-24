@@ -31,6 +31,7 @@ setup(
     url='https://github.com/Josef-Friedrich/tmep',
     install_requires=[
         'unidecode',
+        'six>=1.9',
     ],
     long_description=read('README.rst'),
     classifiers=[
