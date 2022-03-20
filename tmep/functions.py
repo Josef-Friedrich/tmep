@@ -14,7 +14,6 @@
 <https://github.com/beetbox/beets/blob/58afaf07a52df2b53bb2f8990cd06005cd063d9e/beets/library.py#L1341>`_
 of the `beets project <http://beets.io>`_.
 """
-from __future__ import division, absolute_import, print_function
 
 import time
 import re
@@ -29,7 +28,7 @@ def _int_arg(s):
     return int(s.strip())
 
 
-class Functions(object):
+class Functions:
     """A container class for the default functions provided to path
     templates. These functions are contained in an object to provide
     additional context to the functions -- specifically, the Item being
@@ -80,12 +79,12 @@ class Functions(object):
             equivalents. For example, “café” becomes “cafe”. Uses the mapping \
             provided by the unidecode module.
         """
-        ger_umlaute = {'ae': u'ä',
-                       'oe': u'ö',
-                       'ue': u'ü',
-                       'Ae': u'Ä',
-                       'Oe': u'Ö',
-                       'Ue': u'Ü'}
+        ger_umlaute = {'ae': 'ä',
+                       'oe': 'ö',
+                       'ue': 'ü',
+                       'Ae': 'Ä',
+                       'Oe': 'Ö',
+                       'Ue': 'Ü'}
         for replace, search in ger_umlaute.items():
             text = text.replace(search, replace)
         return str(unidecode(text).replace('[?]', ''))
@@ -111,7 +110,7 @@ class Functions(object):
         return re.sub(r'([' + chars + r'])\1*', r'\1', text)
 
     @staticmethod
-    def tmpl_first(text, count=1, skip=0, sep=u'; ', join_str=u'; '):
+    def tmpl_first(text, count=1, skip=0, sep='; ', join_str='; '):
         """
         * synopsis: ``%first{text}`` or ``%first{text,count,skip}`` or \
             ``%first{text,count,skip,sep,join}``
@@ -132,7 +131,7 @@ class Functions(object):
         return join_str.join(text.split(sep)[skip:count])
 
     @staticmethod
-    def tmpl_if(condition, trueval, falseval=u''):
+    def tmpl_if(condition, trueval, falseval=''):
         """If ``condition`` is nonempty and nonzero, emit ``trueval``;
         otherwise, emit ``falseval`` (if provided).
 
@@ -156,7 +155,7 @@ class Functions(object):
         else:
             return falseval
 
-    def tmpl_ifdef(self, field, trueval=u'', falseval=u''):
+    def tmpl_ifdef(self, field, trueval='', falseval=''):
         """If field exists return trueval or the field (default) otherwise,
         emit return falseval (if provided).
 
@@ -176,7 +175,7 @@ class Functions(object):
         else:
             return falseval
 
-    def tmpl_ifdefempty(self, field, trueval=u'', falseval=u''):
+    def tmpl_ifdefempty(self, field, trueval='', falseval=''):
         """If field exists and is emtpy return trueval
         otherwise, emit return falseval (if provided).
 
@@ -198,7 +197,7 @@ class Functions(object):
         else:
             return falseval
 
-    def tmpl_ifdefnotempty(self, field, trueval=u'', falseval=u''):
+    def tmpl_ifdefnotempty(self, field, trueval='', falseval=''):
         """If field is not emtpy return trueval or the field (default)
         otherwise, emit return falseval (if provided).
 

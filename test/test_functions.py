@@ -12,6 +12,8 @@
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
 
+# https://github.com/beetbox/beets/blob/master/test/test_library.py
+
 import unittest
 import tmep
 
@@ -20,12 +22,12 @@ class TestFunctions(unittest.TestCase):
 
     def setUp(self):
         self.values = {
-            'prename': u'Franz',
-            'lastname': u'Schubert',
-            'lol': u'lol',
-            'troll': u'troll',
-            'genres': u'Pop; Rock; Classical Crossover',
-            'asciify': u'gennemgår',
+            'prename': 'Franz',
+            'lastname': 'Schubert',
+            'lol': 'lol',
+            'troll': 'troll',
+            'genres': 'Pop; Rock; Classical Crossover',
+            'asciify': 'gennemgår',
             'track': 7,
         }
 
@@ -34,241 +36,241 @@ class TestFunctions(unittest.TestCase):
 
     # alphanum
     def test_alpha(self):
-        self.parseEqual(u'%alpha{abc123}', u'abc ')
+        self.parseEqual('%alpha{abc123}', 'abc ')
 
     def test_alpha_genres(self):
-        self.parseEqual(u'%alpha{$genres}', u'Pop Rock Classical Crossover')
+        self.parseEqual('%alpha{$genres}', 'Pop Rock Classical Crossover')
 
     # alphanum
     def test_alphanum_accent(self):
-        self.parseEqual(u'%alphanum{après-évêque}', u'apres eveque')
+        self.parseEqual('%alphanum{après-évêque}', 'apres eveque')
 
     def test_alphanum_genres(self):
-        self.parseEqual(u'%alphanum{$genres}', u'Pop Rock Classical Crossover')
+        self.parseEqual('%alphanum{$genres}', 'Pop Rock Classical Crossover')
 
     def test_alphanum_many(self):
-        self.parseEqual(u'%alphanum{a"&(&b}', u'a b')
+        self.parseEqual('%alphanum{a"&(&b}', 'a b')
 
     # asciify
     def test_asciify_literal(self):
-        self.parseEqual(u'%asciify{après évêque}', u'apres eveque')
+        self.parseEqual('%asciify{après évêque}', 'apres eveque')
 
     def test_asciify_variable(self):
-        self.parseEqual(u'%asciify{$asciify}', u'gennemgar')
+        self.parseEqual('%asciify{$asciify}', 'gennemgar')
 
     def test_asciify_foreign(self):
-        self.parseEqual(u'%asciify{Новыя старонкі}', u'Novyia staronki')
+        self.parseEqual('%asciify{Новыя старонкі}', 'Novyia staronki')
 
     def test_asciify_german_umlaute(self):
-        self.parseEqual(u'%asciify{äÄöÖüÜ}', u'aeAeoeOeueUe')
+        self.parseEqual('%asciify{äÄöÖüÜ}', 'aeAeoeOeueUe')
 
     def test_asciify_symbols_single(self):
-        self.parseEqual(u'%asciify{⚓}', u'')
+        self.parseEqual('%asciify{⚓}', '')
 
     def test_asciify_symbols_multiple(self):
-        self.parseEqual(u'%asciify{⚢⚣⚤⚥⚦⚧⚨⚩}', u'')
+        self.parseEqual('%asciify{⚢⚣⚤⚥⚦⚧⚨⚩}', '')
 
     def test_asciify_symbols_mixed(self):
-        self.parseEqual(u'%asciify{a⚢b⚣⚤c}', u'abc')
+        self.parseEqual('%asciify{a⚢b⚣⚤c}', 'abc')
 
     # delchars
     def test_delchars_single(self):
-        self.parseEqual(u'%delchars{x-x,-}', u'xx')
+        self.parseEqual('%delchars{x-x,-}', 'xx')
 
     def test_delchars_multiple(self):
-        self.parseEqual(u'%delchars{x---x,-}', u'xx')
+        self.parseEqual('%delchars{x---x,-}', 'xx')
 
     def test_delchars_no_match(self):
-        self.parseEqual(u'%delchars{x-x,_}', u'x-x')
+        self.parseEqual('%delchars{x-x,_}', 'x-x')
 
     def test_delchars_multiple_chars(self):
-        self.parseEqual(u'%delchars{x_-.x,_-.}', u'xx')
+        self.parseEqual('%delchars{x_-.x,_-.}', 'xx')
 
     def test_delchars_unicode(self):
-        self.parseEqual(u'%delchars{öd,ö}', u'd')
+        self.parseEqual('%delchars{öd,ö}', 'd')
 
     def test_delchars_variable(self):
-        self.parseEqual(u'%delchars{$lastname,ue}', u'Schbrt')
+        self.parseEqual('%delchars{$lastname,ue}', 'Schbrt')
 
     # deldupchars
     def test_deldupchars_default(self):
-        self.parseEqual(u'%deldupchars{a---b___c...d}', u'a-b_c.d')
+        self.parseEqual('%deldupchars{a---b___c...d}', 'a-b_c.d')
 
     def test_deldupchars_custom(self):
-        self.parseEqual(u'%deldupchars{a---b___c,-}', u'a-b___c')
+        self.parseEqual('%deldupchars{a---b___c,-}', 'a-b___c')
 
     def test_deldupchars_whitespace(self):
-        self.parseEqual(u'%deldupchars{a   a, }', u'a a')
+        self.parseEqual('%deldupchars{a   a, }', 'a a')
 
     # first
     def test_first(self):
-        self.parseEqual(u'%first{$genres}', u'Pop')
+        self.parseEqual('%first{$genres}', 'Pop')
 
     def test_first_skip(self):
-        self.parseEqual(u'%first{$genres,1,2}', u'Classical Crossover')
+        self.parseEqual('%first{$genres,1,2}', 'Classical Crossover')
 
     def test_first_different_sep(self):
         self.parseEqual(
-            u'%first{Alice / Bob / Eve,2,0, / , & }',
-            u'Alice & Bob'
+            '%first{Alice / Bob / Eve,2,0, / , & }',
+            'Alice & Bob'
         )
 
     # if
     def test_if_false(self):
-        self.parseEqual(u'x%if{,foo}', u'x')
+        self.parseEqual('x%if{,foo}', 'x')
 
     def test_if_false_value(self):
-        self.parseEqual(u'x%if{false,foo}', u'x')
+        self.parseEqual('x%if{false,foo}', 'x')
 
     def test_if_true(self):
-        self.parseEqual(u'%if{bar,foo}', u'foo')
+        self.parseEqual('%if{bar,foo}', 'foo')
 
     def test_if_else_false(self):
-        self.parseEqual(u'%if{,foo,baz}', u'baz')
+        self.parseEqual('%if{,foo,baz}', 'baz')
 
     def test_if_else_false_value(self):
-        self.parseEqual(u'%if{false,foo,baz}', u'baz')
+        self.parseEqual('%if{false,foo,baz}', 'baz')
 
     def test_if_int_value(self):
-        self.parseEqual(u'%if{0,foo,baz}', u'baz')
+        self.parseEqual('%if{0,foo,baz}', 'baz')
 
     # ifdef
     def test_if_def_field_return_self(self):
-        self.parseEqual(u'%ifdef{lastname}', u'')
+        self.parseEqual('%ifdef{lastname}', '')
 
     def test_if_def_field_not_defined(self):
-        self.parseEqual(u'%ifdef{bar}', u'')
+        self.parseEqual('%ifdef{bar}', '')
 
     def test_if_def_true(self):
-        self.parseEqual(u'%ifdef{lastname,Its true}', u'Its true')
+        self.parseEqual('%ifdef{lastname,Its true}', 'Its true')
 
     def test_if_def_true_complete(self):
-        self.parseEqual(u'%ifdef{lastname,lol,troll}', u'lol')
+        self.parseEqual('%ifdef{lastname,lol,troll}', 'lol')
 
     def test_if_def_false_complete(self):
-        self.parseEqual(u'%ifdef{trill,lol,troll}', u'troll')
+        self.parseEqual('%ifdef{trill,lol,troll}', 'troll')
 
     # initial
     def test_initial_use_first_character(self):
-        self.parseEqual(u'%initial{abc}', u'a')
+        self.parseEqual('%initial{abc}', 'a')
 
     def test_initial_german_umlaut(self):
-        self.parseEqual(u'%initial{ä}', u'a')
+        self.parseEqual('%initial{ä}', 'a')
 
     def test_initial_special_characters(self):
-        self.parseEqual(u'%initial{-a-}', u'a')
+        self.parseEqual('%initial{-a-}', 'a')
 
     def test_initial_nothing(self):
-        self.parseEqual(u'%initial{}', u'_')
+        self.parseEqual('%initial{}', '_')
 
     def test_initial_number(self):
-        self.parseEqual(u'%initial{3}', u'0')
+        self.parseEqual('%initial{3}', '0')
 
     def test_initial_lower(self):
-        self.parseEqual(u'%initial{A}', u'a')
+        self.parseEqual('%initial{A}', 'a')
 
     # left
     def test_left_literal(self):
-        self.parseEqual(u'%left{Schubert, 3}', u'Sch')
+        self.parseEqual('%left{Schubert, 3}', 'Sch')
 
     def test_left_variable(self):
-        self.parseEqual(u'%left{$lastname, 3}', u'Sch')
+        self.parseEqual('%left{$lastname, 3}', 'Sch')
 
     # lower
     def test_lower_literal(self):
-        self.parseEqual(u'%lower{SCHUBERT}', u'schubert')
+        self.parseEqual('%lower{SCHUBERT}', 'schubert')
 
     def test_lower_variable(self):
-        self.parseEqual(u'%lower{$lastname}', u'schubert')
+        self.parseEqual('%lower{$lastname}', 'schubert')
 
     # nowhitespace
     def test_nowhitespace(self):
-        self.parseEqual(u'%nowhitespace{$genres}',
-                        u'Pop;-Rock;-Classical-Crossover')
+        self.parseEqual('%nowhitespace{$genres}',
+                        'Pop;-Rock;-Classical-Crossover')
 
     def test_nowhitespace_inline(self):
-        self.parseEqual(u'%nowhitespace{a b}', 'a-b')
+        self.parseEqual('%nowhitespace{a b}', 'a-b')
 
     def test_nowhitespace_multiple(self):
-        self.parseEqual(u'%nowhitespace{a   b}', 'a-b')
+        self.parseEqual('%nowhitespace{a   b}', 'a-b')
 
     def test_nowhitespace_newline_tab(self):
-        self.parseEqual(u'%nowhitespace{a\n\tb}', 'a-b')
+        self.parseEqual('%nowhitespace{a\n\tb}', 'a-b')
 
     def test_nowhitespace_replace_character(self):
-        self.parseEqual(u'%nowhitespace{a b,_}', 'a_b')
+        self.parseEqual('%nowhitespace{a b,_}', 'a_b')
 
     def test_nowhitespace_delete(self):
-        self.parseEqual(u'%nowhitespace{a b,}', 'ab')
+        self.parseEqual('%nowhitespace{a b,}', 'ab')
 
     # num
     def test_num_literal(self):
-        self.parseEqual(u'%num{7,3}', u'007')
+        self.parseEqual('%num{7,3}', '007')
 
     def test_num_variable(self):
-        self.parseEqual(u'%num{$track,3}', u'007')
+        self.parseEqual('%num{$track,3}', '007')
 
     def test_num_default_count(self):
-        self.parseEqual(u'%num{7}', u'07')
+        self.parseEqual('%num{7}', '07')
 
     def test_num_default_variable(self):
-        self.parseEqual(u'%num{$track}', u'07')
+        self.parseEqual('%num{$track}', '07')
 
     # replchars
     def test_replchars_literal(self):
-        self.parseEqual(u'%replchars{Schubert,-,ue}', u'Sch-b-rt')
+        self.parseEqual('%replchars{Schubert,-,ue}', 'Sch-b-rt')
 
     def test_replchars_variable(self):
-        self.parseEqual(u'%replchars{$lastname,-,ue}', u'Sch-b-rt')
+        self.parseEqual('%replchars{$lastname,-,ue}', 'Sch-b-rt')
 
     # right
     def test_right_literal(self):
-        self.parseEqual(u'%right{Schubert,3}', u'ert')
+        self.parseEqual('%right{Schubert,3}', 'ert')
 
     def test_right_variable(self):
-        self.parseEqual(u'%right{$lastname,3}', u'ert')
+        self.parseEqual('%right{$lastname,3}', 'ert')
 
     # sanitize
     def test_sanitize_literal(self):
-        self.parseEqual(u'%sanitize{x:*?<>|\/~&x}', u'xx')  # noqa: W605
+        self.parseEqual('%sanitize{x:*?<>|\/~&x}', 'xx')  # noqa: W605
 
     # shorten
     def test_shorten_literal(self):
-        self.parseEqual(u'%shorten{Lorem ipsum dolor sit,10}', u'Lorem')
+        self.parseEqual('%shorten{Lorem ipsum dolor sit,10}', 'Lorem')
 
     def test_shorten_default(self):
         self.parseEqual(
-            u'%shorten{Lorem ipsum dolor sit amet consectetur adipisicing}',
-            u'Lorem ipsum dolor sit amet')
+            '%shorten{Lorem ipsum dolor sit amet consectetur adipisicing}',
+            'Lorem ipsum dolor sit amet')
 
     # title
     def test_title_literal(self):
-        self.parseEqual(u'%title{franz schubert}', u'Franz Schubert')
+        self.parseEqual('%title{franz schubert}', 'Franz Schubert')
 
     def test_title_variable(self):
-        self.parseEqual(u'%title{$lol $troll}', u'Lol Troll')
+        self.parseEqual('%title{$lol $troll}', 'Lol Troll')
 
     # upper
     def test_upper_literal(self):
-        self.parseEqual(u'%upper{foo}', u'FOO')
+        self.parseEqual('%upper{foo}', 'FOO')
 
     def test_upper_variable(self):
-        self.parseEqual(u'%upper{$prename}', u'FRANZ')
+        self.parseEqual('%upper{$prename}', 'FRANZ')
 
     #
     def test_nonexistent_function(self):
-        self.parseEqual(u'%foo{bar}', u'%foo{bar}')
+        self.parseEqual('%foo{bar}', '%foo{bar}')
 
 
 class TestFunctionIfDefEmpty(unittest.TestCase):
 
     def setUp(self):
         self.values = {
-            'empty_string': u'',
+            'empty_string': '',
             'false': False,
-            'non_empty_string': u'test',
+            'non_empty_string': 'test',
             'none': None,
-            'only_whitespaces': u' \t\n',
+            'only_whitespaces': ' \t\n',
         }
 
     def parseEqual(self, a, b):
@@ -276,41 +278,41 @@ class TestFunctionIfDefEmpty(unittest.TestCase):
 
     # empty_string
     def test_empty_string(self):
-        self.parseEqual(u'%ifdefempty{empty_string,trueval}', u'trueval')
+        self.parseEqual('%ifdefempty{empty_string,trueval}', 'trueval')
 
     # false
     def test_false(self):
-        self.parseEqual(u'%ifdefempty{false,trueval}', u'trueval')
+        self.parseEqual('%ifdefempty{false,trueval}', 'trueval')
 
     # non_empty_string
     def test_non_empty_string(self):
-        self.parseEqual(u'%ifdefempty{non_empty_string,trueval,falseval}',
-                        u'falseval')
+        self.parseEqual('%ifdefempty{non_empty_string,trueval,falseval}',
+                        'falseval')
 
     # nonexistent
     def test_nonexistent(self):
-        self.parseEqual(u'%ifdefempty{nonexistent,trueval,falseval}',
-                        u'trueval')
+        self.parseEqual('%ifdefempty{nonexistent,trueval,falseval}',
+                        'trueval')
 
     # none
     def test_none(self):
-        self.parseEqual(u'%ifdefempty{none,trueval}', u'trueval')
+        self.parseEqual('%ifdefempty{none,trueval}', 'trueval')
 
     # nonexistent
     def test_only_whitespaces(self):
-        self.parseEqual(u'%ifdefempty{only_whitespaces,trueval,falseval}',
-                        u'trueval')
+        self.parseEqual('%ifdefempty{only_whitespaces,trueval,falseval}',
+                        'trueval')
 
 
 class TestFunctionIfDefNotEmpty(unittest.TestCase):
 
     def setUp(self):
         self.values = {
-            'empty_string': u'',
+            'empty_string': '',
             'false': False,
-            'non_empty_string': u'test',
+            'non_empty_string': 'test',
             'none': None,
-            'only_whitespaces': u' \t\n',
+            'only_whitespaces': ' \t\n',
         }
 
     def parseEqual(self, a, b):
@@ -318,32 +320,32 @@ class TestFunctionIfDefNotEmpty(unittest.TestCase):
 
     # empty_string
     def test_empty_string(self):
-        self.parseEqual(u'%ifdefnotempty{empty_string,trueval,falseval}',
-                        u'falseval')
+        self.parseEqual('%ifdefnotempty{empty_string,trueval,falseval}',
+                        'falseval')
 
     # false
     def test_false(self):
-        self.parseEqual(u'%ifdefnotempty{false,trueval,falseval}',
-                        u'falseval')
+        self.parseEqual('%ifdefnotempty{false,trueval,falseval}',
+                        'falseval')
 
     # non_empty_string
     def test_non_empty_string(self):
-        self.parseEqual(u'%ifdefnotempty{non_empty_string,trueval,falseval}',
-                        u'trueval')
+        self.parseEqual('%ifdefnotempty{non_empty_string,trueval,falseval}',
+                        'trueval')
 
     # nonexistent
     def test_nonexistent(self):
-        self.parseEqual(u'%ifdefnotempty{nonexistent,trueval,falseval}',
-                        u'falseval')
+        self.parseEqual('%ifdefnotempty{nonexistent,trueval,falseval}',
+                        'falseval')
 
     # none
     def test_none(self):
-        self.parseEqual(u'%ifdefnotempty{none,trueval,falseval}', u'falseval')
+        self.parseEqual('%ifdefnotempty{none,trueval,falseval}', 'falseval')
 
     # nonexistent
     def test_only_whitespaces(self):
-        self.parseEqual(u'%ifdefnotempty{only_whitespaces,trueval,falseval}',
-                        u'falseval')
+        self.parseEqual('%ifdefnotempty{only_whitespaces,trueval,falseval}',
+                        'falseval')
 
 
 if __name__ == '__main__':
