@@ -18,14 +18,19 @@ of the `beets project <http://beets.io>`_.
 import time
 import re
 import textwrap
+import typing
 from unidecode import unidecode
 
 
-def _int_arg(s):
+def _int_arg(s: str) -> int:
     """Convert a string argument to an integer for use in a template
-    function.  May raise a ValueError.
+    function. May raise a ValueError.
     """
     return int(s.strip())
+
+
+FunctionCollection = typing.Dict[str, typing.Callable[..., str]]
+Values = typing.Optional[typing.Dict[str, str]]
 
 
 class Functions:
@@ -36,22 +41,26 @@ class Functions:
     """
     _prefix = 'tmpl_'
 
-    def __init__(self, values=None):
+    values: Values
+
+    _func_names: typing.Dict[str, typing.Callable[..., str]]
+
+    def __init__(self, values: Values = None):
         """Parametrize the functions.
         """
         self.values = values
 
-    def functions(self):
+    def functions(self) -> FunctionCollection:
         """Returns a dictionary containing the functions defined in this
         object. The keys are function names (as exposed in templates)
         and the values are Python functions.
         """
-        out = {}
+        out: FunctionCollection = {}
         for key in self._func_names:
             out[key[len(self._prefix):]] = getattr(self, key)
         return out
 
-    def tmpl_alpha(self, text):
+    def tmpl_alpha(self, text: str) -> str:
         """
         * synopsis: ``%alpha{text}``
         * description: This function first ASCIIfies the given text, then all \
@@ -61,7 +70,7 @@ class Functions:
         text = re.sub(r'[^a-zA-Z]+', ' ', text)
         return re.sub(r'\s+', ' ', text)
 
-    def tmpl_alphanum(self, text):
+    def tmpl_alphanum(self, text: str) -> str:
         """
         * synopsis: ``%alphanum{text}``
         * description: This function first ASCIIfies the given text, then all \
@@ -72,7 +81,7 @@ class Functions:
         return re.sub(r'\s+', ' ', text)
 
     @staticmethod
-    def tmpl_asciify(text):
+    def tmpl_asciify(text: str) -> str:
         """
         * synopsis: ``%asciify{text}``
         * description: Translate non-ASCII characters to their ASCII \
@@ -90,7 +99,7 @@ class Functions:
         return str(unidecode(text).replace('[?]', ''))
 
     @staticmethod
-    def tmpl_delchars(text, chars):
+    def tmpl_delchars(text: str, chars: str) -> str:
         """
         * synopsis: ``%delchars{text,chars}``
         * description: Delete every single character of “chars“ in “text”.
@@ -100,7 +109,7 @@ class Functions:
         return text
 
     @staticmethod
-    def tmpl_deldupchars(text, chars=r'-_\.'):
+    def tmpl_deldupchars(text: str, chars=r'-_\.'):
         """
         * synopsis: ``%deldupchars{text,chars}``
         * description: Search for duplicate characters and replace with only \
@@ -110,7 +119,7 @@ class Functions:
         return re.sub(r'([' + chars + r'])\1*', r'\1', text)
 
     @staticmethod
-    def tmpl_first(text, count=1, skip=0, sep='; ', join_str='; '):
+    def tmpl_first(text: str, count=1, skip=0, sep='; ', join_str='; '):
         """
         * synopsis: ``%first{text}`` or ``%first{text,count,skip}`` or \
             ``%first{text,count,skip,sep,join}``
@@ -220,7 +229,7 @@ class Functions:
             return trueval
 
     @staticmethod
-    def tmpl_initial(text):
+    def tmpl_initial(text: str) -> str:
         """
 
         * synopsis: ``%initial{text}``
@@ -248,16 +257,16 @@ class Functions:
         return text
 
     @staticmethod
-    def tmpl_left(s, chars):
+    def tmpl_left(text: str, n: str) -> str:
         """Get the leftmost characters of a string.
 
         * synopsis: ``%left{text,n}``
         * description: Return the first “n” characters of “text”.
         """
-        return s[0:_int_arg(chars)]
+        return text[0:_int_arg(n)]
 
     @staticmethod
-    def tmpl_lower(text):
+    def tmpl_lower(text: str) -> str:
         """Convert a string to lower case
 
         * synopsis: ``%lower{text}``
@@ -266,7 +275,7 @@ class Functions:
         return text.lower()
 
     @staticmethod
-    def tmpl_nowhitespace(text, replace='-'):
+    def tmpl_nowhitespace(text: str, replace: str = '-') -> str:
         """
         * synopsis: ``%nowhitespace{text,replace}``
         * description: Replace all whitespace characters with ``replace``. \
@@ -276,7 +285,7 @@ class Functions:
         return re.sub(r'\s+', replace, text)
 
     @staticmethod
-    def tmpl_num(number, count=2):
+    def tmpl_num(number: int, count: int = 2) -> str:
         """Pad decimal number with leading zeros
 
         * synopsis: ``%num{number,count}``
@@ -286,7 +295,7 @@ class Functions:
         return str(number).zfill(int(count))
 
     @staticmethod
-    def tmpl_replchars(text, replace, chars):
+    def tmpl_replchars(text: str, replace: str, chars: str) -> str:
         """
         * synopsis: ``%replchars{text,chars,replace}``
         * description: Replace the characters “chars” in “text” with \
@@ -298,16 +307,16 @@ class Functions:
         return text
 
     @staticmethod
-    def tmpl_right(text, chars):
+    def tmpl_right(text: str, n: str) -> str:
         """Get the rightmost characters of a string.
 
         * synopsis: ``%right{text,n}``
         * description: Return the last “n” characters of “text”.
         """
-        return text[-_int_arg(chars):]
+        return text[-_int_arg(n):]
 
     @staticmethod
-    def tmpl_sanitize(text):
+    def tmpl_sanitize(text: str) -> str:
         """
         * synopsis: ``%sanitize{text}``
         * description:  Delete in most file systems not allowed characters.
@@ -317,7 +326,7 @@ class Functions:
         return text
 
     @staticmethod
-    def tmpl_shorten(text, max_size=32):
+    def tmpl_shorten(text: str, max_size: int = 32) -> str:
         """Shorten the given text to ``max_size``
 
         * synopsis: ``%shorten{text}`` or ``%shorten{text,max_size}``
@@ -333,7 +342,7 @@ class Functions:
         return text.strip()
 
     @staticmethod
-    def tmpl_time(text, fmt, cur_fmt):
+    def tmpl_time(text: str, fmt: str, cur_fmt: str) -> str:
         """Format a time value using `strftime`.
 
         * synopsis: ``%time{date_time,format,curformat}``
@@ -344,7 +353,7 @@ class Functions:
         return time.strftime(fmt, time.strptime(text, cur_fmt))
 
     @staticmethod
-    def tmpl_title(text):
+    def tmpl_title(text: str) -> str:
         """Convert a string to title case
 
         * synopsis: ``%title{text}``
@@ -353,7 +362,7 @@ class Functions:
         return text.title()
 
     @staticmethod
-    def tmpl_upper(text):
+    def tmpl_upper(text: str) -> str:
         """Covert a string to upper case
 
         * synopsis: ``%upper{text}``
