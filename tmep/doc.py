@@ -3,6 +3,7 @@
 import re
 from tmep import functions
 import textwrap
+import typing
 Functions = functions.Functions
 
 
@@ -27,10 +28,11 @@ class Doc(object):
                 )
         self.functions.sort()
 
-    def prepare_docstrings(self, string):
+    def prepare_docstrings(self, string: str) -> str:
         return re.sub(r' {2,}', ' ', string)
 
-    def extract_value(self, string, key, inline_code=True):
+    def extract_value(self, string: str, key: str,
+                      inline_code: bool = True) -> typing.Optional[str]:
         """Extract strings from the docstrings
 
         .. code-block:: text
@@ -40,7 +42,7 @@ class Doc(object):
             * description: Shorten “text” on word boundarys.
 
         """
-        regex = r'\* ' + key + ': '
+        regex: str = r'\* ' + key + ': '
         if inline_code:
             regex = regex + '``(.*)``'
         else:
@@ -48,16 +50,14 @@ class Doc(object):
         value = re.findall(regex, string)
         if value:
             return value[0].replace('``', '')
-        else:
-            return False
 
-    def underline(self, text, indent=4):
+    def underline(self, text: str, indent: int = 4) -> str:
         """Underline a given text"""
         length = len(text)
         indentation = (' ' * indent)
         return indentation + text + '\n' + indentation + ('-' * length)
 
-    def format(self, text, width=78, indent=4):
+    def format(self, text: str, width: int = 78, indent: int = 4) -> str:
         """Apply textwrap to a given text string"""
         return textwrap.fill(
             text,

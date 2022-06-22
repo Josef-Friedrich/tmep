@@ -233,7 +233,7 @@ class ParseTest(unittest.TestCase):
 
 
 class EvalTest(unittest.TestCase):
-    def _eval(self, template):
+    def _eval(self, template: str):
         values = {
             'foo': 'bar',
             'baz': 'BaR',
