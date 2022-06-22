@@ -31,7 +31,7 @@ class TestFunctions(unittest.TestCase):
             'track': 7,
         }
 
-    def parseEqual(self, a, b):
+    def parseEqual(self, a: str, b: str):
         self.assertEqual(tmep.parse(a, self.values), b)
 
     # alphanum
@@ -273,7 +273,7 @@ class TestFunctionIfDefEmpty(unittest.TestCase):
             'only_whitespaces': ' \t\n',
         }
 
-    def parseEqual(self, a, b):
+    def parseEqual(self, a: str, b: str):
         self.assertEqual(tmep.parse(a, self.values), b)
 
     # empty_string
@@ -315,7 +315,7 @@ class TestFunctionIfDefNotEmpty(unittest.TestCase):
             'only_whitespaces': ' \t\n',
         }
 
-    def parseEqual(self, a, b):
+    def parseEqual(self, a: str, b: str):
         self.assertEqual(tmep.parse(a, self.values), b)
 
     # empty_string

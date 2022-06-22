@@ -19,7 +19,8 @@ class Functions(functions.Functions):
         super(Functions, self).__init__(values)
 
 
-def parse(template, values=None, additional_functions=None, functions=None):
+def parse(template: str, values=None, additional_functions=None,
+          functions=None):
     template_ = Template(template)
     if not functions:
         functions_ = Functions(values)

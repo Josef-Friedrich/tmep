@@ -544,7 +544,7 @@ def cached(func):
 
 
 @cached
-def template(fmt):
+def template(fmt: str):
     return Template(fmt)
 
 
@@ -553,7 +553,7 @@ class Template:
     """A string template, including text, Symbols, and Calls.
     """
 
-    def __init__(self, template):
+    def __init__(self, template: str):
         self.expr = _parse(template)
         self.original = template
         self.compiled = self.translate()

@@ -39,11 +39,11 @@ class Functions:
     additional context to the functions -- specifically, the Item being
     evaluated.
     """
-    _prefix = 'tmpl_'
+    prefix = 'tmpl_'
 
     values: Values
 
-    _func_names: typing.Dict[str, typing.Callable[..., str]]
+    func_names: typing.List[str]
 
     def __init__(self, values: Values = None):
         """Parametrize the functions.
@@ -56,8 +56,8 @@ class Functions:
         and the values are Python functions.
         """
         out: FunctionCollection = {}
-        for key in self._func_names:
-            out[key[len(self._prefix):]] = getattr(self, key)
+        for key in self.func_names:
+            out[key[len(self.prefix):]] = getattr(self, key)
         return out
 
     def tmpl_alpha(self, text: str) -> str:
@@ -109,7 +109,7 @@ class Functions:
         return text
 
     @staticmethod
-    def tmpl_deldupchars(text: str, chars=r'-_\.'):
+    def tmpl_deldupchars(text: str, chars: str = r'-_\.') -> str:
         """
         * synopsis: ``%deldupchars{text,chars}``
         * description: Search for duplicate characters and replace with only \
@@ -119,7 +119,8 @@ class Functions:
         return re.sub(r'([' + chars + r'])\1*', r'\1', text)
 
     @staticmethod
-    def tmpl_first(text: str, count=1, skip=0, sep='; ', join_str='; '):
+    def tmpl_first(text: str, count: int = 1, skip: int = 0, sep: str = '; ',
+                   join_str: str = '; ') -> str:
         """
         * synopsis: ``%first{text}`` or ``%first{text,count,skip}`` or \
             ``%first{text,count,skip,sep,join}``
@@ -140,7 +141,7 @@ class Functions:
         return join_str.join(text.split(sep)[skip:count])
 
     @staticmethod
-    def tmpl_if(condition, trueval, falseval=''):
+    def tmpl_if(condition: str, trueval: str, falseval: str = '') -> str:
         """If ``condition`` is nonempty and nonzero, emit ``trueval``;
         otherwise, emit ``falseval`` (if provided).
 
@@ -151,20 +152,23 @@ class Functions:
             third argument if specified (or nothing if falsetext is left off).
 
         """
+        c: typing.Union[str, int]
+        c = condition
         try:
             int_condition = _int_arg(condition)
         except ValueError:
             if condition.lower() == "false":
                 return falseval
         else:
-            condition = int_condition
+            c = int_condition
 
-        if condition:
+        if c:
             return trueval
         else:
             return falseval
 
-    def tmpl_ifdef(self, field, trueval='', falseval=''):
+    def tmpl_ifdef(self, field: str, trueval: str = '',
+                   falseval: str = '') -> str:
         """If field exists return trueval or the field (default) otherwise,
         emit return falseval (if provided).
 
@@ -179,12 +183,13 @@ class Functions:
         :param falseval: The string if the condition is false
         :return: The string, based on condition
         """
-        if field in self.values:
+        if self.values and field in self.values:
             return trueval
         else:
             return falseval
 
-    def tmpl_ifdefempty(self, field, trueval='', falseval=''):
+    def tmpl_ifdefempty(self, field: str, trueval: str = '',
+                        falseval: str = ''):
         """If field exists and is emtpy return trueval
         otherwise, emit return falseval (if provided).
 
@@ -199,6 +204,8 @@ class Functions:
         :param falseval: The string if the condition is false
         :return: The string, based on condition
         """
+        if not self.values:
+            return falseval
         if field not in self.values or \
            (field in self.values and not self.values[field]) or \
            re.search(r'^\s*$', self.values[field]):
@@ -206,7 +213,8 @@ class Functions:
         else:
             return falseval
 
-    def tmpl_ifdefnotempty(self, field, trueval='', falseval=''):
+    def tmpl_ifdefnotempty(self, field: str, trueval: str = '',
+                           falseval: str = '') -> str:
         """If field is not emtpy return trueval or the field (default)
         otherwise, emit return falseval (if provided).
 
@@ -221,6 +229,8 @@ class Functions:
         :param falseval: The string if the condition is false
         :return: The string, based on condition
         """
+        if not self.values:
+            return trueval
         if field not in self.values or \
            (field in self.values and not self.values[field]) or \
            re.search(r'^\s*$', self.values[field]):
@@ -372,6 +382,6 @@ class Functions:
 
 
 # Get the name of tmpl_* functions in the above class.
-Functions._func_names = \
+Functions.func_names = \
     [s for s in dir(Functions)
-     if s.startswith(Functions._prefix)]
+     if s.startswith(Functions.prefix)]
