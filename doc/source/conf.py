@@ -13,9 +13,9 @@ source_suffix = '.rst'
 
 master_doc = 'index'
 
-project = u'tmep'
-copyright = u'2016, Josef Friedrich'
-author = u'Josef Friedrich'
+project = 'tmep'
+copyright = '2016-2022, Josef Friedrich'
+author = 'Josef Friedrich'
 version = tmep.__version__
 release = tmep.__version__
 language = 'en'
@@ -24,4 +24,10 @@ pygments_style = 'sphinx'
 todo_include_todos = False
 html_static_path = []
 htmlhelp_basename = 'tmepdoc'
-autodoc_default_flags = ['members', 'undoc-members', 'private-members', 'show-inheritance']
+
+autodoc_default_options = {
+    'members': True,
+    'private-members': True,
+    'undoc-members': True,
+    'show-inheritance': True
+}
