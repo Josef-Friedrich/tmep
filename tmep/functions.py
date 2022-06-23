@@ -19,7 +19,10 @@ import time
 import re
 import textwrap
 import typing
+from typing import Optional
 from unidecode import unidecode
+
+from . types import Values, FunctionCollection
 
 
 def _int_arg(s: str) -> int:
@@ -27,10 +30,6 @@ def _int_arg(s: str) -> int:
     function. May raise a ValueError.
     """
     return int(s.strip())
-
-
-FunctionCollection = typing.Dict[str, typing.Callable[..., str]]
-Values = typing.Optional[typing.Dict[str, str]]
 
 
 class Functions:
@@ -41,11 +40,11 @@ class Functions:
     """
     prefix = 'tmpl_'
 
-    values: Values
+    values: Optional[Values]
 
     func_names: typing.List[str]
 
-    def __init__(self, values: Values = None):
+    def __init__(self, values: Optional[Values] = None):
         """Parametrize the functions.
         """
         self.values = values

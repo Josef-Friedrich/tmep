@@ -36,6 +36,8 @@ import types
 import sys
 import functools
 
+from .types import Values, FunctionCollection
+
 SYMBOL_DELIM = '$'
 FUNC_DELIM = '%'
 GROUP_OPEN = '{'
@@ -561,7 +563,8 @@ class Template:
     def __eq__(self, other):
         return self.original == other.original
 
-    def interpret(self, values={}, functions={}):
+    def interpret(self, values: Values = {},
+                  functions: FunctionCollection = {}):
         """Like `substitute`, but forces the interpreter (rather than
         the compiled version) to be used. The interpreter includes
         exception-handling code for missing variables and buggy template
@@ -569,7 +572,8 @@ class Template:
         """
         return self.expr.evaluate(Environment(values, functions))
 
-    def substitute(self, values={}, functions={}):
+    def substitute(self, values: Values = {},
+                   functions: FunctionCollection = {}):
         """Evaluate the template given the values and functions.
         """
         try:
@@ -594,7 +598,8 @@ class Template:
             [ast.Return(ast.List(expressions, ast.Load()))],
         )
 
-        def wrapper_func(values={}, functions={}):
+        def wrapper_func(values: Values = {},
+                         functions: FunctionCollection = {}):
             args = {}
             for varname in varnames:
                 args[VARIABLE_PREFIX + varname] = values[varname]

@@ -4,28 +4,45 @@ import re
 from tmep import functions
 import textwrap
 import typing
+from typing import List, Dict
 Functions = functions.Functions
+
+
+FunctionDoc = Dict[str, str]
 
 
 class Doc(object):
 
+    synopsises: FunctionDoc
+    examples: FunctionDoc
+    descriptions: FunctionDoc
+    functions: List[str]
+
     def __init__(self):
         functions_ = Functions()
         functions = functions_.functions()
-        self.synopsises = {}
-        self.examples = {}
-        self.descriptions = {}
-        self.functions = []
+        self.synopsises: FunctionDoc = {}
+        self.examples: FunctionDoc = {}
+        self.descriptions: FunctionDoc = {}
+        self.functions: List[str] = []
         for name, function in functions.items():
             self.functions.append(name)
             doc = function.__doc__
             if doc:
                 doc = self.prepare_docstrings(doc)
-                self.synopsises[name] = self.extract_value(doc, 'synopsis')
-                self.examples[name] = self.extract_value(doc, 'example')
-                self.descriptions[name] = self.extract_value(
+                synopse = self.extract_value(doc, 'synopsis')
+                if synopse:
+                    self.synopsises[name] = synopse
+
+                example = self.extract_value(doc, 'example')
+                if example:
+                    self.examples[name] = example
+
+                description = self.extract_value(
                     doc, 'description', False
                 )
+                if description:
+                    self.descriptions[name] = description
         self.functions.sort()
 
     def prepare_docstrings(self, string: str) -> str:
@@ -66,18 +83,18 @@ class Doc(object):
             subsequent_indent=' ' * indent,
         )
 
-    def get(self):
+    def get(self) -> str:
         """Retrieve a formated text string"""
         output = ''
-        for f in self.functions:
-            output += self.underline(f) + '\n\n'
-            if f in self.synopsises and isinstance(self.synopsises[f], str):
-                output += self.format(self.synopsises[f]) + '\n'
-            if f in self.descriptions and isinstance(
-                self.descriptions[f], str
-            ):
-                output += self.format(self.descriptions[f], indent=8) + '\n'
-            if f in self.examples and isinstance(self.examples[f], str):
-                output += self.format(self.examples[f], indent=8) + '\n'
+        for function_name in self.functions:
+            output += self.underline(function_name) + '\n\n'
+            if function_name in self.synopsises:
+                output += self.format(self.synopsises[function_name]) + '\n'
+            if function_name in self.descriptions:
+                output += self.format(
+                    self.descriptions[function_name], indent=8) + '\n'
+            if function_name in self.examples:
+                output += self.format(
+                    self.examples[function_name], indent=8) + '\n'
             output += '\n'
         return output
