@@ -1,4 +1,5 @@
 include LICENSE
 include versioneer.py
 include tmep/_version.py
+include tmep/py.typed
 prune test

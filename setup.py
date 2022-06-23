@@ -44,4 +44,5 @@ setup(
     scripts=['bin/tmep-doc'],
     zip_safe=False,
     python_requires='>=3.6',
+    package_data={'tmep': ['py.typed']},
 )
