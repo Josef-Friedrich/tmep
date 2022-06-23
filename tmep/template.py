@@ -564,7 +564,7 @@ class Template:
         return self.original == other.original
 
     def interpret(self, values: Values = {},
-                  functions: FunctionCollection = {}):
+                  functions: FunctionCollection = {}) -> str:
         """Like `substitute`, but forces the interpreter (rather than
         the compiled version) to be used. The interpreter includes
         exception-handling code for missing variables and buggy template
@@ -573,7 +573,7 @@ class Template:
         return self.expr.evaluate(Environment(values, functions))
 
     def substitute(self, values: Values = {},
-                   functions: FunctionCollection = {}):
+                   functions: FunctionCollection = {}) -> str:
         """Evaluate the template given the values and functions.
         """
         try:
