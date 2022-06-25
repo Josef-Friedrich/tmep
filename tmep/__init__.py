@@ -32,6 +32,3 @@ def parse(template: str, values=None, additional_functions=None,
             functions[k] = v
 
     return template_.substitute(values, functions)
-
-from . import _version
-__version__ = _version.get_versions()['version']
