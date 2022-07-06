@@ -1,10 +1,12 @@
 """Extract docstrings from func.py to document the template functions."""
 
 import re
-from tmep import functions
 import textwrap
 import typing
-from typing import List, Dict
+from typing import Dict, List
+
+from tmep import functions
+
 Functions = functions.Functions
 
 

@@ -1,23 +1,9 @@
 import unittest
-from tmep.format import \
-    alpha, \
-    alphanum, \
-    asciify, \
-    delchars, \
-    deldupchars, \
-    first, \
-    initial, \
-    left, \
-    lower, \
-    nowhitespace, \
-    num, \
-    replchars, \
-    right, \
-    sanitize, \
-    shorten, \
-    time, \
-    title, \
-    upper
+
+from tmep.format import (alpha, alphanum, asciify, delchars, deldupchars,
+                         first, initial, left, lower, nowhitespace, num,
+                         replchars, right, sanitize, shorten, time, title,
+                         upper)
 
 
 class TestFormatFunctions(unittest.TestCase):

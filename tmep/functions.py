@@ -15,14 +15,15 @@
 of the `beets project <http://beets.io>`_.
 """
 
-import time
 import re
 import textwrap
+import time
 import typing
 from typing import Optional
+
 from unidecode import unidecode
 
-from . types import Values, FunctionCollection
+from .types import FunctionCollection, Values
 
 
 def _int_arg(s: str) -> int:

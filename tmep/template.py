@@ -29,14 +29,14 @@ engine like Jinja2 or Mustache.
 """
 
 
-import re
 import ast
 import dis
-import types
-import sys
 import functools
+import re
+import sys
+import types
 
-from .types import Values, FunctionCollection
+from .types import FunctionCollection, Values
 
 SYMBOL_DELIM = '$'
 FUNC_DELIM = '%'
