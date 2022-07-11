@@ -1,6 +1,5 @@
 import os
 
-import versioneer
 from setuptools import find_packages, setup
 
 
@@ -21,8 +20,7 @@ def read(file_name):
 
 setup(
     name='tmep',
-    version=versioneer.get_version(),
-    cmdclass=versioneer.get_cmdclass(),
+    version='0.0.0',
     author='Josef Friedrich',
     author_email='josef@friedrich.rocks',
     description=('Template and Macros Expansion for Path names.'),

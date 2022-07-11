@@ -1,8 +1,6 @@
 from tmep import doc, functions, template
-from tmep._version import get_versions
 
-__version__: str = get_versions()['version']
-del get_versions
+__version__: str = '0.0.0'
 
 doc
 
