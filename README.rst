@@ -19,22 +19,12 @@ Template and Macros Expansion for Path names.
 Installation
 ============
 
-From Github
-------------
-
-.. code:: Shell
-
-    git clone https://github.com/Josef-Friedrich/tmep.git
-    cd tmep
-    python setup.py install
-
 From PyPI
 ----------
 
 .. code:: Shell
 
     pip install tmep
-    easy_install tmep
 
 Usage
 =====
@@ -79,7 +69,8 @@ Publish a new version
 
     git tag 1.1.1
     git push --tags
-    python setup.py sdist upload
+    poetry build
+    poetry publish
 
 
 Package documentation
