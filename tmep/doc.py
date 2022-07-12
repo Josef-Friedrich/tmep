@@ -100,3 +100,8 @@ class Doc(object):
                     self.examples[function_name], indent=8) + '\n'
             output += '\n'
         return output
+
+
+def print_doc() -> None:
+    documentation = Doc()
+    print(documentation.get())
