@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tmep"
-version = "0.0.0"
+version = "2.3.3"
 description = "Template and Macros Expansion for Path names."
 authors = ["Josef Friedrich <josef@friedrich.rocks>"]
 readme = "README.rst"
