@@ -2,8 +2,8 @@
     :target: https://pypi.python.org/pypi/tmep
     :alt: This package on the Python Package Index
 
-.. image:: https://github.com/Josef-Friedrich/tmep/actions/workflows/test.yml/badge.svg
-    :target: https://github.com/Josef-Friedrich/tmep/actions/workflows/test.yml
+.. image:: https://github.com/Josef-Friedrich/tmep/actions/workflows/tests.yml/badge.svg
+    :target: https://github.com/Josef-Friedrich/tmep/actions/workflows/tests.yml
     :alt: Tests
 
 .. image:: https://readthedocs.org/projects/tmep/badge/?version=latest
@@ -244,5 +244,3 @@ Functions
 
     %upper{text}
         Convert “text” to UPPERCASE.
-
-
