@@ -20,12 +20,12 @@ repository = "https://github.com/Josef-Friedrich/tmep"
 [tool.poetry.dependencies]
 python = "^3.8"
 Unidecode = "^1.3.4"
-readme-patcher = "^0.1.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 mypy = "^0.961"
 autopep8 = "^1.6.0"
+readme-patcher = "^0.2.0"
 
 [build-system]
 requires = ["poetry>=1.2.0b2"]
@@ -33,3 +33,13 @@ build-backend = "poetry.masonry.api"
 
 [tool.poetry.scripts]
 tmep-doc = "tmep.doc:print_doc"
+
+[[tool.readme_patcher.file]]
+src = "README_template.rst"
+dest = "README.rst"
+variables = {}
+
+[[tool.readme_patcher.file]]
+src = "doc/source/functions_template.rst"
+dest = "doc/source/functions.rst"
+variables = {}
