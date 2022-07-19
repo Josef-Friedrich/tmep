@@ -244,3 +244,5 @@ Functions
 
     %upper{text}
         Convert “text” to UPPERCASE.
+
+

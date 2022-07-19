@@ -102,6 +102,10 @@ class Doc(object):
         return output
 
 
-def print_doc() -> None:
+def get_doc() -> str:
     documentation = Doc()
-    print(documentation.get())
+    return documentation.get()
+
+
+def print_doc() -> None:
+    print(get_doc())
