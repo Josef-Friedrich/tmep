@@ -40,6 +40,6 @@ dest = "README.rst"
 variables = {}
 
 [[tool.readme_patcher.file]]
-src = "doc/source/functions_template.rst"
+src = "doc/functions_template.rst"
 dest = "doc/source/functions.rst"
 variables = {}
