@@ -1,14 +1,8 @@
-.. image:: http://img.shields.io/pypi/v/tmep.svg
-    :target: https://pypi.python.org/pypi/tmep
-    :alt: This package on the Python Package Index
+{{ badge.pypi }}
 
-.. image:: https://github.com/Josef-Friedrich/tmep/actions/workflows/tests.yml/badge.svg
-    :target: https://github.com/Josef-Friedrich/tmep/actions/workflows/tests.yml
-    :alt: Tests
+{{ badge.github_workflow() }}
 
-.. image:: https://readthedocs.org/projects/tmep/badge/?version=latest
-    :target: https://tmep.readthedocs.io/en/latest/?badge=latest
-    :alt: Documentation Status
+{{ badge.readthedocs }}
 
 ====
 tmep

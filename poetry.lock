@@ -344,16 +344,21 @@ testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "requests", "xm
 
 [[package]]
 name = "readme-patcher"
-version = "0.2.0"
+version = "0.3.0"
 description = "Generate README files from templates. Allow input from functions calls and cli output."
 category = "dev"
 optional = false
-python-versions = ">=3.8,<4.0"
+python-versions = "^3.8"
+develop = true
 
 [package.dependencies]
-Jinja2 = ">=3.1.2,<4.0.0"
-pyproject-parser = ">=0.7.0,<0.8.0"
-requests = ">=2.28.1,<3.0.0"
+Jinja2 = "^3.1.2"
+pyproject-parser = "^0.7.0"
+requests = "^2"
+
+[package.source]
+type = "directory"
+url = "../readme_patcher"
 
 [[package]]
 name = "requests"
@@ -458,7 +463,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "b53dab0a8bc1ef58ac873f1cdec1dcf6d51eebb51b568892ef12d3103bd0bf62"
+content-hash = "8aa0027ac69562d7619e3471ecffbb6dbf6757ca86fdd1b90f5e846c07a555d6"
 
 [metadata.files]
 apeye = []

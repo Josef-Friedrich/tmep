@@ -26,7 +26,7 @@ pytest = "^5.2"
 mypy = "^0.961"
 autopep8 = "^1.6.0"
 readme-patcher = "^0.3.0"
-# readme-patcher = { path = "../readme_patcher" }
+# readme-patcher = { path = "../readme_patcher", develop = true }
 
 [build-system]
 requires = ["poetry>=1.2.0b2"]
