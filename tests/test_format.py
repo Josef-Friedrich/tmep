@@ -1,26 +1,41 @@
 import unittest
 
-from tmep.format import (alpha, alphanum, asciify, delchars, deldupchars,
-                         first, initial, left, lower, nowhitespace, num,
-                         replchars, right, sanitize, shorten, time, title,
-                         upper)
+from tmep.format import (
+    alpha,
+    alphanum,
+    asciify,
+    delchars,
+    deldupchars,
+    first,
+    initial,
+    left,
+    lower,
+    nowhitespace,
+    num,
+    replchars,
+    right,
+    sanitize,
+    shorten,
+    time,
+    title,
+    upper,
+)
 
 
 class TestFormatFunctions(unittest.TestCase):
-
     def test_alpha(self):
         self.assertTrue(callable(alpha))
 
     def test_alphanum(self):
-        self.assertEqual(alphanum('a-b'), 'a b')
+        self.assertEqual(alphanum("a-b"), "a b")
         self.assertTrue(callable(alphanum))
 
     def test_asciify(self):
-        self.assertEqual(asciify('ä'), 'ae')
+        self.assertEqual(asciify("ä"), "ae")
         self.assertTrue(callable(asciify))
 
     def test_delchars(self):
-        self.assertEqual(delchars('a-b', '-'), 'ab')
+        self.assertEqual(delchars("a-b", "-"), "ab")
         self.assertTrue(callable(delchars))
 
     def test_deldupchars(self):
@@ -66,5 +81,5 @@ class TestFormatFunctions(unittest.TestCase):
         self.assertTrue(callable(upper))
 
 
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

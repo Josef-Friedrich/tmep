@@ -4,7 +4,6 @@ from tmep import doc
 
 
 class TestDoc(unittest.TestCase):
-
     def setUp(self):
         self.doc = doc.Doc()
 
@@ -29,36 +28,32 @@ class TestDoc(unittest.TestCase):
 
     def test_extract_synopsis(self):
         value = self.doc.extract_value(
-            '        * synopsis: ``%shorten(text, max_size)``',
-            'synopsis'
+            "        * synopsis: ``%shorten(text, max_size)``", "synopsis"
         )
-        self.assertEqual(value, '%shorten(text, max_size)')
+        self.assertEqual(value, "%shorten(text, max_size)")
 
     def test_extract_synopsis_multiple(self):
         value = self.doc.extract_value(
-            '* synopsis: ``%shorten(text)`` or ``%shorten(text, max_size)``',
-            'synopsis'
+            "* synopsis: ``%shorten(text)`` or ``%shorten(text, max_size)``", "synopsis"
         )
-        self.assertEqual(value, '%shorten(text) or %shorten(text, max_size)')
+        self.assertEqual(value, "%shorten(text) or %shorten(text, max_size)")
 
     def test_extract_example(self):
         value = self.doc.extract_value(
-            '        * example: ``%shorten($title, 2)``',
-            'example',
+            "        * example: ``%shorten($title, 2)``",
+            "example",
         )
-        self.assertEqual(value, '%shorten($title, 2)')
+        self.assertEqual(value, "%shorten($title, 2)")
 
     def test_extract_description(self):
         value = self.doc.extract_value(
-            '        * description: Some description',
-            'description',
-            False
+            "        * description: Some description", "description", False
         )
-        self.assertEqual(value, 'Some description')
+        self.assertEqual(value, "Some description")
 
     def test_get(self):
         self.assertTrue(self.doc.get())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

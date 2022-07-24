@@ -32,26 +32,25 @@ class Doc(object):
             doc = function.__doc__
             if doc:
                 doc = self.prepare_docstrings(doc)
-                synopse = self.extract_value(doc, 'synopsis')
+                synopse = self.extract_value(doc, "synopsis")
                 if synopse:
                     self.synopsises[name] = synopse
 
-                example = self.extract_value(doc, 'example')
+                example = self.extract_value(doc, "example")
                 if example:
                     self.examples[name] = example
 
-                description = self.extract_value(
-                    doc, 'description', False
-                )
+                description = self.extract_value(doc, "description", False)
                 if description:
                     self.descriptions[name] = description
         self.functions.sort()
 
     def prepare_docstrings(self, string: str) -> str:
-        return re.sub(r' {2,}', ' ', string)
+        return re.sub(r" {2,}", " ", string)
 
-    def extract_value(self, string: str, key: str,
-                      inline_code: bool = True) -> typing.Optional[str]:
+    def extract_value(
+        self, string: str, key: str, inline_code: bool = True
+    ) -> typing.Optional[str]:
         """Extract strings from the docstrings
 
         .. code-block:: text
@@ -61,44 +60,42 @@ class Doc(object):
             * description: Shorten “text” on word boundarys.
 
         """
-        regex: str = r'\* ' + key + ': '
+        regex: str = r"\* " + key + ": "
         if inline_code:
-            regex = regex + '``(.*)``'
+            regex = regex + "``(.*)``"
         else:
-            regex = regex + '(.*)'
+            regex = regex + "(.*)"
         value = re.findall(regex, string)
         if value:
-            return value[0].replace('``', '')
+            return value[0].replace("``", "")
 
     def underline(self, text: str, indent: int = 4) -> str:
         """Underline a given text"""
         length = len(text)
-        indentation = (' ' * indent)
-        return indentation + text + '\n' + indentation + ('-' * length)
+        indentation = " " * indent
+        return indentation + text + "\n" + indentation + ("-" * length)
 
     def format(self, text: str, width: int = 78, indent: int = 4) -> str:
         """Apply textwrap to a given text string"""
         return textwrap.fill(
             text,
             width=width,
-            initial_indent=' ' * indent,
-            subsequent_indent=' ' * indent,
+            initial_indent=" " * indent,
+            subsequent_indent=" " * indent,
         )
 
     def get(self) -> str:
         """Retrieve a formated text string"""
-        output = ''
+        output = ""
         for function_name in self.functions:
-            output += self.underline(function_name) + '\n\n'
+            output += self.underline(function_name) + "\n\n"
             if function_name in self.synopsises:
-                output += self.format(self.synopsises[function_name]) + '\n'
+                output += self.format(self.synopsises[function_name]) + "\n"
             if function_name in self.descriptions:
-                output += self.format(
-                    self.descriptions[function_name], indent=8) + '\n'
+                output += self.format(self.descriptions[function_name], indent=8) + "\n"
             if function_name in self.examples:
-                output += self.format(
-                    self.examples[function_name], indent=8) + '\n'
-            output += '\n'
+                output += self.format(self.examples[function_name], indent=8) + "\n"
+            output += "\n"
         return output
 
 
