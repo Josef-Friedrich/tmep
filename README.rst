@@ -4,6 +4,7 @@
 
 .. image:: https://github.com/Josef-Friedrich/tmep/actions/workflows/tests.yml/badge.svg
     :target: https://github.com/Josef-Friedrich/tmep/actions/workflows/tests.yml
+    :alt: Tests
 
 .. image:: https://readthedocs.org/projects/tmep/badge/?version=latest
     :target: https://tmep.readthedocs.io/en/latest/?badge=latest
