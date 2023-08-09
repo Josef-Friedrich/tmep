@@ -28,9 +28,10 @@ autopep8 = "^1.6.0"
 readme-patcher = "^0.6.0"
 black = "^22.6.0"
 isort = "^5.10.1"
+tox = "^3.25.1"
 
 [build-system]
-requires = ["poetry>=1.2.0b2"]
+requires = ["poetry>=1.5.1"]
 build-backend = "poetry.masonry.api"
 
 [tool.poetry.scripts]
@@ -41,5 +42,5 @@ src = "README_template.rst"
 dest = "README.rst"
 
 [[tool.readme_patcher.file]]
-src = "doc/functions_template.rst"
-dest = "doc/source/functions.rst"
+src = ".functions_template.rst"
+dest = "docs/functions.rst"
