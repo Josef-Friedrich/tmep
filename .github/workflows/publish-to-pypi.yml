@@ -9,16 +9,19 @@ on:
     - '*' # Push events to every tag not containing /
 
 jobs:
-  build-n-publish:
+  build-and-publish:
     name: Build and Publish to PyPI
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout git repository
+      # https://github.com/marketplace/actions/checkout
+    - name: Checkout git repository
       uses: actions/checkout@v4
+      # https://github.com/marketplace/actions/setup-python
     - name: Setup Python
       uses: actions/setup-python@v4
       with:
         python-version: "3.x"
+
     # https://github.com/marketplace/actions/publish-python-poetry-package
     - name: Publish to PyPI
       uses: JRubics/poetry-publish@v1.17
