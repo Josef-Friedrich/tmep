@@ -53,8 +53,7 @@ Test
 
 ::
 
-    tox
-
+    poetry run tox
 
 Publish a new version
 ---------------------
@@ -65,7 +64,6 @@ Publish a new version
     git push --tags
     poetry build
     poetry publish
-
 
 Package documentation
 ---------------------

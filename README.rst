@@ -59,7 +59,7 @@ Test
 
 ::
 
-    tox
+    poetry run tox
 
 Publish a new version
 ---------------------

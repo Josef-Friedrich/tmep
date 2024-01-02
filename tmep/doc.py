@@ -14,7 +14,6 @@ FunctionDoc = Dict[str, str]
 
 
 class Doc(object):
-
     synopsises: FunctionDoc
     examples: FunctionDoc
     descriptions: FunctionDoc

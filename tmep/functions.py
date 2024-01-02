@@ -23,7 +23,7 @@ from typing import Optional
 
 from unidecode import unidecode
 
-from .types import FunctionCollection, Values
+from tmep.types import FunctionCollection, Values
 
 
 def _int_arg(s: str) -> int:
