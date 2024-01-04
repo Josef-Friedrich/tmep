@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tmep"
-version = "2.3.4"
+version = "2.4.0"
 description = "Template and Macros Expansion for Path names."
 authors = ["Josef Friedrich <josef@friedrich.rocks>"]
 readme = "README.rst"
@@ -11,6 +11,8 @@ classifiers = [
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3",
     "Topic :: Utilities",
     "License :: OSI Approved :: MIT License",

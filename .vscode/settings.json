@@ -1,4 +1,3 @@
 {
-  "restructuredtext.syntaxHighlighting.disabled": true,
-  "esbonio.sphinx.confDir": ""
+  "python.testing.pytestEnabled": true
 }

@@ -13,7 +13,7 @@ Functions = functions.Functions
 FunctionDoc = Dict[str, str]
 
 
-class Doc(object):
+class Doc:
     synopsises: FunctionDoc
     examples: FunctionDoc
     descriptions: FunctionDoc
@@ -67,6 +67,7 @@ class Doc(object):
         value = re.findall(regex, string)
         if value:
             return value[0].replace("``", "")
+        return None
 
     def underline(self, text: str, indent: int = 4) -> str:
         """Underline a given text"""
@@ -99,9 +100,55 @@ class Doc(object):
 
 
 def get_doc() -> str:
-    documentation = Doc()
-    return documentation.get()
+    """
+    Get the documentation string.
+
+    .. code-block:: text
+
+        alpha
+        -----
+
+        %alpha{text}
+            This function first ASCIIfies the given text, then all non alphabet
+            characters are replaced with whitespaces.
+
+        alphanum
+        --------
+
+        %alphanum{text}
+            This function first ASCIIfies the given text, then all non alpanumeric
+            characters are replaced with whitespaces.
+
+        ...
+
+
+    :return: The documentation string.
+    """
+    return Doc().get()
 
 
 def print_doc() -> None:
+    """
+    Print the documentation string.
+
+    .. code-block:: text
+
+        alpha
+        -----
+
+        %alpha{text}
+            This function first ASCIIfies the given text, then all non alphabet
+            characters are replaced with whitespaces.
+
+        alphanum
+        --------
+
+        %alphanum{text}
+            This function first ASCIIfies the given text, then all non alpanumeric
+            characters are replaced with whitespaces.
+
+        ...
+
+
+    """
     print(get_doc())

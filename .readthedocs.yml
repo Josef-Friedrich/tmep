@@ -16,6 +16,7 @@ sphinx:
 # https://docs.readthedocs.io/en/stable/config-file/v2.html#python
 python:
   install:
+    # pip-compile --output-file=docs/requirements.txt docs/requirements.in pyproject.toml
     - requirements: docs/requirements.txt
     - method: pip
       path: .

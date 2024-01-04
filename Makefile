@@ -19,4 +19,7 @@ docs:
 	poetry run tox -e docs
 	xdg-open docs/_build/index.html
 
-.PHONY: test install update build publish docs
+pin_docs_requirements:
+	pip-compile --output-file=docs/requirements.txt docs/requirements.in pyproject.toml
+
+.PHONY: test install update build publish docs pin_docs_requirements
