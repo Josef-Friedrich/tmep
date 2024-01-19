@@ -1,5 +1,3 @@
-import unittest
-
 from tmep.format import (
     alpha,
     alphanum,
@@ -22,64 +20,60 @@ from tmep.format import (
 )
 
 
-class TestFormatFunctions(unittest.TestCase):
+class TestFormatFunctions:
     def test_alpha(self):
-        self.assertTrue(callable(alpha))
+        assert callable(alpha)
 
     def test_alphanum(self):
-        self.assertEqual(alphanum("a-b"), "a b")
-        self.assertTrue(callable(alphanum))
+        assert alphanum("a-b") == "a b"
+        assert callable(alphanum)
 
     def test_asciify(self):
-        self.assertEqual(asciify("ä"), "ae")
-        self.assertTrue(callable(asciify))
+        assert asciify("ä"), "ae"
+        assert callable(asciify)
 
     def test_delchars(self):
-        self.assertEqual(delchars("a-b", "-"), "ab")
-        self.assertTrue(callable(delchars))
+        assert delchars("a-b", "-") == "ab"
+        assert callable(delchars)
 
     def test_deldupchars(self):
-        self.assertTrue(callable(deldupchars))
+        assert callable(deldupchars)
 
     def test_first(self):
-        self.assertTrue(callable(first))
+        assert callable(first)
 
     def test_initial(self):
-        self.assertTrue(callable(initial))
+        assert callable(initial)
 
     def test_left(self):
-        self.assertTrue(callable(left))
+        assert callable(left)
 
     def test_lower(self):
-        self.assertTrue(callable(lower))
+        assert callable(lower)
 
     def test_num(self):
-        self.assertTrue(callable(num))
+        assert callable(num)
 
     def test_nowhitespace(self):
-        self.assertTrue(callable(nowhitespace))
+        assert callable(nowhitespace)
 
     def test_replchars(self):
-        self.assertTrue(callable(replchars))
+        assert callable(replchars)
 
     def test_right(self):
-        self.assertTrue(callable(right))
+        assert callable(right)
 
     def test_sanitize(self):
-        self.assertTrue(callable(sanitize))
+        assert callable(sanitize)
 
     def test_shorten(self):
-        self.assertTrue(callable(shorten))
+        assert callable(shorten)
 
     def test_time(self):
-        self.assertTrue(callable(time))
+        assert callable(time)
 
     def test_title(self):
-        self.assertTrue(callable(title))
+        assert callable(title)
 
     def test_upper(self):
-        self.assertTrue(callable(upper))
-
-
-if __name__ == "__main__":
-    unittest.main(defaultTest="suite")
+        assert callable(upper)

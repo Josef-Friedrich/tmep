@@ -1,12 +1,10 @@
 """Test the interface of the main package."""
 
-import unittest
-
 import tmep
 
 
-class TestClasses(unittest.TestCase):
-    def setUp(self):
+class TestClasses:
+    def setup_method(self):
         self.template = "${lastname}; ${prename}"
         self.values = {"prename": "Franz", "lastname": "Schubert"}
 
@@ -15,11 +13,11 @@ class TestClasses(unittest.TestCase):
         self.out = template.substitute(self.values, functions.functions)
 
     def test_values(self):
-        self.assertEqual(self.out, "Schubert; Franz")
+        assert self.out == "Schubert; Franz"
 
 
-class TestDefinitionParse(unittest.TestCase):
-    def setUp(self):
+class TestDefinitionParse:
+    def setup_method(self):
         self.parse = tmep.parse
         self.template = "${lastname}; ${prename}"
         self.values = {"prename": "Franz", "lastname": "Schubert"}
@@ -34,25 +32,21 @@ class TestDefinitionParse(unittest.TestCase):
 
     def test_values(self):
         out = self.parse(self.template, self.values)
-        self.assertEqual(out, "Schubert; Franz")
+        assert out == "Schubert; Franz"
 
     def test_parameter_functions(self):
         template = "%lol{$prename}%troll{$lastname}"
         out = self.parse(template, self.values, functions=self.functions)
-        self.assertEqual(out, "lolFranzloltrollSchuberttroll")
+        assert out == "lolFranzloltrollSchuberttroll"
 
     def test_parameter_additional_functions(self):
         template = "%lol{$prename}%troll{$lastname}"
         out = self.parse(template, self.values, additional_functions=self.functions)
-        self.assertEqual(out, "lolFranzloltrollSchuberttroll")
+        assert out == "lolFranzloltrollSchuberttroll"
         out = self.parse(template, self.values)
-        self.assertEqual(out, template)
+        assert out == template
 
 
-class TestDoc(unittest.TestCase):
+class TestDoc:
     def test_import(self):
-        self.assertTrue(tmep.doc.Doc)
-
-
-if __name__ == "__main__":
-    unittest.main()
+        assert tmep.doc.Doc
