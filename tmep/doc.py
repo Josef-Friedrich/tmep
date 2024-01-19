@@ -3,6 +3,7 @@
 import re
 import textwrap
 import typing
+from pathlib import Path
 from typing import Dict, List
 
 from tmep import functions
@@ -152,3 +153,8 @@ def print_doc() -> None:
 
     """
     print(get_doc())
+
+
+def read_help_text_rst() -> str:
+    with open(Path(__file__).parent / "help.rst", "r") as file:
+        return file.read()

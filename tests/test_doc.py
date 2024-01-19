@@ -54,6 +54,9 @@ class TestDoc(unittest.TestCase):
     def test_get(self):
         self.assertTrue(self.doc.get())
 
+    def test_read_help_text_rst(self):
+        self.assertTrue(isinstance(doc.read_help_text_rst(), str))
+
 
 if __name__ == "__main__":
     unittest.main()

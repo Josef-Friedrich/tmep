@@ -32,10 +32,13 @@ Usage
     >>> print(out)
     Franz Schubert
 
-This module implements a string formatter based on the standard PEP
-292 string.Template class extended with function calls. Variables, as
-with string.Template, are indicated with $ and functions are delimited
-with %.
+This module implements a string formatter based on the standard
+`PEP 292 <https://peps.python.org/pep-0292>`_
+`string.Template <https://docs.python.org/3/library/string.html#template-strings>`_
+class extended with function calls. Variables, as with
+`string.Template <https://docs.python.org/3/library/string.html#template-strings>`_,
+are indicated with ``$`` and functions are delimited
+with ``%``.
 
 This module assumes that everything is Unicode: the template and the
 substitution values. Bytestrings are not supported. Also, the templates
@@ -82,3 +85,6 @@ Functions
 =========
 
 {{ func('tmep.doc.get_doc') | literal(False) }}
+
+
+{{ func('tmep.doc.read_help_text_rst') }}
