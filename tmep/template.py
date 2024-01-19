@@ -11,7 +11,7 @@
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
 """This file originates from the file `beets/util/functemplate.py
-<https://raw.githubusercontent.com/beetbox/beets/master/beets/util/functemplate.py>`_
+<https://github.com/beetbox/beets/blob/master/beets/util/functemplate.py>`_
 of the `beets project <http://beets.io>`_.
 
 This module implements a string formatter based on the standard PEP
@@ -535,18 +535,7 @@ def _parse(template):
     return Expression(parts)
 
 
-def cached(func):
-    """Like the `functools.lru_cache` decorator, but works (as a no-op)
-    on Python < 3.2.
-    """
-    if hasattr(functools, "lru_cache"):
-        return functools.lru_cache(maxsize=128)(func)
-    else:
-        # Do nothing when lru_cache is not available.
-        return func
-
-
-@cached
+@functools.lru_cache(maxsize=128)
 def template(fmt: str):
     return Template(fmt)
 
