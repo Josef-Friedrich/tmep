@@ -1,5 +1,7 @@
-import typing
+from __future__ import annotations
 
-Values = typing.Dict[str, typing.Any]
+from typing import Any, Callable
 
-FunctionCollection = typing.Dict[str, typing.Callable[..., str]]
+Values = dict[str, Any]
+
+FunctionCollection = dict[str, Callable[..., str]]

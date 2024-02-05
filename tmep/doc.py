@@ -1,17 +1,87 @@
 """Extract docstrings from func.py to document the template functions."""
 
+from __future__ import annotations
+
 import re
 import textwrap
-import typing
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from tmep import functions
 
 Functions = functions.Functions
 
-
 FunctionDoc = Dict[str, str]
+
+fns = Functions().functions()
+
+
+def _underline(text: str, indent: int = 4) -> str:
+    """Underline a given text"""
+    length = len(text)
+    indentation = " " * indent
+    return indentation + text + "\n" + indentation + ("-" * length)
+
+
+def _wrap(text: str, width: int = 78, indent: int = 4) -> str:
+    """Apply textwrap to a given text string"""
+    return textwrap.fill(
+        text,
+        width=width,
+        initial_indent=" " * indent,
+        subsequent_indent=" " * indent,
+    )
+
+
+@dataclass
+class FunctionDocumentationData:
+    name: str
+    synopsis: Optional[str]
+    example: Optional[str]
+    description: Optional[str]
+
+
+class FunctionDocumentation:
+    name: str
+    synopsis: Optional[str]
+    example: Optional[str]
+    description: Optional[str]
+
+    def __init__(self, name: str):
+        self.name = name
+
+        doc = fns[name].__doc__
+        if doc:
+            self.synopsis = self.__extract_value(doc, "synopsis")
+            self.example = self.__extract_value(doc, "example")
+            self.description = self.__extract_value(doc, "description")
+
+    def __extract_value(self, string: str, key: str) -> Optional[str]:
+        """Extract strings from the docstrings
+
+        .. code-block:: text
+
+            * synopsis: ``%shorten{text, max_size}``
+            * example: ``%shorten{$title, 32}``
+            * description: Shorten “text” on word boundarys.
+
+        """
+        value = re.findall(r"\* " + key + ": (.*)", string)
+        if value:
+            return re.sub(r" {2,}", " ", value[0])
+        return None
+
+    def get(self) -> str:
+        output = _underline(self.name) + "\n\n"
+        if self.synopsis:
+            output += _wrap(self.synopsis) + "\n"
+        if self.description:
+            output += _wrap(self.description, indent=8) + "\n"
+        if self.example:
+            output += _wrap(self.example, indent=8) + "\n"
+        output += "\n"
+        return output
 
 
 class Doc:
@@ -19,10 +89,13 @@ class Doc:
     examples: FunctionDoc
     descriptions: FunctionDoc
     functions: List[str]
+    function_docs: list[FunctionDocumentationData]
 
     def __init__(self):
         functions_ = Functions()
         functions = functions_.functions()
+        self.function_docs = []
+
         self.synopsises: FunctionDoc = {}
         self.examples: FunctionDoc = {}
         self.descriptions: FunctionDoc = {}
@@ -32,9 +105,9 @@ class Doc:
             doc = function.__doc__
             if doc:
                 doc = self.prepare_docstrings(doc)
-                synopse = self.extract_value(doc, "synopsis")
-                if synopse:
-                    self.synopsises[name] = synopse
+                synopsis = self.extract_value(doc, "synopsis")
+                if synopsis:
+                    self.synopsises[name] = synopsis
 
                 example = self.extract_value(doc, "example")
                 if example:
@@ -43,6 +116,15 @@ class Doc:
                 description = self.extract_value(doc, "description", False)
                 if description:
                     self.descriptions[name] = description
+
+                self.function_docs.append(
+                    FunctionDocumentationData(
+                        name=name,
+                        synopsis=synopsis,
+                        example=example,
+                        description=description,
+                    )
+                )
         self.functions.sort()
 
     def prepare_docstrings(self, string: str) -> str:
@@ -50,7 +132,7 @@ class Doc:
 
     def extract_value(
         self, string: str, key: str, inline_code: bool = True
-    ) -> typing.Optional[str]:
+    ) -> Optional[str]:
         """Extract strings from the docstrings
 
         .. code-block:: text
@@ -70,32 +152,17 @@ class Doc:
             return value[0].replace("``", "")
         return None
 
-    def underline(self, text: str, indent: int = 4) -> str:
-        """Underline a given text"""
-        length = len(text)
-        indentation = " " * indent
-        return indentation + text + "\n" + indentation + ("-" * length)
-
-    def format(self, text: str, width: int = 78, indent: int = 4) -> str:
-        """Apply textwrap to a given text string"""
-        return textwrap.fill(
-            text,
-            width=width,
-            initial_indent=" " * indent,
-            subsequent_indent=" " * indent,
-        )
-
     def get(self) -> str:
         """Retrieve a formated text string"""
         output = ""
         for function_name in self.functions:
-            output += self.underline(function_name) + "\n\n"
+            output += _underline(function_name) + "\n\n"
             if function_name in self.synopsises:
-                output += self.format(self.synopsises[function_name]) + "\n"
+                output += _wrap(self.synopsises[function_name]) + "\n"
             if function_name in self.descriptions:
-                output += self.format(self.descriptions[function_name], indent=8) + "\n"
+                output += _wrap(self.descriptions[function_name], indent=8) + "\n"
             if function_name in self.examples:
-                output += self.format(self.examples[function_name], indent=8) + "\n"
+                output += _wrap(self.examples[function_name], indent=8) + "\n"
             output += "\n"
         return output
 
