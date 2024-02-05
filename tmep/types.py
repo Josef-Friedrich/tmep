@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, Callable
+from typing import Any, Callable, Dict
 
-Values = dict[str, Any]
+Values = Dict[str, Any]
 
-FunctionCollection = dict[str, Callable[..., str]]
+FunctionCollection = Dict[str, Callable[..., str]]
