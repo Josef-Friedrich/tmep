@@ -14,7 +14,7 @@ Installation
 ============
 
 From PyPI
-----------
+---------
 
 .. code:: Shell
 
@@ -84,7 +84,7 @@ Generate the package documentation:
 Functions
 =========
 
-{{ func('tmep.doc.get_doc') | literal(False) }}
+{{ func('tmep.doc.format') }}
 
 
 {{ func('tmep.doc.read_help_text_rst') }}

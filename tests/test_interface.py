@@ -49,4 +49,4 @@ class TestDefinitionParse:
 
 class TestDoc:
     def test_import(self):
-        assert tmep.doc.Doc
+        assert tmep.doc.FnDocCollection

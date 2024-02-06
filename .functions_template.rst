@@ -1,4 +1,4 @@
 Functions
 =========
 
-{{ func('tmep.doc.get_doc') | literal(False) }}
+{{ func('tmep.doc.format') | literal(False) }}

@@ -4,17 +4,13 @@ from __future__ import annotations
 
 import re
 import textwrap
-from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Literal, Optional
 
-from tmep import functions
-
-Functions = functions.Functions
-
-FunctionDoc = Dict[str, str]
+from tmep.functions import Functions
 
 fns = Functions().functions()
+OutputFormat = Literal["txt", "rst"]
 
 
 def _underline(text: str, indent: int = 4) -> str:
@@ -34,15 +30,7 @@ def _wrap(text: str, width: int = 78, indent: int = 4) -> str:
     )
 
 
-@dataclass
-class FunctionDocumentationData:
-    name: str
-    synopsis: Optional[str]
-    example: Optional[str]
-    description: Optional[str]
-
-
-class FunctionDocumentation:
+class FnDoc:
     name: str
     synopsis: Optional[str]
     example: Optional[str]
@@ -72,102 +60,41 @@ class FunctionDocumentation:
             return re.sub(r" {2,}", " ", value[0])
         return None
 
-    def get(self) -> str:
-        output = _underline(self.name) + "\n\n"
-        if self.synopsis:
-            output += _wrap(self.synopsis) + "\n"
-        if self.description:
-            output += _wrap(self.description, indent=8) + "\n"
-        if self.example:
-            output += _wrap(self.example, indent=8) + "\n"
-        output += "\n"
-        return output
+    def format(self, output_format: OutputFormat = "txt") -> str:
+        if output_format == "txt":
+            output = _underline(self.name) + "\n\n"
+            if self.synopsis:
+                output += _wrap(self.synopsis) + "\n"
+            if self.description:
+                output += _wrap(self.description, indent=8) + "\n"
+            if self.example:
+                output += _wrap(self.example, indent=8) + "\n"
+            return output
+        elif output_format == "rst":
+            output = f"- **{self.name}**: {self.synopsis}\n\n{self.description} Example: {self.example}\n"
+            return textwrap.fill(output, width=78, subsequent_indent="  ")
 
 
-class Doc:
-    synopsises: FunctionDoc
-    examples: FunctionDoc
-    descriptions: FunctionDoc
-    functions: List[str]
-    function_docs: list[FunctionDocumentationData]
+class FnDocCollection:
+    fn_names: list[str]
+    fn_docs: list[FnDoc]
 
-    def __init__(self):
-        functions_ = Functions()
-        functions = functions_.functions()
-        self.function_docs = []
+    def __init__(self) -> None:
+        self.fn_docs = []
+        self.fn_names = []
+        for name, _ in fns.items():
+            self.fn_docs.append(FnDoc(name=name))
+        self.fn_names.sort()
 
-        self.synopsises: FunctionDoc = {}
-        self.examples: FunctionDoc = {}
-        self.descriptions: FunctionDoc = {}
-        self.functions: List[str] = []
-        for name, function in functions.items():
-            self.functions.append(name)
-            doc = function.__doc__
-            if doc:
-                doc = self.prepare_docstrings(doc)
-                synopsis = self.extract_value(doc, "synopsis")
-                if synopsis:
-                    self.synopsises[name] = synopsis
-
-                example = self.extract_value(doc, "example")
-                if example:
-                    self.examples[name] = example
-
-                description = self.extract_value(doc, "description", False)
-                if description:
-                    self.descriptions[name] = description
-
-                self.function_docs.append(
-                    FunctionDocumentationData(
-                        name=name,
-                        synopsis=synopsis,
-                        example=example,
-                        description=description,
-                    )
-                )
-        self.functions.sort()
-
-    def prepare_docstrings(self, string: str) -> str:
-        return re.sub(r" {2,}", " ", string)
-
-    def extract_value(
-        self, string: str, key: str, inline_code: bool = True
-    ) -> Optional[str]:
-        """Extract strings from the docstrings
-
-        .. code-block:: text
-
-            * synopsis: ``%shorten{text, max_size}``
-            * example: ``%shorten{$title, 32}``
-            * description: Shorten “text” on word boundarys.
-
-        """
-        regex: str = r"\* " + key + ": "
-        if inline_code:
-            regex = regex + "``(.*)``"
-        else:
-            regex = regex + "(.*)"
-        value = re.findall(regex, string)
-        if value:
-            return value[0].replace("``", "")
-        return None
-
-    def get(self) -> str:
+    def format(self, output_format: OutputFormat = "txt") -> str:
         """Retrieve a formated text string"""
-        output = ""
-        for function_name in self.functions:
-            output += _underline(function_name) + "\n\n"
-            if function_name in self.synopsises:
-                output += _wrap(self.synopsises[function_name]) + "\n"
-            if function_name in self.descriptions:
-                output += _wrap(self.descriptions[function_name], indent=8) + "\n"
-            if function_name in self.examples:
-                output += _wrap(self.examples[function_name], indent=8) + "\n"
-            output += "\n"
-        return output
+        output: list[str] = []
+        for fun_doc in self.fn_docs:
+            output.append(fun_doc.format(output_format))
+        return "\n".join(output)
 
 
-def get_doc() -> str:
+def format(output_format: OutputFormat = "rst") -> str:
     """
     Get the documentation string.
 
@@ -192,7 +119,7 @@ def get_doc() -> str:
 
     :return: The documentation string.
     """
-    return Doc().get()
+    return FnDocCollection().format(output_format)
 
 
 def print_doc() -> None:
@@ -219,7 +146,7 @@ def print_doc() -> None:
 
 
     """
-    print(get_doc())
+    print(format())
 
 
 def read_help_text_rst() -> str:
