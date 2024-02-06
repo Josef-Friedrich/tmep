@@ -8,7 +8,11 @@ Contents:
     :maxdepth: 2
 
     functions
-    modules
+    main-module
+    submodule-template
+    submodule-functions
+    submodule-format
+    submodule-doc
 
 ******************
 Indices and tables

@@ -40,17 +40,22 @@ def parse(
     return template_.substitute(values, functions)
 
 
-get_doc = doc.format_fn_docs
-"""
-see  :func:`tmep.doc.get_doc`
-"""
-
 Template = template.Template
 """
-see  :class:`tmep.template.Template`
+:see: :class:`tmep.template.Template`
 """
 
 Functions = functions.DefaultTemplateFunctions
 """
-see  :class:`tmep.functions.Functions`
+:see: :class:`tmep.functions.DefaultTemplateFunctions`
+"""
+
+get_functions_doc = doc.format_fn_docs
+"""
+:see: :func:`tmep.doc.format_fn_docs`
+"""
+
+get_general_introduction_doc = doc.read_general_introduction_rst
+"""
+:see: :func:`tmep.doc.read_general_introduction_rst`
 """

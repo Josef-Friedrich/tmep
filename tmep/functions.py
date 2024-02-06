@@ -40,7 +40,7 @@ class DefaultTemplateFunctions:
     evaluated.
     """
 
-    prefix = "tmpl_"
+    prefix = "fn_"
 
     values: Optional[Values]
 
@@ -60,30 +60,30 @@ class DefaultTemplateFunctions:
             out[key[len(self.prefix) :]] = getattr(self, key)
         return out
 
-    def tmpl_alpha(self, text: str) -> str:
+    def fn_alpha(self, text: str) -> str:
         """
         * synopsis: ``%alpha{text}``
         * description: This function first ASCIIfies the given text, then all \
             non alphabet characters are replaced with whitespaces.
         * example: ``%alpha{a1b23c}`` → ``a b c``
         """
-        text = self.tmpl_asciify(text)
+        text = self.fn_asciify(text)
         text = re.sub(r"[^a-zA-Z]+", " ", text)
         return re.sub(r"\s+", " ", text)
 
-    def tmpl_alphanum(self, text: str) -> str:
+    def fn_alphanum(self, text: str) -> str:
         """
         * synopsis: ``%alphanum{text}``
         * description: This function first ASCIIfies the given text, then all \
             non alpanumeric characters are replaced with whitespaces.
         * example: ``%alphanum{après-évêque1}`` → ``apres eveque1``
         """
-        text = self.tmpl_asciify(text)
+        text = self.fn_asciify(text)
         text = re.sub(r"[^a-zA-Z0-9]+", " ", text)
         return re.sub(r"\s+", " ", text)
 
     @staticmethod
-    def tmpl_asciify(text: str) -> str:
+    def fn_asciify(text: str) -> str:
         """
         * synopsis: ``%asciify{text}``
         * description: Translate non-ASCII characters to their ASCII \
@@ -97,7 +97,7 @@ class DefaultTemplateFunctions:
         return str(unidecode(text).replace("[?]", ""))
 
     @staticmethod
-    def tmpl_delchars(text: str, chars: str) -> str:
+    def fn_delchars(text: str, chars: str) -> str:
         """
         * synopsis: ``%delchars{text,chars}``
         * description: Delete every single character of “chars“ in “text”.
@@ -108,7 +108,7 @@ class DefaultTemplateFunctions:
         return text
 
     @staticmethod
-    def tmpl_deldupchars(text: str, chars: str = r"-_\.") -> str:
+    def fn_deldupchars(text: str, chars: str = r"-_\.") -> str:
         """
         * synopsis: ``%deldupchars{text,chars}``
         * description: Search for duplicate characters and replace with only \
@@ -121,7 +121,7 @@ class DefaultTemplateFunctions:
         return re.sub(r"([" + chars + r"])\1*", r"\1", text)
 
     @staticmethod
-    def tmpl_first(
+    def fn_first(
         text: str, count: int = 1, skip: int = 0, sep: str = "; ", join_str: str = "; "
     ) -> str:
         """
@@ -145,7 +145,7 @@ class DefaultTemplateFunctions:
         return join_str.join(text.split(sep)[skip:count])
 
     @staticmethod
-    def tmpl_if(condition: str, trueval: str, falseval: str = "") -> str:
+    def fn_if(condition: str, trueval: str, falseval: str = "") -> str:
         """If ``condition`` is nonempty and nonzero, emit ``trueval``;
         otherwise, emit ``falseval`` (if provided).
 
@@ -172,7 +172,7 @@ class DefaultTemplateFunctions:
         else:
             return falseval
 
-    def tmpl_ifdef(self, field: str, trueval: str = "", falseval: str = "") -> str:
+    def fn_ifdef(self, field: str, trueval: str = "", falseval: str = "") -> str:
         """If field exists return trueval or the field (default) otherwise,
         emit return falseval (if provided).
 
@@ -193,7 +193,7 @@ class DefaultTemplateFunctions:
         else:
             return falseval
 
-    def tmpl_ifdefempty(self, field: str, trueval: str = "", falseval: str = ""):
+    def fn_ifdefempty(self, field: str, trueval: str = "", falseval: str = ""):
         """If field exists and is emtpy return trueval
         otherwise, emit return falseval (if provided).
 
@@ -220,7 +220,7 @@ class DefaultTemplateFunctions:
         else:
             return falseval
 
-    def tmpl_ifdefnotempty(
+    def fn_ifdefnotempty(
         self, field: str, trueval: str = "", falseval: str = ""
     ) -> str:
         """If field is not emtpy return trueval or the field (default)
@@ -250,7 +250,7 @@ class DefaultTemplateFunctions:
             return trueval
 
     @staticmethod
-    def tmpl_initial(text: str) -> str:
+    def fn_initial(text: str) -> str:
         """
 
         * synopsis: ``%initial{text}``
@@ -279,7 +279,7 @@ class DefaultTemplateFunctions:
         return text
 
     @staticmethod
-    def tmpl_left(text: str, n: str) -> str:
+    def fn_left(text: str, n: str) -> str:
         """Get the leftmost characters of a string.
 
         * synopsis: ``%left{text,n}``
@@ -289,7 +289,7 @@ class DefaultTemplateFunctions:
         return text[0 : _int_arg(n)]
 
     @staticmethod
-    def tmpl_lower(text: str) -> str:
+    def fn_lower(text: str) -> str:
         """Convert a string to lower case
 
         * synopsis: ``%lower{text}``
@@ -299,7 +299,7 @@ class DefaultTemplateFunctions:
         return text.lower()
 
     @staticmethod
-    def tmpl_nowhitespace(text: str, replace: str = "-") -> str:
+    def fn_nowhitespace(text: str, replace: str = "-") -> str:
         """
         * synopsis: ``%nowhitespace{text,replace}``
         * description: Replace all whitespace characters with ``replace``. \
@@ -309,7 +309,7 @@ class DefaultTemplateFunctions:
         return re.sub(r"\s+", replace, text)
 
     @staticmethod
-    def tmpl_num(number: int, count: int = 2) -> str:
+    def fn_num(number: int, count: int = 2) -> str:
         """Pad decimal number with leading zeros
 
         * synopsis: ``%num{number,count}``
@@ -319,7 +319,7 @@ class DefaultTemplateFunctions:
         return str(number).zfill(int(count))
 
     @staticmethod
-    def tmpl_replchars(text: str, replace: str, chars: str) -> str:
+    def fn_replchars(text: str, replace: str, chars: str) -> str:
         """
         * synopsis: ``%replchars{text,chars,replace}``
         * description: Replace the characters “chars” in “text” with \
@@ -331,7 +331,7 @@ class DefaultTemplateFunctions:
         return text
 
     @staticmethod
-    def tmpl_right(text: str, n: str) -> str:
+    def fn_right(text: str, n: str) -> str:
         """Get the rightmost characters of a string.
 
         * synopsis: ``%right{text,n}``
@@ -341,7 +341,7 @@ class DefaultTemplateFunctions:
         return text[-_int_arg(n) :]
 
     @staticmethod
-    def tmpl_sanitize(text: str) -> str:
+    def fn_sanitize(text: str) -> str:
         """
         * synopsis: ``%sanitize{text}``
         * description: Delete characters that are not allowed in most file systems.
@@ -352,7 +352,7 @@ class DefaultTemplateFunctions:
         return text
 
     @staticmethod
-    def tmpl_shorten(text: str, max_size: int = 32) -> str:
+    def fn_shorten(text: str, max_size: int = 32) -> str:
         """Shorten the given text to ``max_size``
 
         * synopsis: ``%shorten{text}`` or ``%shorten{text,max_size}``
@@ -369,7 +369,7 @@ class DefaultTemplateFunctions:
         return text.strip()
 
     @staticmethod
-    def tmpl_time(text: str, fmt: str, cur_fmt: str) -> str:
+    def fn_time(text: str, fmt: str, cur_fmt: str) -> str:
         """Format a time value using `strftime`.
 
         * synopsis: ``%time{date_time,format,curformat}``
@@ -380,7 +380,7 @@ class DefaultTemplateFunctions:
         return time.strftime(fmt, time.strptime(text, cur_fmt))
 
     @staticmethod
-    def tmpl_title(text: str) -> str:
+    def fn_title(text: str) -> str:
         """Convert a string to title case
 
         * synopsis: ``%title{text}``
@@ -390,7 +390,7 @@ class DefaultTemplateFunctions:
         return text.title()
 
     @staticmethod
-    def tmpl_upper(text: str) -> str:
+    def fn_upper(text: str) -> str:
         """Covert a string to upper case
 
         * synopsis: ``%upper{text}``
@@ -400,7 +400,7 @@ class DefaultTemplateFunctions:
         return text.upper()
 
 
-# Get the name of tmpl_* functions in the above class.
+# Get the name of fn_* functions in the above class.
 DefaultTemplateFunctions.func_names = [
     s
     for s in dir(DefaultTemplateFunctions)
