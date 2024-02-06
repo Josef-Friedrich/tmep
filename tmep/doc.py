@@ -127,13 +127,13 @@ def print_doc() -> None:
     )
     parser.add_argument(
         "--functions-rst",
-        help="Print the function documentation in reStructuredText format.",
+        help="Print the functions documentation in reStructuredText format.",
         action="store_true",
     )
 
     parser.add_argument(
         "--functions-txt",
-        help="Print the function documentation in plain text format.",
+        help="Print the functions documentation in plain text format.",
         action="store_true",
     )
 

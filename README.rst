@@ -159,32 +159,42 @@ reStructuredText format (``tmep-doc --functions-rst``):
     first
       ``%first{text}`` or ``%first{text,count,skip}`` or
       ``%first{text,count,skip,sep,join}``:  Returns the first item, separated by
-      ; . You can use %first{text,count,skip}, where count is the number of items
-      (default 1) and skip is number to skip (default 0). You can also use
-      %first{text,count,skip,sep,join} where sep is the separator, like ; or / and
-      join is the text to concatenate the items.
+      ``;``. You can use ``%first{text,count,skip}``, where count is the number of
+      items (default 1) and skip is number to skip (default 0). You can also use
+      ``%first{text,count,skip,sep,join}`` where ``sep`` is the separator, like
+      ``;`` or ``/`` and join is the text to concatenate the items.
+
+      **Example:** ``%first{Alice / Bob / Eve,2,0, / , & }`` → ``Alice & Bob``
 
     if
-      ``%if{condition,truetext}`` or ``%if{condition,truetext,falsetext}``:  If
+      ``%if{condition,trueval}`` or ``%if{condition,trueval,falseval}``:  If
       condition is nonempty (or nonzero, if it’s a number), then returns the
       second argument. Otherwise, returns the third argument if specified (or
-      nothing if falsetext is left off).
+      nothing if ``falseval`` is left off).
+
+      **Example:** ``x%if{false,foo}`` → ``x``
 
     ifdef
-      ``%ifdef{field}``, ``%ifdef{field,text}`` or
-      ``%ifdef{field,text,falsetext}``:  If field exists, then return truetext or
-      field (default). Otherwise, returns falsetext. The field should be entered
-      without $.
+      ``%ifdef{field}``, ``%ifdef{field,trueval}`` or
+      ``%ifdef{field,trueval,falseval}``:  If field exists, then return
+      ``trueval`` or field (default). Otherwise, returns ``falseval``. The field
+      should be entered without ``$``.
+
+      **Example:** ``%ifdef{compilation,Compilation}``
 
     ifdefempty
       ``%ifdefempty{field,text}`` or ``%ifdefempty{field,text,falsetext}``:  If
-      field exists and is empty, then return truetext. Otherwise, returns
-      falsetext. The field should be entered without $.
+      field exists and is empty, then return ``truetext``. Otherwise, returns
+      ``falsetext``. The field should be entered without ``$``.
+
+      **Example:** ``%ifdefempty{compilation,Album,Compilation}``
 
     ifdefnotempty
       ``%ifdefnotempty{field,text}`` or ``%ifdefnotempty{field,text,falsetext}``:
-      If field is not empty, then return truetext. Otherwise, returns falsetext.
-      The field should be entered without $.
+      If field is not empty, then return ``truetext``. Otherwise, returns
+      ``falsetext``. The field should be entered without ``$``.
+
+      **Example:** ``%ifdefnotempty{compilation,Compilation,Album}``
 
     initial
       ``%initial{text}``:  Get the first character of a text in lowercase. The
@@ -289,32 +299,42 @@ deldupchars
 first
   ``%first{text}`` or ``%first{text,count,skip}`` or
   ``%first{text,count,skip,sep,join}``:  Returns the first item, separated by
-  ; . You can use %first{text,count,skip}, where count is the number of items
-  (default 1) and skip is number to skip (default 0). You can also use
-  %first{text,count,skip,sep,join} where sep is the separator, like ; or / and
-  join is the text to concatenate the items.
+  ``;``. You can use ``%first{text,count,skip}``, where count is the number of
+  items (default 1) and skip is number to skip (default 0). You can also use
+  ``%first{text,count,skip,sep,join}`` where ``sep`` is the separator, like
+  ``;`` or ``/`` and join is the text to concatenate the items.
+
+  **Example:** ``%first{Alice / Bob / Eve,2,0, / , & }`` → ``Alice & Bob``
 
 if
-  ``%if{condition,truetext}`` or ``%if{condition,truetext,falsetext}``:  If
+  ``%if{condition,trueval}`` or ``%if{condition,trueval,falseval}``:  If
   condition is nonempty (or nonzero, if it’s a number), then returns the
   second argument. Otherwise, returns the third argument if specified (or
-  nothing if falsetext is left off).
+  nothing if ``falseval`` is left off).
+
+  **Example:** ``x%if{false,foo}`` → ``x``
 
 ifdef
-  ``%ifdef{field}``, ``%ifdef{field,text}`` or
-  ``%ifdef{field,text,falsetext}``:  If field exists, then return truetext or
-  field (default). Otherwise, returns falsetext. The field should be entered
-  without $.
+  ``%ifdef{field}``, ``%ifdef{field,trueval}`` or
+  ``%ifdef{field,trueval,falseval}``:  If field exists, then return
+  ``trueval`` or field (default). Otherwise, returns ``falseval``. The field
+  should be entered without ``$``.
+
+  **Example:** ``%ifdef{compilation,Compilation}``
 
 ifdefempty
   ``%ifdefempty{field,text}`` or ``%ifdefempty{field,text,falsetext}``:  If
-  field exists and is empty, then return truetext. Otherwise, returns
-  falsetext. The field should be entered without $.
+  field exists and is empty, then return ``truetext``. Otherwise, returns
+  ``falsetext``. The field should be entered without ``$``.
+
+  **Example:** ``%ifdefempty{compilation,Album,Compilation}``
 
 ifdefnotempty
   ``%ifdefnotempty{field,text}`` or ``%ifdefnotempty{field,text,falsetext}``:
-  If field is not empty, then return truetext. Otherwise, returns falsetext.
-  The field should be entered without $.
+  If field is not empty, then return ``truetext``. Otherwise, returns
+  ``falsetext``. The field should be entered without ``$``.
+
+  **Example:** ``%ifdefnotempty{compilation,Compilation,Album}``
 
 initial
   ``%initial{text}``:  Get the first character of a text in lowercase. The
@@ -434,41 +454,47 @@ Plain text format (``tmep-doc --functions-txt``):
 
         ``%first{text}`` or ``%first{text,count,skip}`` or
         ``%first{text,count,skip,sep,join}``
-            Returns the first item, separated by ; . You can use
-            %first{text,count,skip}, where count is the number of items (default
-            1) and skip is number to skip (default 0). You can also use
-            %first{text,count,skip,sep,join} where sep is the separator, like ; or
-            / and join is the text to concatenate the items.
+            Returns the first item, separated by ``;``. You can use
+            ``%first{text,count,skip}``, where count is the number of items
+            (default 1) and skip is number to skip (default 0). You can also use
+            ``%first{text,count,skip,sep,join}`` where ``sep`` is the separator,
+            like ``;`` or ``/`` and join is the text to concatenate the items.
+            ``%first{Alice / Bob / Eve,2,0, / , & }`` → ``Alice & Bob``
 
         if
         --
 
-        ``%if{condition,truetext}`` or ``%if{condition,truetext,falsetext}``
+        ``%if{condition,trueval}`` or ``%if{condition,trueval,falseval}``
             If condition is nonempty (or nonzero, if it’s a number), then returns
             the second argument. Otherwise, returns the third argument if
-            specified (or nothing if falsetext is left off).
+            specified (or nothing if ``falseval`` is left off).
+            ``x%if{false,foo}`` → ``x``
 
         ifdef
         -----
 
-        ``%ifdef{field}``, ``%ifdef{field,text}`` or
-        ``%ifdef{field,text,falsetext}``
-            If field exists, then return truetext or field (default). Otherwise,
-            returns falsetext. The field should be entered without $.
+        ``%ifdef{field}``, ``%ifdef{field,trueval}`` or
+        ``%ifdef{field,trueval,falseval}``
+            If field exists, then return ``trueval`` or field (default).
+            Otherwise, returns ``falseval``. The field should be entered without
+            ``$``.
+            ``%ifdef{compilation,Compilation}``
 
         ifdefempty
         ----------
 
         ``%ifdefempty{field,text}`` or ``%ifdefempty{field,text,falsetext}``
-            If field exists and is empty, then return truetext. Otherwise, returns
-            falsetext. The field should be entered without $.
+            If field exists and is empty, then return ``truetext``. Otherwise,
+            returns ``falsetext``. The field should be entered without ``$``.
+            ``%ifdefempty{compilation,Album,Compilation}``
 
         ifdefnotempty
         -------------
 
         ``%ifdefnotempty{field,text}`` or ``%ifdefnotempty{field,text,falsetext}``
-            If field is not empty, then return truetext. Otherwise, returns
-            falsetext. The field should be entered without $.
+            If field is not empty, then return ``truetext``. Otherwise, returns
+            ``falsetext``. The field should be entered without ``$``.
+            ``%ifdefnotempty{compilation,Compilation,Album}``
 
         initial
         -------

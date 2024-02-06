@@ -127,11 +127,12 @@ class DefaultTemplateFunctions:
         """
         * synopsis: ``%first{text}`` or ``%first{text,count,skip}`` or \
             ``%first{text,count,skip,sep,join}``
-        * description: Returns the first item, separated by ; . You can use \
-            %first{text,count,skip}, where count is the number of items \
+        * description: Returns the first item, separated by ``;``. You can use \
+            ``%first{text,count,skip}``, where count is the number of items \
             (default 1) and skip is number to skip (default 0). You can also \
-            use %first{text,count,skip,sep,join} where sep is the separator, \
-            like ; or / and join is the text to concatenate the items.
+            use ``%first{text,count,skip,sep,join}`` where ``sep`` is the separator, \
+            like ``;`` or ``/`` and join is the text to concatenate the items.
+        * example: ``%first{Alice / Bob / Eve,2,0, / , & }`` → ``Alice & Bob``
 
         :param text: the string
         :param count: The number of items included
@@ -148,11 +149,12 @@ class DefaultTemplateFunctions:
         """If ``condition`` is nonempty and nonzero, emit ``trueval``;
         otherwise, emit ``falseval`` (if provided).
 
-        * synopsis: ``%if{condition,truetext}`` or \
-            ``%if{condition,truetext,falsetext}``
+        * synopsis: ``%if{condition,trueval}`` or \
+            ``%if{condition,trueval,falseval}``
         * description: If condition is nonempty (or nonzero, if it’s a \
             number), then returns the second argument. Otherwise, returns the \
-            third argument if specified (or nothing if falsetext is left off).
+            third argument if specified (or nothing if ``falseval`` is left off).
+        * example: ``x%if{false,foo}`` → ``x``
 
         """
         c: typing.Union[str, int]
@@ -174,11 +176,12 @@ class DefaultTemplateFunctions:
         """If field exists return trueval or the field (default) otherwise,
         emit return falseval (if provided).
 
-        * synopsis: ``%ifdef{field}``, ``%ifdef{field,text}`` or \
-            ``%ifdef{field,text,falsetext}``
-        * description: If field exists, then return truetext or field \
-            (default). Otherwise, returns falsetext. The field should be \
-            entered without $.
+        * synopsis: ``%ifdef{field}``, ``%ifdef{field,trueval}`` or \
+            ``%ifdef{field,trueval,falseval}``
+        * description: If field exists, then return ``trueval`` or field \
+            (default). Otherwise, returns ``falseval``. The field should be \
+            entered without ``$``.
+        * example: ``%ifdef{compilation,Compilation}``
 
         :param field: The name of the field
         :param trueval: The string if the condition is true
@@ -196,9 +199,10 @@ class DefaultTemplateFunctions:
 
         * synopsis: ``%ifdefempty{field,text}`` or \
             ``%ifdefempty{field,text,falsetext}``
-        * description: If field exists and is empty, then return truetext. \
-            Otherwise, returns falsetext. The field should be \
-            entered without $.
+        * description: If field exists and is empty, then return ``truetext``. \
+            Otherwise, returns ``falsetext``. The field should be \
+            entered without ``$``.
+        * example: ``%ifdefempty{compilation,Album,Compilation}``
 
         :param field: The name of the field
         :param trueval: The string if the condition is true
@@ -224,9 +228,10 @@ class DefaultTemplateFunctions:
 
         * synopsis: ``%ifdefnotempty{field,text}`` or \
             ``%ifdefnotempty{field,text,falsetext}``
-        * description: If field is not empty, then return truetext. \
-            Otherwise, returns falsetext. The field should be \
-            entered without $.
+        * description: If field is not empty, then return ``truetext``. \
+            Otherwise, returns ``falsetext``. The field should be \
+            entered without ``$``.
+        * example: ``%ifdefnotempty{compilation,Compilation,Album}``
 
         :param field: The name of the field
         :param trueval: The string if the condition is true
