@@ -1,9 +1,9 @@
 """A collection of string format functions derived form the class “Functions()”
 """
 
-from tmep.functions import Functions
+from tmep.functions import DefaultTemplateFunctions
 
-f = Functions()
+f = DefaultTemplateFunctions()
 
 alpha = f.tmpl_alphanum
 alphanum = f.tmpl_alphanum

@@ -8,9 +8,9 @@ import textwrap
 from pathlib import Path
 from typing import Literal, Optional
 
-from tmep.functions import Functions
+from tmep.functions import DefaultTemplateFunctions
 
-fns = Functions().functions()
+fns = DefaultTemplateFunctions().functions()
 OutputFormat = Literal["txt", "rst"]
 
 

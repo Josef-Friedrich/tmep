@@ -1,4 +1,4 @@
-Template Symbols or Variables
+Template Symbols (or Variables)
   In path templates, symbols or varialbes such as ``$title``
   (any name with the prefix ``$``) are replaced by the corresponding value.
 
@@ -9,7 +9,7 @@ Template Symbols or Variables
 
 .. _Python template strings: https://docs.python.org/library/string.html#template-strings
 
-Template Functions
+Template Functions (or Macros)
   Path templates also support *function calls*, which can be used to transform
   text and perform logical manipulations. The syntax for function calls is like
   this: ``%func{arg,arg}``. For example, the ``upper`` function makes its argument

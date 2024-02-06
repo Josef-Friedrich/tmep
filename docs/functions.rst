@@ -3,20 +3,24 @@ Functions
 
 alpha
   ``%alpha{text}``:  This function first ASCIIfies the given text, then all
-  non alphabet characters are replaced with whitespaces.
+  non alphabet characters are replaced with whitespaces. **Example:**
+  ``%alpha{a1b23c}`` → ``a b c``
 alphanum
   ``%alphanum{text}``:  This function first ASCIIfies the given text, then all
-  non alpanumeric characters are replaced with whitespaces.
+  non alpanumeric characters are replaced with whitespaces. **Example:**
+  ``%alphanum{après-évêque1}`` → ``apres eveque1``
 asciify
   ``%asciify{text}``:  Translate non-ASCII characters to their ASCII
   equivalents. For example, “café” becomes “cafe”. Uses the mapping provided
-  by the unidecode module.
+  by the unidecode module. **Example:** ``%asciify{äÄöÖüÜ}`` →
+  ``aeAeoeOeueUe``
 delchars
   ``%delchars{text,chars}``:  Delete every single character of “chars“ in
-  “text”.
+  “text”. **Example:** ``%delchars{Schubert, ue}`` → ``Schbrt``
 deldupchars
   ``%deldupchars{text,chars}``:  Search for duplicate characters and replace
-  with only one occurrance of this characters.
+  with only one occurrance of this characters. **Example:** ``%deldupchars{a
+  ---b___c...d}`` → ``a-b_c.d``; ``%deldupchars{a---b___c, -}`` → ``a-b___c``
 first
   ``%first{text}`` or ``%first{text,count,skip}`` or
   ``%first{text,count,skip,sep,join}``:  Returns the first item, separated by
@@ -54,17 +58,17 @@ nowhitespace
   ``replace``. By default: a dash (-) **Example:** ``%nowhitespace{$track,_}``
 num
   ``%num{number,count}``:  Pad decimal number with leading zeros. **Example:**
-  ``%num{$track,3}``
+  ``%num{$track,3}`` → ``001``
 replchars
   ``%replchars{text,chars,replace}``:  Replace the characters “chars” in
-  “text” with “replace”. **Example:** ``%replchars{text,ex,-}`` > ``t--t``
+  “text” with “replace”. **Example:** ``%replchars{text,ex,-}`` → ``t--t``
 right
   ``%right{text,n}``:  Return the last “n” characters of “text”.
 sanitize
   ``%sanitize{text}``:   Delete in most file systems not allowed characters.
 shorten
   ``%shorten{text}`` or ``%shorten{text,max_size}``:  Shorten “text” on word
-  boundarys. **Example:** ``%shorten{$title,32}``
+  boundarys. **Example:** ``%shorten{Lorem ipsum dolor sit, 10}`` → ``Lorem``
 time
   ``%time{date_time,format,curformat}``:  Return the date and time in any
   format accepted by strftime. For example, to get the year some music was

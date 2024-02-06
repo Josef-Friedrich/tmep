@@ -33,7 +33,7 @@ def _int_arg(s: str) -> int:
     return int(s.strip())
 
 
-class Functions:
+class DefaultTemplateFunctions:
     """A container class for the default functions provided to path
     templates. These functions are contained in an object to provide
     additional context to the functions -- specifically, the Item being
@@ -65,6 +65,7 @@ class Functions:
         * synopsis: ``%alpha{text}``
         * description: This function first ASCIIfies the given text, then all \
             non alphabet characters are replaced with whitespaces.
+        * example: ``%alpha{a1b23c}`` → ``a b c``
         """
         text = self.tmpl_asciify(text)
         text = re.sub(r"[^a-zA-Z]+", " ", text)
@@ -75,6 +76,7 @@ class Functions:
         * synopsis: ``%alphanum{text}``
         * description: This function first ASCIIfies the given text, then all \
             non alpanumeric characters are replaced with whitespaces.
+        * example: ``%alphanum{après-évêque1}`` → ``apres eveque1``
         """
         text = self.tmpl_asciify(text)
         text = re.sub(r"[^a-zA-Z0-9]+", " ", text)
@@ -87,6 +89,7 @@ class Functions:
         * description: Translate non-ASCII characters to their ASCII \
             equivalents. For example, “café” becomes “cafe”. Uses the mapping \
             provided by the unidecode module.
+        * example: ``%asciify{äÄöÖüÜ}`` → ``aeAeoeOeueUe``
         """
         ger_umlaute = {"ae": "ä", "oe": "ö", "ue": "ü", "Ae": "Ä", "Oe": "Ö", "Ue": "Ü"}
         for replace, search in ger_umlaute.items():
@@ -98,6 +101,7 @@ class Functions:
         """
         * synopsis: ``%delchars{text,chars}``
         * description: Delete every single character of “chars“ in “text”.
+        * example: ``%delchars{Schubert, ue}`` → ``Schbrt``
         """
         for char in chars:
             text = text.replace(char, "")
@@ -109,6 +113,8 @@ class Functions:
         * synopsis: ``%deldupchars{text,chars}``
         * description: Search for duplicate characters and replace with only \
             one occurrance of this characters.
+        * example: ``%deldupchars{a---b___c...d}`` → ``a-b_c.d``; \
+            ``%deldupchars{a---b___c, -}`` → ``a-b___c``
         """
         import re
 
@@ -300,7 +306,7 @@ class Functions:
 
         * synopsis: ``%num{number,count}``
         * description: Pad decimal number with leading zeros.
-        * example: ``%num{$track,3}``
+        * example: ``%num{$track,3}`` → ``001``
         """
         return str(number).zfill(int(count))
 
@@ -310,7 +316,7 @@ class Functions:
         * synopsis: ``%replchars{text,chars,replace}``
         * description: Replace the characters “chars” in “text” with \
             “replace”.
-        * example: ``%replchars{text,ex,-}`` > ``t--t``
+        * example: ``%replchars{text,ex,-}`` → ``t--t``
         """
         for char in chars:
             text = text.replace(char, replace)
@@ -340,8 +346,8 @@ class Functions:
         """Shorten the given text to ``max_size``
 
         * synopsis: ``%shorten{text}`` or ``%shorten{text,max_size}``
-        * example: ``%shorten{$title,32}``
         * description: Shorten “text” on word boundarys.
+        * example: ``%shorten{Lorem ipsum dolor sit, 10}`` → ``Lorem``
         """
         max_size = int(max_size)
         if len(text) <= max_size:
@@ -383,4 +389,8 @@ class Functions:
 
 
 # Get the name of tmpl_* functions in the above class.
-Functions.func_names = [s for s in dir(Functions) if s.startswith(Functions.prefix)]
+DefaultTemplateFunctions.func_names = [
+    s
+    for s in dir(DefaultTemplateFunctions)
+    if s.startswith(DefaultTemplateFunctions.prefix)
+]

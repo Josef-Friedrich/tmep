@@ -50,7 +50,7 @@ Template = template.Template
 see  :class:`tmep.template.Template`
 """
 
-Functions = functions.Functions
+Functions = functions.DefaultTemplateFunctions
 """
 see  :class:`tmep.functions.Functions`
 """

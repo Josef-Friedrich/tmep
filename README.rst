@@ -11,10 +11,17 @@
     :alt: Documentation Status
 
 ====
-tmep
+TMEP
 ====
 
-Template and Macros Expansion for Path names.
+TMEP (Template Macro Expansion for Paths) is a small template engine that
+has been specially developed for file paths.
+
+The engine can replace or expand symbols (or variables) like ``$title`` and
+apply functions (or macros) like ``%upper{}`` in path templates.
+
+The code comes from the `Beets project <https://beets.io/>`_ and was “extracted”
+from the code base together with the tests.
 
 Installation
 ============
@@ -32,11 +39,11 @@ Usage
 .. code:: Python
 
     >>> import tmep
-    >>> template = '$prename $lastname'
-    >>> values = {'prename': 'Franz', 'lastname': 'Schubert'}
-    >>> out = tmep.parse(template, values)
-    >>> print(out)
-    Franz Schubert
+    >>> template = "%upper{$prename $lastname}"
+    >>> values = {"prename": "Franz", "lastname": "Schubert"}
+    >>> result = tmep.parse(template, values)
+    >>> print(result)
+    FRANZ SCHUBERT
 
 This module implements a string formatter based on the standard
 `PEP 292 <https://peps.python.org/pep-0292>`_
@@ -54,42 +61,15 @@ library: unknown symbols are left intact.
 This is sort of like a tiny, horrible degeneration of a real templating
 engine like Jinja2 or Mustache.
 
-Development
-===========
-
-Test
-----
-
-::
-
-    poetry run tox
-
-Publish a new version
----------------------
-
-::
-
-    git tag 1.1.1
-    git push --tags
-    poetry build
-    poetry publish
-
-Package documentation
----------------------
-
-The package documentation is hosted on
-`readthedocs <http://tmep.readthedocs.io>`_.
-
-Generate the package documentation:
-
-::
-
-    python setup.py build_sphinx
+TMEP provides public Python functions and a small command line tool that outputs
+documentation in various formats that can be used by projects based on TMEP.
 
 Introduction
 ============
 
-Template Symbols or Variables
+``tmep-doc --introduction-rst``
+
+Template Symbols (or Variables)
   In path templates, symbols or varialbes such as ``$title``
   (any name with the prefix ``$``) are replaced by the corresponding value.
 
@@ -100,7 +80,7 @@ Template Symbols or Variables
 
 .. _Python template strings: https://docs.python.org/library/string.html#template-strings
 
-Template Functions
+Template Functions (or Macros)
   Path templates also support *function calls*, which can be used to transform
   text and perform logical manipulations. The syntax for function calls is like
   this: ``%func{arg,arg}``. For example, the ``upper`` function makes its argument
@@ -140,24 +120,107 @@ Syntax Details
 Functions
 =========
 
-reStructuredText format:
+reStructuredText format (``tmep-doc --functions-rst``):
+
+:: 
+
+    alpha
+      ``%alpha{text}``:  This function first ASCIIfies the given text, then all
+      non alphabet characters are replaced with whitespaces. **Example:**
+      ``%alpha{a1b23c}`` → ``a b c``
+    alphanum
+      ``%alphanum{text}``:  This function first ASCIIfies the given text, then all
+      non alpanumeric characters are replaced with whitespaces. **Example:**
+      ``%alphanum{après-évêque1}`` → ``apres eveque1``
+    asciify
+      ``%asciify{text}``:  Translate non-ASCII characters to their ASCII
+      equivalents. For example, “café” becomes “cafe”. Uses the mapping provided
+      by the unidecode module. **Example:** ``%asciify{äÄöÖüÜ}`` →
+      ``aeAeoeOeueUe``
+    delchars
+      ``%delchars{text,chars}``:  Delete every single character of “chars“ in
+      “text”. **Example:** ``%delchars{Schubert, ue}`` → ``Schbrt``
+    deldupchars
+      ``%deldupchars{text,chars}``:  Search for duplicate characters and replace
+      with only one occurrance of this characters. **Example:** ``%deldupchars{a
+      ---b___c...d}`` → ``a-b_c.d``; ``%deldupchars{a---b___c, -}`` → ``a-b___c``
+    first
+      ``%first{text}`` or ``%first{text,count,skip}`` or
+      ``%first{text,count,skip,sep,join}``:  Returns the first item, separated by
+      ; . You can use %first{text,count,skip}, where count is the number of items
+      (default 1) and skip is number to skip (default 0). You can also use
+      %first{text,count,skip,sep,join} where sep is the separator, like ; or / and
+      join is the text to concatenate the items.
+    if
+      ``%if{condition,truetext}`` or ``%if{condition,truetext,falsetext}``:  If
+      condition is nonempty (or nonzero, if it’s a number), then returns the
+      second argument. Otherwise, returns the third argument if specified (or
+      nothing if falsetext is left off).
+    ifdef
+      ``%ifdef{field}``, ``%ifdef{field,text}`` or
+      ``%ifdef{field,text,falsetext}``:  If field exists, then return truetext or
+      field (default). Otherwise, returns falsetext. The field should be entered
+      without $.
+    ifdefempty
+      ``%ifdefempty{field,text}`` or ``%ifdefempty{field,text,falsetext}``:  If
+      field exists and is empty, then return truetext. Otherwise, returns
+      falsetext. The field should be entered without $.
+    ifdefnotempty
+      ``%ifdefnotempty{field,text}`` or ``%ifdefnotempty{field,text,falsetext}``:
+      If field is not empty, then return truetext. Otherwise, returns falsetext.
+      The field should be entered without $.
+    initial
+      ``%initial{text}``:  Get the first character of a text in lowercase. The
+      text is converted to ASCII. All non word characters are erased.
+    left
+      ``%left{text,n}``:  Return the first “n” characters of “text”.
+    lower
+      ``%lower{text}``:  Convert “text” to lowercase.
+    nowhitespace
+      ``%nowhitespace{text,replace}``:  Replace all whitespace characters with
+      ``replace``. By default: a dash (-) **Example:** ``%nowhitespace{$track,_}``
+    num
+      ``%num{number,count}``:  Pad decimal number with leading zeros. **Example:**
+      ``%num{$track,3}`` → ``001``
+    replchars
+      ``%replchars{text,chars,replace}``:  Replace the characters “chars” in
+      “text” with “replace”. **Example:** ``%replchars{text,ex,-}`` → ``t--t``
+    right
+      ``%right{text,n}``:  Return the last “n” characters of “text”.
+    sanitize
+      ``%sanitize{text}``:   Delete in most file systems not allowed characters.
+    shorten
+      ``%shorten{text}`` or ``%shorten{text,max_size}``:  Shorten “text” on word
+      boundarys. **Example:** ``%shorten{Lorem ipsum dolor sit, 10}`` → ``Lorem``
+    time
+      ``%time{date_time,format,curformat}``:  Return the date and time in any
+      format accepted by strftime. For example, to get the year some music was
+      added to your library, use %time{$added,%Y}.
+    title
+      ``%title{text}``:  Convert “text” to Title Case.
+    upper
+      ``%upper{text}``:  Convert “text” to UPPERCASE.
 
 alpha
   ``%alpha{text}``:  This function first ASCIIfies the given text, then all
-  non alphabet characters are replaced with whitespaces.
+  non alphabet characters are replaced with whitespaces. **Example:**
+  ``%alpha{a1b23c}`` → ``a b c``
 alphanum
   ``%alphanum{text}``:  This function first ASCIIfies the given text, then all
-  non alpanumeric characters are replaced with whitespaces.
+  non alpanumeric characters are replaced with whitespaces. **Example:**
+  ``%alphanum{après-évêque1}`` → ``apres eveque1``
 asciify
   ``%asciify{text}``:  Translate non-ASCII characters to their ASCII
   equivalents. For example, “café” becomes “cafe”. Uses the mapping provided
-  by the unidecode module.
+  by the unidecode module. **Example:** ``%asciify{äÄöÖüÜ}`` →
+  ``aeAeoeOeueUe``
 delchars
   ``%delchars{text,chars}``:  Delete every single character of “chars“ in
-  “text”.
+  “text”. **Example:** ``%delchars{Schubert, ue}`` → ``Schbrt``
 deldupchars
   ``%deldupchars{text,chars}``:  Search for duplicate characters and replace
-  with only one occurrance of this characters.
+  with only one occurrance of this characters. **Example:** ``%deldupchars{a
+  ---b___c...d}`` → ``a-b_c.d``; ``%deldupchars{a---b___c, -}`` → ``a-b___c``
 first
   ``%first{text}`` or ``%first{text,count,skip}`` or
   ``%first{text,count,skip,sep,join}``:  Returns the first item, separated by
@@ -195,17 +258,17 @@ nowhitespace
   ``replace``. By default: a dash (-) **Example:** ``%nowhitespace{$track,_}``
 num
   ``%num{number,count}``:  Pad decimal number with leading zeros. **Example:**
-  ``%num{$track,3}``
+  ``%num{$track,3}`` → ``001``
 replchars
   ``%replchars{text,chars,replace}``:  Replace the characters “chars” in
-  “text” with “replace”. **Example:** ``%replchars{text,ex,-}`` > ``t--t``
+  “text” with “replace”. **Example:** ``%replchars{text,ex,-}`` → ``t--t``
 right
   ``%right{text,n}``:  Return the last “n” characters of “text”.
 sanitize
   ``%sanitize{text}``:   Delete in most file systems not allowed characters.
 shorten
   ``%shorten{text}`` or ``%shorten{text,max_size}``:  Shorten “text” on word
-  boundarys. **Example:** ``%shorten{$title,32}``
+  boundarys. **Example:** ``%shorten{Lorem ipsum dolor sit, 10}`` → ``Lorem``
 time
   ``%time{date_time,format,curformat}``:  Return the date and time in any
   format accepted by strftime. For example, to get the year some music was
@@ -215,7 +278,7 @@ title
 upper
   ``%upper{text}``:  Convert “text” to UPPERCASE.
 
-Plain text format:
+Plain text format (``tmep-doc --functions-txt``):
 
 :: 
 
@@ -225,6 +288,7 @@ Plain text format:
         ``%alpha{text}``
             This function first ASCIIfies the given text, then all non alphabet
             characters are replaced with whitespaces.
+            ``%alpha{a1b23c}`` → ``a b c``
 
         alphanum
         --------
@@ -232,6 +296,7 @@ Plain text format:
         ``%alphanum{text}``
             This function first ASCIIfies the given text, then all non alpanumeric
             characters are replaced with whitespaces.
+            ``%alphanum{après-évêque1}`` → ``apres eveque1``
 
         asciify
         -------
@@ -240,12 +305,14 @@ Plain text format:
             Translate non-ASCII characters to their ASCII equivalents. For
             example, “café” becomes “cafe”. Uses the mapping provided by the
             unidecode module.
+            ``%asciify{äÄöÖüÜ}`` → ``aeAeoeOeueUe``
 
         delchars
         --------
 
         ``%delchars{text,chars}``
             Delete every single character of “chars“ in “text”.
+            ``%delchars{Schubert, ue}`` → ``Schbrt``
 
         deldupchars
         -----------
@@ -253,6 +320,8 @@ Plain text format:
         ``%deldupchars{text,chars}``
             Search for duplicate characters and replace with only one occurrance
             of this characters.
+            ``%deldupchars{a---b___c...d}`` → ``a-b_c.d``; ``%deldupchars{a---
+            b___c, -}`` → ``a-b___c``
 
         first
         -----
@@ -327,14 +396,14 @@ Plain text format:
 
         ``%num{number,count}``
             Pad decimal number with leading zeros.
-            ``%num{$track,3}``
+            ``%num{$track,3}`` → ``001``
 
         replchars
         ---------
 
         ``%replchars{text,chars,replace}``
             Replace the characters “chars” in “text” with “replace”.
-            ``%replchars{text,ex,-}`` > ``t--t``
+            ``%replchars{text,ex,-}`` → ``t--t``
 
         right
         -----
@@ -353,7 +422,7 @@ Plain text format:
 
         ``%shorten{text}`` or ``%shorten{text,max_size}``
             Shorten “text” on word boundarys.
-            ``%shorten{$title,32}``
+            ``%shorten{Lorem ipsum dolor sit, 10}`` → ``Lorem``
 
         time
         ----
@@ -375,3 +444,34 @@ Plain text format:
         ``%upper{text}``
             Convert “text” to UPPERCASE.
 
+Development
+===========
+
+Test
+----
+
+::
+
+    poetry run tox
+
+Publish a new version
+---------------------
+
+::
+
+    git tag 1.1.1
+    git push --tags
+    poetry build
+    poetry publish
+
+Package documentation
+---------------------
+
+The package documentation is hosted on
+`readthedocs <http://tmep.readthedocs.io>`_.
+
+Generate the package documentation:
+
+::
+
+    python setup.py build_sphinx

@@ -17,6 +17,104 @@
 
 import tmep
 
+values = {
+    "prename": "Franz",
+    "lastname": "Schubert",
+    "lol": "lol",
+    "troll": "troll",
+    "genres": "Pop; Rock; Classical Crossover",
+    "asciify": "gennemgår",
+    "track": 7,
+}
+
+
+def assert_parsing(a: str, b: str) -> None:
+    assert tmep.parse(a, values) == b
+
+
+class TestAlpha:
+    def test_literal(self) -> None:
+        assert_parsing("%alpha{a1b23c}", "a b c")
+
+    def test_symbol(self) -> None:
+        assert_parsing("%alpha{$genres}", "Pop Rock Classical Crossover")
+
+
+class TestAlphanum:
+    def test_accent(self) -> None:
+        assert_parsing("%alphanum{après-évêque1}", "apres eveque1")
+
+    def test_genres(self) -> None:
+        assert_parsing("%alphanum{$genres}", "Pop Rock Classical Crossover")
+
+    def test_many(self) -> None:
+        assert_parsing('%alphanum{a"&(&b}', "a b")
+
+
+class TestAsciify:
+    def test_literal(self) -> None:
+        assert_parsing("%asciify{après évêque}", "apres eveque")
+
+    def test_variable(self) -> None:
+        assert_parsing("%asciify{$asciify}", "gennemgar")
+
+    def test_foreign(self) -> None:
+        assert_parsing("%asciify{Новыя старонкі}", "Novyia staronki")
+
+    def test_german_umlaute(self) -> None:
+        assert_parsing("%asciify{äÄöÖüÜ}", "aeAeoeOeueUe")
+
+    def test_symbols_single(self) -> None:
+        assert_parsing("%asciify{⚓}", "")
+
+    def test_symbols_multiple(self) -> None:
+        assert_parsing("%asciify{⚢⚣⚤⚥⚦⚧⚨⚩}", "")
+
+    def test_symbols_mixed(self) -> None:
+        assert_parsing("%asciify{a⚢b⚣⚤c}", "abc")
+
+
+class TestDelchars:
+    def test_single(self) -> None:
+        assert_parsing("%delchars{x-x,-}", "xx")
+
+    def test_multiple(self) -> None:
+        assert_parsing("%delchars{x---x,-}", "xx")
+
+    def test_no_match(self) -> None:
+        assert_parsing("%delchars{x-x,_}", "x-x")
+
+    def test_multiple_chars(self) -> None:
+        assert_parsing("%delchars{x_-.x,_-.}", "xx")
+
+    def test_unicode(self) -> None:
+        assert_parsing("%delchars{öd,ö}", "d")
+
+    def test_variable(self) -> None:
+        assert_parsing("%delchars{$lastname, ue}", "Schbrt")
+
+
+class TestDeldupchars:
+    def test_default(self) -> None:
+        assert_parsing("%deldupchars{a---b___c...d}", "a-b_c.d")
+
+    def test_custom(self) -> None:
+        assert_parsing("%deldupchars{a---b___c, -}", "a-b___c")
+
+    def test_whitespace(self) -> None:
+        assert_parsing("%deldupchars{a   a, }", "a a")
+
+
+class TestFirst:
+    def test_symbol(self):
+        assert_parsing("%first{$genres}", "Pop")
+
+    def test_first_skip(self):
+        assert_parsing("%first{$genres,1,2}", "Classical Crossover")
+
+    def test_first_different_sep(self):
+        assert_parsing("%first{Alice / Bob / Eve,2,0, / , & }", "Alice & Bob")
+
 
 class TestFunctions:
     def setup_method(self):
@@ -32,84 +130,6 @@ class TestFunctions:
 
     def assert_parsing(self, a: str, b: str):
         assert tmep.parse(a, self.values) == b
-
-    # alphanum
-    def test_alpha(self):
-        self.assert_parsing("%alpha{abc123}", "abc ")
-
-    def test_alpha_genres(self):
-        self.assert_parsing("%alpha{$genres}", "Pop Rock Classical Crossover")
-
-    # alphanum
-    def test_alphanum_accent(self):
-        self.assert_parsing("%alphanum{après-évêque}", "apres eveque")
-
-    def test_alphanum_genres(self):
-        self.assert_parsing("%alphanum{$genres}", "Pop Rock Classical Crossover")
-
-    def test_alphanum_many(self):
-        self.assert_parsing('%alphanum{a"&(&b}', "a b")
-
-    # asciify
-    def test_asciify_literal(self):
-        self.assert_parsing("%asciify{après évêque}", "apres eveque")
-
-    def test_asciify_variable(self):
-        self.assert_parsing("%asciify{$asciify}", "gennemgar")
-
-    def test_asciify_foreign(self):
-        self.assert_parsing("%asciify{Новыя старонкі}", "Novyia staronki")
-
-    def test_asciify_german_umlaute(self):
-        self.assert_parsing("%asciify{äÄöÖüÜ}", "aeAeoeOeueUe")
-
-    def test_asciify_symbols_single(self):
-        self.assert_parsing("%asciify{⚓}", "")
-
-    def test_asciify_symbols_multiple(self):
-        self.assert_parsing("%asciify{⚢⚣⚤⚥⚦⚧⚨⚩}", "")
-
-    def test_asciify_symbols_mixed(self):
-        self.assert_parsing("%asciify{a⚢b⚣⚤c}", "abc")
-
-    # delchars
-    def test_delchars_single(self):
-        self.assert_parsing("%delchars{x-x,-}", "xx")
-
-    def test_delchars_multiple(self):
-        self.assert_parsing("%delchars{x---x,-}", "xx")
-
-    def test_delchars_no_match(self):
-        self.assert_parsing("%delchars{x-x,_}", "x-x")
-
-    def test_delchars_multiple_chars(self):
-        self.assert_parsing("%delchars{x_-.x,_-.}", "xx")
-
-    def test_delchars_unicode(self):
-        self.assert_parsing("%delchars{öd,ö}", "d")
-
-    def test_delchars_variable(self):
-        self.assert_parsing("%delchars{$lastname,ue}", "Schbrt")
-
-    # deldupchars
-    def test_deldupchars_default(self):
-        self.assert_parsing("%deldupchars{a---b___c...d}", "a-b_c.d")
-
-    def test_deldupchars_custom(self):
-        self.assert_parsing("%deldupchars{a---b___c,-}", "a-b___c")
-
-    def test_deldupchars_whitespace(self):
-        self.assert_parsing("%deldupchars{a   a, }", "a a")
-
-    # first
-    def test_first(self):
-        self.assert_parsing("%first{$genres}", "Pop")
-
-    def test_first_skip(self):
-        self.assert_parsing("%first{$genres,1,2}", "Classical Crossover")
-
-    def test_first_different_sep(self):
-        self.assert_parsing("%first{Alice / Bob / Eve,2,0, / , & }", "Alice & Bob")
 
     # if
     def test_if_false(self):
@@ -231,7 +251,7 @@ class TestFunctions:
 
     # shorten
     def test_shorten_literal(self):
-        self.assert_parsing("%shorten{Lorem ipsum dolor sit,10}", "Lorem")
+        self.assert_parsing("%shorten{Lorem ipsum dolor sit, 10}", "Lorem")
 
     def test_shorten_default(self):
         self.assert_parsing(
