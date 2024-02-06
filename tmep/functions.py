@@ -253,6 +253,7 @@ class DefaultTemplateFunctions:
             text is converted to ASCII. All non word characters are erased.
             Only letters and numbers are preserved. If the first character is
             a number, then the result is '0'.
+        * example: ``%initial{Schubert}`` → ``s``
 
         :param string text: Input text to build initial from.
         :return: A single character
@@ -278,6 +279,7 @@ class DefaultTemplateFunctions:
 
         * synopsis: ``%left{text,n}``
         * description: Return the first “n” characters of “text”.
+        * example: ``%left{Schubert, 3}`` → ``Sch``
         """
         return text[0 : _int_arg(n)]
 
@@ -287,6 +289,7 @@ class DefaultTemplateFunctions:
 
         * synopsis: ``%lower{text}``
         * description: Convert “text” to lowercase.
+        * example: ``%lower{SCHUBERT}`` → ``schubert``
         """
         return text.lower()
 
@@ -295,8 +298,8 @@ class DefaultTemplateFunctions:
         """
         * synopsis: ``%nowhitespace{text,replace}``
         * description: Replace all whitespace characters with ``replace``. \
-            By default: a dash (-)
-        * example: ``%nowhitespace{$track,_}``
+            By default: a dash (``-``)
+        * example: ``%nowhitespace{a b}`` → ``a-b``; ``%nowhitespace{a b, _}`` → ``a_b``
         """
         return re.sub(r"\s+", replace, text)
 
@@ -306,7 +309,7 @@ class DefaultTemplateFunctions:
 
         * synopsis: ``%num{number,count}``
         * description: Pad decimal number with leading zeros.
-        * example: ``%num{$track,3}`` → ``001``
+        * example: ``%num{7,3}`` → ``007``
         """
         return str(number).zfill(int(count))
 
@@ -316,7 +319,7 @@ class DefaultTemplateFunctions:
         * synopsis: ``%replchars{text,chars,replace}``
         * description: Replace the characters “chars” in “text” with \
             “replace”.
-        * example: ``%replchars{text,ex,-}`` → ``t--t``
+        * example: ``%replchars{Schubert,-,ue}`` → ``Sch-b-rt``
         """
         for char in chars:
             text = text.replace(char, replace)
@@ -328,6 +331,7 @@ class DefaultTemplateFunctions:
 
         * synopsis: ``%right{text,n}``
         * description: Return the last “n” characters of “text”.
+        * example: ``%right{Schubert,3}`` → ``ert``
         """
         return text[-_int_arg(n) :]
 
@@ -335,7 +339,8 @@ class DefaultTemplateFunctions:
     def tmpl_sanitize(text: str) -> str:
         """
         * synopsis: ``%sanitize{text}``
-        * description:  Delete in most file systems not allowed characters.
+        * description: Delete characters that are not allowed in most file systems.
+        * example: ``%sanitize{x:*?<>|/~&x}`` → ``xx``
         """
         for char in ':*?"<>|\/~&{}':  # noqa: W605
             text = text.replace(char, "")
@@ -364,8 +369,8 @@ class DefaultTemplateFunctions:
 
         * synopsis: ``%time{date_time,format,curformat}``
         * description: Return the date and time in any format accepted by \
-            strftime. For example, to get the year some music was added to \
-            your library, use %time{$added,%Y}.
+            ``strftime``. For example, to get the year, use ``%time{$added,%Y}``.
+        * example: ``%time{30 Nov 2024,%Y,%d %b %Y}`` → ``2024``
         """
         return time.strftime(fmt, time.strptime(text, cur_fmt))
 
@@ -375,6 +380,7 @@ class DefaultTemplateFunctions:
 
         * synopsis: ``%title{text}``
         * description: Convert “text” to Title Case.
+        * example: ``%title{franz schubert}`` → ``Franz Schubert``
         """
         return text.title()
 
@@ -384,6 +390,7 @@ class DefaultTemplateFunctions:
 
         * synopsis: ``%upper{text}``
         * description: Convert “text” to UPPERCASE.
+        * example: ``%upper{foo}`` → ``FOO``
         """
         return text.upper()
 

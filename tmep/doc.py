@@ -72,15 +72,10 @@ class FnDoc:
                 output += _wrap(self.example, indent=8) + "\n"
             return output
         elif output_format == "rst":
-            # output = f"- **{self.name}**: {self.synopsis}\n\n{self.description} Example: {self.example}\n"
-            # return textwrap.fill(output, width=78, subsequent_indent="  ")
-
-            body = f"{self.synopsis}:\n\n{self.description}"
-
+            body = _wrap(f"{self.synopsis}:\n\n{self.description}", indent=2)
             if self.example:
-                body += f" **Example:** {self.example}\n"
-
-            return self.name + "\n" + _wrap(body, indent=2)
+                body += "\n\n" + _wrap(f"**Example:** {self.example}", indent=2)
+            return self.name + "\n" + body + "\n"
 
 
 class FnDocCollection:
@@ -91,14 +86,15 @@ class FnDocCollection:
         self.fn_docs = []
         self.fn_names = []
         for name, _ in fns.items():
+            self.fn_names.append(name)
             self.fn_docs.append(FnDoc(name=name))
         self.fn_names.sort()
 
     def format(self, output_format: OutputFormat = "txt") -> str:
         """Retrieve a formated text string"""
         output: list[str] = []
-        for fun_doc in self.fn_docs:
-            output.append(fun_doc.format(output_format))
+        for fn_name in self.fn_names:
+            output.append(FnDoc(fn_name).format(output_format))
         return "\n".join(output)
 
 
