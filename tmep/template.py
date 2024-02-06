@@ -70,14 +70,19 @@ def ex_lvalue(name) -> ast.Name:
     return ast.Name(name, ast.Store())
 
 
-def ex_rvalue(name) -> ast.Name:
-    """A variable store expression."""
+def ex_rvalue(name: str) -> ast.Name:
+    """A variable store expression.
+
+    :param name: For example ``'str'``, ``'map'``, ``'__func_alpha'``
+    """
     return ast.Name(name, ast.Load())
 
 
 def ex_literal(val) -> ast.Constant:
     """An int, float, long, bool, string, or None literal with the given
     value.
+
+    :param val: For example ``'abc123'``
     """
     return ast.Constant(val)
 
