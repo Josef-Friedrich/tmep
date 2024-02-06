@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import re
 import textwrap
 from pathlib import Path
@@ -71,8 +72,15 @@ class FnDoc:
                 output += _wrap(self.example, indent=8) + "\n"
             return output
         elif output_format == "rst":
-            output = f"- **{self.name}**: {self.synopsis}\n\n{self.description} Example: {self.example}\n"
-            return textwrap.fill(output, width=78, subsequent_indent="  ")
+            # output = f"- **{self.name}**: {self.synopsis}\n\n{self.description} Example: {self.example}\n"
+            # return textwrap.fill(output, width=78, subsequent_indent="  ")
+
+            body = f"{self.synopsis}:\n\n{self.description}"
+
+            if self.example:
+                body += f" **Example:** {self.example}\n"
+
+            return self.name + "\n" + _wrap(body, indent=2)
 
 
 class FnDocCollection:
@@ -94,61 +102,50 @@ class FnDocCollection:
         return "\n".join(output)
 
 
-def format(output_format: OutputFormat = "rst") -> str:
+def format_fn_docs(output_format: OutputFormat = "rst") -> str:
     """
-    Get the documentation string.
-
-    .. code-block:: text
-
-        alpha
-        -----
-
-        %alpha{text}
-            This function first ASCIIfies the given text, then all non alphabet
-            characters are replaced with whitespaces.
-
-        alphanum
-        --------
-
-        %alphanum{text}
-            This function first ASCIIfies the given text, then all non alpanumeric
-            characters are replaced with whitespaces.
-
-        ...
-
+    Format the documentation of the template functions in different formats.
 
     :return: The documentation string.
     """
     return FnDocCollection().format(output_format)
 
 
-def print_doc() -> None:
-    """
-    Print the documentation string.
-
-    .. code-block:: text
-
-        alpha
-        -----
-
-        %alpha{text}
-            This function first ASCIIfies the given text, then all non alphabet
-            characters are replaced with whitespaces.
-
-        alphanum
-        --------
-
-        %alphanum{text}
-            This function first ASCIIfies the given text, then all non alpanumeric
-            characters are replaced with whitespaces.
-
-        ...
-
-
-    """
-    print(format())
-
-
-def read_help_text_rst() -> str:
+def read_general_introduction_rst() -> str:
     with open(Path(__file__).parent / "help.rst", "r") as file:
         return file.read()
+
+
+def print_doc() -> None:
+    """
+    Little command line interface to print the documentation.
+    """
+
+    parser = argparse.ArgumentParser(
+        prog="tmep-doc", description="Print documentation about TMEP"
+    )
+    parser.add_argument(
+        "--introduction-rst",
+        help="Print the help text in reStructuredText format.",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--functions-rst",
+        help="Print the function documentation in reStructuredText format.",
+        action="store_true",
+    )
+
+    parser.add_argument(
+        "--functions-txt",
+        help="Print the function documentation in plain text format.",
+        action="store_true",
+    )
+
+    args = parser.parse_args()
+
+    if args.introduction_rst:
+        print(read_general_introduction_rst())
+    if args.functions_rst:
+        print(format_fn_docs("rst"))
+    if args.functions_txt:
+        print(format_fn_docs("txt"))

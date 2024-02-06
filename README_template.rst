@@ -80,11 +80,18 @@ Generate the package documentation:
 
     python setup.py build_sphinx
 
+Introduction
+============
+
+{{ cli('tmep-doc --introduction-rst') }}
 
 Functions
 =========
 
-{{ func('tmep.doc.format') }}
+reStructuredText format:
 
+{{ cli('tmep-doc --functions-rst') }}
 
-{{ func('tmep.doc.read_help_text_rst') }}
+Plain text format:
+
+{{ cli('tmep-doc --functions-txt') | literal(False) }}

@@ -40,7 +40,7 @@ def parse(
     return template_.substitute(values, functions)
 
 
-get_doc = doc.format
+get_doc = doc.format_fn_docs
 """
 see  :func:`tmep.doc.get_doc`
 """

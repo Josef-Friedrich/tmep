@@ -4,6 +4,10 @@ test:
 install:
 	poetry install
 
+# https://github.com/python-poetry/poetry/issues/34#issuecomment-1054626460
+install_editable:
+	pip install -e .
+
 update:
 	poetry lock
 	poetry install

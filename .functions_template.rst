@@ -1,4 +1,4 @@
 Functions
 =========
 
-{{ func('tmep.doc.format') | literal(False) }}
+{{ cli('tmep-doc --functions-rst') }}
