@@ -15,6 +15,8 @@
 of the `beets project <http://beets.io>`_.
 """
 
+from __future__ import annotations
+
 import re
 import textwrap
 import time

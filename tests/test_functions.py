@@ -14,6 +14,7 @@
 
 # https://github.com/beetbox/beets/blob/master/test/test_library.py
 
+from __future__ import annotations
 
 import tmep
 

@@ -1,6 +1,8 @@
 """A collection of string format functions derived from the class “Functions()”
 """
 
+from __future__ import annotations
+
 from tmep.functions import DefaultTemplateFunctions
 
 f = DefaultTemplateFunctions()

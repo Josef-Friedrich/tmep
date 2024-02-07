@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from tmep import doc
 from tmep.doc import FnDoc
 

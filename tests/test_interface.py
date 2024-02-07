@@ -1,5 +1,7 @@
 """Test the interface of the main package."""
 
+from __future__ import annotations
+
 import tmep
 
 
