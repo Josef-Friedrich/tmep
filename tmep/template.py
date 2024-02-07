@@ -633,6 +633,8 @@ class Template:
         return wrapper_func
 
 
+__all__: list[str] = ["Template"]
+
 # Performance tests.
 
 if __name__ == "__main__":

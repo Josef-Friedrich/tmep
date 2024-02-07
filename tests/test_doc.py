@@ -15,7 +15,7 @@ class TestDoc:
         assert self.doc.format()
 
     def test_read_help_text_rst(self) -> None:
-        assert isinstance(doc.read_general_introduction_rst(), str)
+        assert isinstance(doc._read_general_introduction_rst(), str)
 
 
 class TestClassFunctionDocumentation:

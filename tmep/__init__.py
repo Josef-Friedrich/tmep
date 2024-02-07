@@ -52,12 +52,7 @@ Functions = functions.DefaultTemplateFunctions
 :see: :class:`tmep.functions.DefaultTemplateFunctions`
 """
 
-get_functions_doc = doc.format_fn_docs
+get_doc = doc.get_doc
 """
-:see: :func:`tmep.doc.format_fn_docs`
-"""
-
-get_general_introduction_doc = doc.read_general_introduction_rst
-"""
-:see: :func:`tmep.doc.read_general_introduction_rst`
+:see: :func:`tmep.doc.get_doc`
 """

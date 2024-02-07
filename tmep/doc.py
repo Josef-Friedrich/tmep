@@ -98,7 +98,7 @@ class FnDocCollection:
         return "\n".join(output)
 
 
-def format_fn_docs(output_format: OutputFormat = "rst") -> str:
+def _format_fn_docs(output_format: OutputFormat = "rst") -> str:
     """
     Format the documentation of the template functions in different formats.
 
@@ -107,9 +107,34 @@ def format_fn_docs(output_format: OutputFormat = "rst") -> str:
     return FnDocCollection().format(output_format)
 
 
-def read_general_introduction_rst() -> str:
+def _read_general_introduction_rst() -> str:
     with open(Path(__file__).parent / "help.rst", "r") as file:
         return file.read()
+
+
+DocOutput = Literal[
+    "functions_rst",
+    "functions_txt",
+    "introduction_rst",
+]
+
+
+def get_doc(doc: DocOutput = "functions_txt") -> str:
+    """O
+    Get the documentation in the specified format.
+
+    :param doc: The format of the documentation to retrieve.
+      Default is ``functions_txt``. Possible values are ``functions_rst``,
+      ``functions_txt``, and ``introduction_rst``.
+
+    :return: The documentation in the specified format.
+    """
+    if doc == "functions_rst":
+        return _format_fn_docs("rst")
+    if doc == "functions_txt":
+        return _format_fn_docs("txt")
+    if doc == "introduction_rst":
+        return _read_general_introduction_rst()
 
 
 def print_doc() -> None:
@@ -140,8 +165,11 @@ def print_doc() -> None:
     args = parser.parse_args()
 
     if args.introduction_rst:
-        print(read_general_introduction_rst())
+        print(_read_general_introduction_rst())
     if args.functions_rst:
-        print(format_fn_docs("rst"))
+        print(_format_fn_docs("rst"))
     if args.functions_txt:
-        print(format_fn_docs("txt"))
+        print(_format_fn_docs("txt"))
+
+
+__all__: list[str] = ["get_doc", "print_doc"]
