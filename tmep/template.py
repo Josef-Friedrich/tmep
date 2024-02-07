@@ -35,6 +35,7 @@ import functools
 import re
 import sys
 import types
+from typing import Any, Callable
 
 from .types import FunctionCollection, Values
 
@@ -66,7 +67,7 @@ class Environment:
 
 
 def ex_lvalue(name) -> ast.Name:
-    """A variable load expression."""
+    """A variable load expression. TODO remove not used?"""
     return ast.Name(name, ast.Store())
 
 
@@ -78,7 +79,7 @@ def ex_rvalue(name: str) -> ast.Name:
     return ast.Name(name, ast.Load())
 
 
-def ex_literal(val) -> ast.Constant:
+def ex_literal(val: int | float | bool | str | None) -> ast.Constant:
     """An int, float, long, bool, string, or None literal with the given
     value.
 
@@ -90,13 +91,17 @@ def ex_literal(val) -> ast.Constant:
 def ex_varassign(name, expr) -> ast.Assign:
     """Assign an expression into a single variable. The expression may
     either be an `ast.expr` object or a value to be used as a literal.
+
+    TODO remove not used?
     """
     if not isinstance(expr, ast.expr):
         expr = ex_literal(expr)
     return ast.Assign([ex_lvalue(name)], expr)
 
 
-def ex_call(func, args) -> ast.Call:
+def ex_call(
+    func: str | ast.Attribute | ast.Name, args: list[ast.Call | ast.List | ast.Name]
+) -> ast.Call:
     """A function-call expression with only positional parameters. The
     function may be an expression or the name of a function. Each
     argument may be an expression or a value to be used as a literal.
@@ -112,7 +117,12 @@ def ex_call(func, args) -> ast.Call:
     return ast.Call(func, args, [])
 
 
-def compile_func(arg_names, statements, name="_the_func", debug=False):
+def compile_func(
+    arg_names: list[str],
+    statements: list[ast.Return],
+    name: str = "_the_func",
+    debug: bool = False,
+) -> Callable[..., Any]:
     """Compile a list of statements as the body of a function and return
     the resulting Python function. If `debug`, then print out the
     bytecode of the compiled function.
@@ -152,7 +162,7 @@ def compile_func(arg_names, statements, name="_the_func", debug=False):
             if isinstance(const, types.CodeType):
                 dis.dis(const)
 
-    the_locals = {}
+    the_locals: dict[str, Callable[..., Any]] = {}
     exec(prog, {}, the_locals)
     return the_locals[name]
 
@@ -574,7 +584,7 @@ class Template:
         self.original = template
         self.compiled = self.translate()
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         return self.original == other.original
 
     def interpret(self, values: Values = {}, functions: FunctionCollection = {}) -> str:

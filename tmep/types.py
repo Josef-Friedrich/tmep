@@ -4,4 +4,4 @@ from typing import Any, Callable, Dict
 
 Values = Dict[str, Any]
 
-FunctionCollection = Dict[str, Callable[..., str]]
+FunctionCollection = Dict[str, Callable[..., str | int]]
