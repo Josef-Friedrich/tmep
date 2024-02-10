@@ -8,21 +8,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!-- insertion marker -->
 ## Unreleased
 
-<small>[Compare with latest](https://github.com/Josef-Friedrich/tmep/compare/v2.4.0...HEAD)</small>
+<small>[Compare with latest](https://github.com/Josef-Friedrich/tmep/compare/v3.0.0...HEAD)</small>
+
+## [v3.0.0](https://github.com/Josef-Friedrich/tmep/releases/tag/v3.0.0) - 2024-02-10
 
 ### Added
 
-- Add some type hints ([e8f1d59](https://github.com/Josef-Friedrich/tmep/commit/e8f1d59adc7b0fa44375e0b14249c2a7547ceaa5) by Josef Friedrich).
-- Add more examples ([343f0f9](https://github.com/Josef-Friedrich/tmep/commit/343f0f9b01c3cc6d49a8e3310e537a334f7f0a7f) by Josef Friedrich).
-- Add more examples and test examples ([5ab03c9](https://github.com/Josef-Friedrich/tmep/commit/5ab03c9ca8f04cdb9041455cd43fcde57e2a0f48) by Josef Friedrich).
-- Add rst doc output ([a8c5c3c](https://github.com/Josef-Friedrich/tmep/commit/a8c5c3ceb79b3362781248f6b4e5daad29ec2ad3) by Josef Friedrich).
-- Add docs from https://github.com/beetbox/beets/blob/master/docs/reference/pathformat.rst ([bd80846](https://github.com/Josef-Friedrich/tmep/commit/bd80846c22004956a6617185fcb15b02b9ba322f) by Josef Friedrich).
+- Add some type hints
 
 ### Fixed
 
-- Fix the type hints ([fccc0fa](https://github.com/Josef-Friedrich/tmep/commit/fccc0fa656cfbd39d564a84b5a6b1771ea3018be) by Josef Friedrich).
-- Fix type hints in 3.8 ([53cf6e7](https://github.com/Josef-Friedrich/tmep/commit/53cf6e7835a3a3b6e894faa3e2e302f3248335b4) by Josef Friedrich).
-- Fix tests ([3d2b590](https://github.com/Josef-Friedrich/tmep/commit/3d2b5908b5244632caba52af9d23dfc16c0ac9e7) by Josef Friedrich).
+### Changed
+
+- Rewrite documentation generation submodule
+- Extend command line helper tmep-doc
+- Rename class `Functions` into `DefaultTemplateFunctions`
+- Rename method `DefaultTemplateFunctions.functions()` to `DefaultTemplateFunctions.get()`
 
 <!-- insertion marker -->
 ## [v2.4.0](https://github.com/Josef-Friedrich/tmep/releases/tag/v2.4.0) - 2024-01-04
@@ -309,4 +310,3 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fix indentation ([2f8f00f](https://github.com/Josef-Friedrich/tmep/commit/2f8f00fef7925f2cbb7124c588394a5b6d2648e0) by Josef Friedrich).
 - Fix Python 2/3 issues ([55755f9](https://github.com/Josef-Friedrich/tmep/commit/55755f902bf155583e9ad4433d548eba3c9e57a4) by Josef Friedrich).
 - Fix tests ([d554a13](https://github.com/Josef-Friedrich/tmep/commit/d554a13d8c4cf44ce2f8d59a4a21ff69f7ae623e) by Josef Friedrich).
-

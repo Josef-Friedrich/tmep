@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "tmep"
-version = "2.4.0"
-description = "Template and Macros Expansion for Path names."
+version = "3.0.0"
+description = "Template engine for file paths. Expand variables like ``$title`` and apply functions like ``%upper{}``."
 authors = ["Josef Friedrich <josef@friedrich.rocks>"]
 readme = "README.rst"
 license = "MIT"
