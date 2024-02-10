@@ -66,11 +66,6 @@ class Environment:
 # Code generation helpers.
 
 
-def ex_lvalue(name: str) -> ast.Name:
-    """A variable load expression. TODO remove not used?"""
-    return ast.Name(name, ast.Store())
-
-
 def ex_rvalue(name: str) -> ast.Name:
     """A variable store expression.
 
@@ -88,19 +83,6 @@ def ex_literal(
     :param val: For example ``'abc123'``
     """
     return ast.Constant(val)
-
-
-def ex_varassign(
-    name: str, expr: int | float | bool | str | ast.Constant | None
-) -> ast.Assign:
-    """Assign an expression into a single variable. The expression may
-    either be an `ast.expr` object or a value to be used as a literal.
-
-    TODO remove not used?
-    """
-    if not isinstance(expr, ast.expr):
-        expr = ex_literal(expr)
-    return ast.Assign([ex_lvalue(name)], expr)
 
 
 def ex_call(
