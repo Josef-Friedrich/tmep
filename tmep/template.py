@@ -66,7 +66,7 @@ class Environment:
 # Code generation helpers.
 
 
-def ex_lvalue(name) -> ast.Name:
+def ex_lvalue(name: str) -> ast.Name:
     """A variable load expression. TODO remove not used?"""
     return ast.Name(name, ast.Store())
 
@@ -79,7 +79,9 @@ def ex_rvalue(name: str) -> ast.Name:
     return ast.Name(name, ast.Load())
 
 
-def ex_literal(val: int | float | bool | str | None) -> ast.Constant:
+def ex_literal(
+    val: int | float | bool | str | ast.Call | ast.List | ast.Name | None,
+) -> ast.Constant:
     """An int, float, long, bool, string, or None literal with the given
     value.
 
@@ -88,7 +90,9 @@ def ex_literal(val: int | float | bool | str | None) -> ast.Constant:
     return ast.Constant(val)
 
 
-def ex_varassign(name, expr) -> ast.Assign:
+def ex_varassign(
+    name: str, expr: int | float | bool | str | ast.Constant | None
+) -> ast.Assign:
     """Assign an expression into a single variable. The expression may
     either be an `ast.expr` object or a value to be used as a literal.
 
@@ -100,7 +104,8 @@ def ex_varassign(name, expr) -> ast.Assign:
 
 
 def ex_call(
-    func: str | ast.Attribute | ast.Name, args: list[ast.Call | ast.List | ast.Name]
+    func: str | ast.Attribute | ast.Name,
+    args: list[ast.Call | ast.List | ast.Name | Any],
 ) -> ast.Call:
     """A function-call expression with only positional parameters. The
     function may be an expression or the name of a function. Each
@@ -194,7 +199,7 @@ class Symbol:
             # Keep original text.
             return self.original
 
-    def translate(self):
+    def translate(self) -> tuple[list[ast.Name], set[str], set[str]]:
         """Compile the variable lookup."""
         ident = self.ident
         expr = ex_rvalue(VARIABLE_PREFIX + ident)
