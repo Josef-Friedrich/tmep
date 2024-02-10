@@ -300,7 +300,7 @@ class Expression:
         """Compile the expression to a list of Python AST expressions, a
         set of variable names used, and a set of function names.
         """
-        expressions: list[ast.Constant] = []
+        expressions: list[ast.Constant | ast.Name | ast.Call] = []
         varnames: set[str] = set()
         funcnames: set[str] = set()
         for part in self.parts:
@@ -386,9 +386,10 @@ class Parser:
             if char not in self.special_chars + extra_special_chars:
                 # A non-special character. Skip to the next special
                 # character, treating the interstice as literal text.
-                next_pos = (
-                    special_char_re.search(self.string[self.pos :]).start() + self.pos
-                )
+                search = special_char_re.search(self.string[self.pos :])
+                if search is None:
+                    raise ParseError("no special character found")
+                next_pos = search.start() + self.pos
                 text_parts.append(self.string[self.pos : next_pos])
                 self.pos = next_pos
                 continue
@@ -548,12 +549,15 @@ class Parser:
 
         return expressions
 
-    def _parse_ident(self):
+    def _parse_ident(self) -> str:
         """Parse an identifier and return it (possibly an empty string).
         Updates ``pos``.
         """
         remainder = self.string[self.pos :]
-        ident = re.match(r"\w*", remainder).group(0)
+        match = re.match(r"\w*", remainder)
+        if match is None:
+            raise ParseError("invalid identifier")
+        ident = match.group(0)
         self.pos += len(ident)
         return ident
 
@@ -573,7 +577,7 @@ def _parse(template: str) -> Expression:
 
 
 @functools.lru_cache(maxsize=128)
-def template(fmt: str):
+def template(fmt: str) -> Template:
     return Template(fmt)
 
 
@@ -611,7 +615,7 @@ class Template:
 
         return res
 
-    def translate(self):
+    def translate(self) -> Callable[..., str]:
         """Compile the template to a Python function."""
         expressions, varnames, funcnames = self.expr.translate()
 
