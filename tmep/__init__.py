@@ -8,8 +8,6 @@ from tmep.types import FunctionCollection, Values
 
 __version__: str = metadata.version("tmep")
 
-doc
-
 
 def parse(
     template: str,
@@ -23,15 +21,14 @@ def parse(
     :param template: The template string to parse, for example ``Hello $name!``.
     :param values: Optional dictionary of values to substitute in the template,
       for example ``{"name": "World"}``.
-    :param additional_functions: Optional dictionary of additional functions to use
+    :param additional_functions: Additional functions to use
       in the template.
-    :param functions: Optional dictionary of functions to use in the template.
+    :param functions: Use the given functions instead of the default functions.
+
     :return: The parsed template string with placeholders substituted.
     """
-    template_ = Template(template)
     if not functions:
-        functions_ = Functions(values)
-        functions = functions_.functions()
+        functions = Functions(values).get()
 
     if additional_functions:
         for k, v in additional_functions.items():
@@ -39,7 +36,7 @@ def parse(
 
     if not values:
         values = {}
-    return template_.substitute(values, functions)
+    return Template(template).substitute(values, functions)
 
 
 Template = template.Template

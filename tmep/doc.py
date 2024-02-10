@@ -10,7 +10,7 @@ from typing import Literal, Optional
 
 from tmep.functions import DefaultTemplateFunctions
 
-fns = DefaultTemplateFunctions().functions()
+fns = DefaultTemplateFunctions().get()
 OutputFormat = Literal["txt", "rst"]
 
 

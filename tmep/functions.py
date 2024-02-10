@@ -52,7 +52,7 @@ class DefaultTemplateFunctions:
         """Parametrize the functions."""
         self.values = values
 
-    def functions(self) -> FunctionCollection:
+    def get(self) -> FunctionCollection:
         """Returns a dictionary containing the functions defined in this
         object. The keys are function names (as exposed in templates)
         and the values are Python functions.

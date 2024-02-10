@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import tmep
+from tmep.types import FunctionCollection
 
 
 class TestClasses:
@@ -12,7 +13,7 @@ class TestClasses:
 
         template = tmep.Template(self.template)
         functions = tmep.Functions(self.values)
-        self.out = template.substitute(self.values, functions.functions)
+        self.out = template.substitute(self.values, functions.get())
 
     def test_values(self):
         assert self.out == "Schubert; Franz"
@@ -24,13 +25,13 @@ class TestDefinitionParse:
         self.template = "${lastname}; ${prename}"
         self.values = {"prename": "Franz", "lastname": "Schubert"}
 
-        def lol(value):
+        def lol(value: str) -> str:
             return "lol" + value + "lol"
 
-        def troll(value):
+        def troll(value: str) -> str:
             return "troll" + value + "troll"
 
-        self.functions = {"lol": lol, "troll": troll}
+        self.functions: FunctionCollection = {"lol": lol, "troll": troll}
 
     def test_values(self):
         out = self.parse(self.template, self.values)

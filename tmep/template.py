@@ -612,7 +612,9 @@ class Template:
             [ast.Return(ast.List(expressions, ast.Load()))],
         )
 
-        def wrapper_func(values: Values = {}, functions: FunctionCollection = {}):
+        def wrapper_func(
+            values: Values = {}, functions: FunctionCollection = {}
+        ) -> str:
             args = {}
             for varname in varnames:
                 args[VARIABLE_PREFIX + varname] = values[varname]
@@ -625,25 +627,3 @@ class Template:
 
 
 __all__: list[str] = ["Template"]
-
-# Performance tests.
-
-if __name__ == "__main__":
-    import timeit
-
-    _tmpl = Template("foo $bar %baz{foozle $bar barzle} $bar")
-    _vars = {"bar": "qux"}
-    _funcs = {"baz": str.upper}
-    interp_time = timeit.timeit(
-        "_tmpl.interpret(_vars, _funcs)",
-        "from __main__ import _tmpl, _vars, _funcs",
-        number=10000,
-    )
-    print(interp_time)
-    comp_time = timeit.timeit(
-        "_tmpl.substitute(_vars, _funcs)",
-        "from __main__ import _tmpl, _vars, _funcs",
-        number=10000,
-    )
-    print(comp_time)
-    print("Speedup:", interp_time / comp_time)
