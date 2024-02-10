@@ -20,7 +20,7 @@ has been specially developed for file paths.
 The engine can replace or expand symbols (or variables) like ``$title`` and
 apply functions (or macros) like ``%upper{}`` in path templates.
 
-The code comes from the `Beets project <https://beets.io/>`_ and was “extracted”
+The code originates from the `Beets project <https://beets.io/>`_ and was “extracted”
 from the code base together with the tests.
 
 Installation

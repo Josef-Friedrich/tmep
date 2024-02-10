@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+<!-- insertion marker -->
 ## Unreleased
 
 <small>[Compare with latest](https://github.com/Josef-Friedrich/tmep/compare/v3.0.0...HEAD)</small>
@@ -16,16 +17,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Add some type hints
 
-### Fixed
-
 ### Changed
 
 - Rewrite documentation generation submodule
 - Extend command line helper tmep-doc
 - Rename class `Functions` into `DefaultTemplateFunctions`
 - Rename method `DefaultTemplateFunctions.functions()` to `DefaultTemplateFunctions.get()`
+- Switch to pytest
 
-<!-- insertion marker -->
 ## [v2.4.0](https://github.com/Josef-Friedrich/tmep/releases/tag/v2.4.0) - 2024-01-04
 
 <small>[Compare with v2.3.4](https://github.com/Josef-Friedrich/tmep/compare/v2.3.4...v2.4.0)</small>
