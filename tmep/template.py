@@ -27,6 +27,7 @@ library: unknown symbols are left intact.
 This is sort of like a tiny, horrible degeneration of a real templating
 engine like Jinja2 or Mustache.
 """
+
 from __future__ import annotations
 
 import ast

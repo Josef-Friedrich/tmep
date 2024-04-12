@@ -1,5 +1,4 @@
-"""A collection of string format functions derived from the class “Functions()”
-"""
+"""A collection of string format functions derived from the class “Functions()”"""
 
 from __future__ import annotations
 

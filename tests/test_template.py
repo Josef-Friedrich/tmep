@@ -14,8 +14,7 @@
 
 # https://raw.githubusercontent.com/beetbox/beets/master/test/test_template.py
 
-"""Tests for template engine.
-"""
+"""Tests for template engine."""
 
 from __future__ import annotations
 
