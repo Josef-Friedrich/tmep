@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "tmep"
-version = "3.0.0"
+version = "3.0.1"
 description = "Template engine for file paths. Expand variables like ``$title`` and apply functions like ``%upper{}``."
 authors = ["Josef Friedrich <josef@friedrich.rocks>"]
 readme = "README.rst"
