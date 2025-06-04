@@ -349,7 +349,7 @@ class DefaultTemplateFunctions:
         * description: Delete characters that are not allowed in most file systems.
         * example: ``%sanitize{x:*?<>|/~&x}`` → ``xx``
         """
-        for char in ':*?"<>|\/~&{}':  # noqa: W605
+        for char in ':*?"<>|\\/~&{}':
             text = text.replace(char, "")
         return text
 

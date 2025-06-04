@@ -301,7 +301,7 @@ class TestRight:
 
 
 def test_sanitize() -> None:
-    check("%sanitize{x:*?<>|/~&x}", "xx")
+    check("%sanitize{x:*?<>|\\/~&x}", "xx")
 
 
 class TestShorten:
