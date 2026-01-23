@@ -6,10 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
-<!-- insertion marker -->
-## Unreleased
+## [v3.0.1](https://github.com/Josef-Friedrich/tmep/releases/tag/v3.0.1) - 2025-06-04
 
-<small>[Compare with latest](https://github.com/Josef-Friedrich/tmep/compare/v3.0.0...HEAD)</small>
+<small>[Compare with latest](https://github.com/Josef-Friedrich/tmep/compare/v3.0.0...v3.0.1)</small>
+
+### Fixed
+
+- Invalid escaped backslah
 
 ## [v3.0.0](https://github.com/Josef-Friedrich/tmep/releases/tag/v3.0.0) - 2024-02-10
 

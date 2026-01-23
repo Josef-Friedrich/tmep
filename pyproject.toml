@@ -1,6 +1,6 @@
 [project]
 name = "tmep"
-version = "3.0.0"
+version = "3.0.1"
 description = "Template engine for file paths. Expand variables like ``$title`` and apply functions like ``%upper{}``."
 authors = [{ name = "Josef Friedrich", email = "josef@friedrich.rocks" }]
 requires-python = ">=3.8,<4"
@@ -22,8 +22,14 @@ classifiers = [
 ]
 dependencies = ["Unidecode>=1.3.7,<2"]
 
+<<<<<<< HEAD
 [project.urls]
 Repository = "https://github.com/Josef-Friedrich/tmep"
+=======
+[tool.poetry.dependencies]
+python = "^3.8"
+Unidecode = "^1"
+>>>>>>> 8c5544673b9b11710978cf4c5f7a79f6bff4bae6
 
 [project.scripts]
 tmep-doc = "tmep.doc:print_doc"
