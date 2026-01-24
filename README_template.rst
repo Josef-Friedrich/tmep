@@ -78,35 +78,11 @@ Plain text format (``tmep-doc --functions-txt``):
 
 {{ cli('tmep-doc --functions-txt') | literal(False) }}
 
-
 Development
 ===========
-
-Test
-----
-
-::
-
-    poetry run tox
-
-Publish a new version
----------------------
-
-::
-
-    git tag 1.1.1
-    git push --tags
-    poetry build
-    poetry publish
 
 Package documentation
 ---------------------
 
 The package documentation is hosted on
 `readthedocs <http://tmep.readthedocs.io>`_.
-
-Generate the package documentation:
-
-::
-
-    python setup.py build_sphinx
