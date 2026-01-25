@@ -62,10 +62,12 @@ format:
 
 docs:
 	uv run --isolated readme-patcher
-	uv run sphinx-build -W -q docs docs/_build
+	rm -rf docs/_build
+	uv tool run --isolated --from sphinx --with . --with sphinx_rtd_theme sphinx-build -W -q docs docs/_build
+	xdg-open docs/_build/index.html
 
 pin_docs_requirements:
-	uv run pip-compile --output-file=docs/requirements.txt docs/requirements.in pyproject.toml
+	uv run pip-compile --strip-extras --output-file=docs/requirements.txt docs/requirements.in pyproject.toml
 
 lint:
 	uv run ruff check
