@@ -583,11 +583,8 @@ Plain text format (``tmep-doc --functions-txt``):
             Convert “text” to UPPERCASE.
             ``%upper{foo}`` → ``FOO``
 
-Development
-===========
-
 Package documentation
----------------------
+=====================
 
 The package documentation is hosted on
 `readthedocs <http://tmep.readthedocs.io>`_.

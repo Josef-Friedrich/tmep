@@ -78,11 +78,8 @@ Plain text format (``tmep-doc --functions-txt``):
 
 {{ cli('tmep-doc --functions-txt') | literal(False) }}
 
-Development
-===========
-
 Package documentation
----------------------
+=====================
 
 The package documentation is hosted on
 `readthedocs <http://tmep.readthedocs.io>`_.
