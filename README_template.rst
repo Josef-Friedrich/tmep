@@ -70,8 +70,6 @@ Functions
 
 reStructuredText format (``tmep-doc --functions-rst``):
 
-{{ cli('tmep-doc --functions-rst') }}
-
 {{ cli('tmep-doc --functions-rst') | literal }}
 
 Plain text format (``tmep-doc --functions-txt``):
