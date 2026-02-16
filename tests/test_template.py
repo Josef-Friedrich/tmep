@@ -246,7 +246,7 @@ class TestParse:
 
 
 class TestEval:
-    def _eval(self, template: str):
+    def _eval(self, template: str) -> str:
         values = {
             "foo": "bar",
             "baz": "BaR",

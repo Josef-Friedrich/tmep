@@ -7,7 +7,7 @@ from tmep.types import FunctionCollection
 
 
 class TestClasses:
-    def setup_method(self):
+    def setup_method(self) -> None:
         self.template = "${lastname}; ${prename}"
         self.values = {"prename": "Franz", "lastname": "Schubert"}
 
@@ -15,12 +15,12 @@ class TestClasses:
         functions = tmep.Functions(self.values)
         self.out = template.substitute(self.values, functions.get())
 
-    def test_values(self):
+    def test_values(self) -> None:
         assert self.out == "Schubert; Franz"
 
 
 class TestDefinitionParse:
-    def setup_method(self):
+    def setup_method(self) -> None:
         self.parse = tmep.parse
         self.template = "${lastname}; ${prename}"
         self.values = {"prename": "Franz", "lastname": "Schubert"}
@@ -33,16 +33,16 @@ class TestDefinitionParse:
 
         self.functions: FunctionCollection = {"lol": lol, "troll": troll}
 
-    def test_values(self):
+    def test_values(self) -> None:
         out = self.parse(self.template, self.values)
         assert out == "Schubert; Franz"
 
-    def test_parameter_functions(self):
+    def test_parameter_functions(self) -> None:
         template = "%lol{$prename}%troll{$lastname}"
         out = self.parse(template, self.values, functions=self.functions)
         assert out == "lolFranzloltrollSchuberttroll"
 
-    def test_parameter_additional_functions(self):
+    def test_parameter_additional_functions(self) -> None:
         template = "%lol{$prename}%troll{$lastname}"
         out = self.parse(template, self.values, additional_functions=self.functions)
         assert out == "lolFranzloltrollSchuberttroll"
@@ -51,5 +51,5 @@ class TestDefinitionParse:
 
 
 class TestDoc:
-    def test_import(self):
+    def test_import(self) -> None:
         assert tmep.doc.FnDocCollection

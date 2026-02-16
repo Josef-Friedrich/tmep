@@ -120,7 +120,7 @@ DocOutput = Literal[
 
 
 def get_doc(doc: DocOutput = "functions_txt") -> str:
-    """O
+    """
     Get the documentation in the specified format.
 
     :param doc: The format of the documentation to retrieve.
