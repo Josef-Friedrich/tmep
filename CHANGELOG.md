@@ -5,14 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.1.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-<!-- insertion marker -->
+## [v4.0.0](https://github.com/Josef-Friedrich/tmep/releases/tag/v4.0.0) - 2026-02-16
+
+<small>[Compare with v3.0.1](https://github.com/Josef-Friedrich/tmep/compare/v3.0.1...v4.0.0)</small>
+
+### Added
+
+- Support Python 3.13 and 3.14
+
+### Changed
+
+- Drop support for Python 3.8 and 3.9
+- Use uv instead of poetry
+
 ## [v3.0.1](https://github.com/Josef-Friedrich/tmep/releases/tag/v3.0.1) - 2025-06-04
 
-<small>[Compare with latest](https://github.com/Josef-Friedrich/tmep/compare/v3.0.0...v3.0.1)</small>
+<small>[Compare with v3.0.0](https://github.com/Josef-Friedrich/tmep/compare/v3.0.0...v3.0.1)</small>
 
 ### Fixed
 
-- Invalid escaped backslah
+- Invalid escaped backslash
 
 ## [v3.0.0](https://github.com/Josef-Friedrich/tmep/releases/tag/v3.0.0) - 2024-02-10
 
