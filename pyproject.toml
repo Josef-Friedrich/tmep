@@ -29,7 +29,11 @@ dev = [
 ]
 
 [project.urls]
-Repository = "https://github.com/Josef-Friedrich/tmep"
+Documentation = "https://tmep.readthedocs.io/"
+Download = "https://pypi.org/project/tmep/"
+Source = "https://github.com/Josef-Friedrich/tmep"
+Issues = "https://github.com/Josef-Friedrich/tmep/issues"
+Changelog = "https://github.com/Josef-Friedrich/tmep/blob/main/CHANGELOG.md"
 
 [project.scripts]
 tmep-doc = "tmep.doc:print_doc"
